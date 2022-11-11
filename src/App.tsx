@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import {useState} from 'react';
 import reactLogo from './assets/react.svg';
@@ -35,3 +36,8 @@ function App() {
 }
 
 export default App;
+=======
+export const App = (): JSX.Element => {
+  return <div>Hello World</div>;
+};
+>>>>>>> 4e33214 (testando)
