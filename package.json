@@ -11,16 +11,16 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged", 
-      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true",
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "src/**/*.{.ts, .tsx}": [
-      "npm lint"
+      "eslint --fix", "git add"
     ]
   },
-  "dependencies": {
+  "dependencies": { 
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
