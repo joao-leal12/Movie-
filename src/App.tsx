@@ -38,6 +38,6 @@ function App() {
 export default App;
 =======
 export const App = (): JSX.Element => {
-  return <div>Hello World madmousele</div>;
+  return <div>Hello World</div>;
 };
 >>>>>>> 4e33214 (testando)
