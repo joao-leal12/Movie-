@@ -17,6 +17,9 @@
     "commit": "git-cz", 
     "typecheck": "tsc --project tsconfig.json" 
 
+<<<<<<< HEAD
+>>>>>>> 3bbc6c4 (chore: new files whith correction)
+=======
 >>>>>>> 3bbc6c4 (chore: new files whith correction)
   },
   "husky": {
