@@ -7,20 +7,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-<<<<<<< HEAD
+
     "prepare": "husky install",
     "commit": "git-cz", 
-    "lint" :"eslint src --ext ts,tsx --max-warning=0"
-=======
-    "prepare": "husky install", 
-    "lint" :"eslint src --ext ts,tsx --max-warning=0", 
-    "commit": "git-cz", 
+    "lint" :"eslint src --ext ts,tsx --max-warning=0",
     "typecheck": "tsc --project tsconfig.json" 
-
-<<<<<<< HEAD
->>>>>>> 3bbc6c4 (chore: new files whith correction)
-=======
->>>>>>> 3bbc6c4 (chore: new files whith correction)
   },
   "husky": {
     "hooks": {
