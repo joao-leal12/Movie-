@@ -14,7 +14,7 @@ export const ThemeConfig = extendTheme({
       },
       'html, body': {
         color: '#000 ',
-        fontFamily: 'Rajdhani',
+        fontFamily: 'Roboto',
         height: '100%',
         backgroundImage:
           'radial-gradient(50% 50% at 50% 50%, #FB3F3F 0%, #FC8346 100%)',
