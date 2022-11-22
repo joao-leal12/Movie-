@@ -20,12 +20,22 @@ export const MovieCard = (): JSX.Element => {
       borderBottomLeftRadius="1.6rem"
       borderBottomRightRadius="10rem"
     >
-      <Link display="block">
+      <Link display="block" _hover={{ textDecor: 'none' }}>
         <Image src={CardImage} />
-        <Heading color="dark.900" fontSize="3.6rem" fontWeight="400">
+        <Heading
+          color="dark.900"
+          fontSize="3.6rem"
+          fontWeight="400"
+          lineHeight="4.19rem"
+          letterSpacing="0.18em"
+          fontFamily="Roboto"
+          mt="1.3rem"
+        >
           Home Alone 2
         </Heading>
-        <Text>Comedy</Text>
+        <Text fontSize="1.8rem" letterSpacing="0.16em">
+          Comedy
+        </Text>
         <List display="flex">
           <ListItem>
             <Image src={StarFull} />

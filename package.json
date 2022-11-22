@@ -7,24 +7,23 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-
-
     "prepare": "husky install",
-    "commit": "git-cz", 
-    "lint" :"eslint src --ext ts,tsx --max-warning=0",
-    "typecheck": "tsc --project tsconfig.json" 
+    "commit": "git-cz",
+    "lint": "eslint src --ext ts,tsx --max-warning=0",
+    "typecheck": "tsc --project tsconfig.json",
+    "storybook": "start-storybook -p 9001"
   },
   "husky": {
     "hooks": {
       "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true",
-      "pre-commit": "lint-staged" 
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "src/**/*.{ts, tsx}": [
       "eslint --fix",
       "git add"
-    ] 
+    ]
   },
   "dependencies": {
     "@chakra-ui/react": "^2.3.7",
@@ -43,6 +42,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
+    "@chakra-ui/storybook-addon": "^4.0.13",
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "@storybook/addon-actions": "^6.5.13",
@@ -70,6 +70,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-storybook": "^0.6.7",
     "husky": "^8.0.2",
     "typescript": "^4.8.4",
     "vite": "^3.2.0"
