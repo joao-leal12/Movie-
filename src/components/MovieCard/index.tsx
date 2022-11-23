@@ -13,15 +13,16 @@ import StarEmpty from '../../assets/starEmpty.png';
 export const MovieCard = (): JSX.Element => {
   return (
     <WrapItem
-      bg="light.900"
+      bg="white"
       p="2.4rem"
+      maxW="343px"
       borderTopLeftRadius="10rem"
       borderTopRightRadius="1.6rem"
       borderBottomLeftRadius="1.6rem"
       borderBottomRightRadius="10rem"
     >
       <Link display="block" _hover={{ textDecor: 'none' }}>
-        <Image src={CardImage} />
+        <Image src={CardImage} maxW="295px" />
         <Heading
           color="dark.900"
           fontSize="3.6rem"
@@ -30,6 +31,7 @@ export const MovieCard = (): JSX.Element => {
           letterSpacing="0.18em"
           fontFamily="Roboto"
           mt="1.3rem"
+          whiteSpace="nowrap"
         >
           Home Alone 2
         </Heading>
