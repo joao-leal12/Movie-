@@ -3,7 +3,7 @@ import {ThemeConfig} from '../src/Styles/theme'
 
 export const parameters = {
   chakra: { 
-    ThemeConfig, 
+    theme: ThemeConfig,   
   }, 
   actions: { argTypesRegex: "^on[A-Z].*" },  
   controls: {
