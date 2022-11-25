@@ -19,6 +19,7 @@
         "react", 
         "prettier", 
         "@typescript-eslint"
+      
     ],
     "rules": {
         "prettier/prettier":  [
@@ -28,6 +29,7 @@
             }
             
           ], 
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off", 
+        "@typescript-eslint/consistent-type-assertions": "off"
     }
 }
