@@ -10,7 +10,7 @@ import {
 import CardImage from '../../assets/card-image.png';
 import StarFull from '../../assets/starFull.png';
 import StarEmpty from '../../assets/starEmpty.png';
-export const MovieCard = (): JSX.Element => {
+export const MovieCard = () => {
   return (
     <WrapItem
       bg="white"
@@ -22,7 +22,7 @@ export const MovieCard = (): JSX.Element => {
       borderBottomRightRadius="10rem"
     >
       <Link display="block" _hover={{ textDecor: 'none' }}>
-        <Image src={CardImage} maxW="295px" />
+        <Image src={CardImage} maxW="295px" alt="movie-image" />
         <Heading
           color="dark.900"
           fontSize="3.6rem"
@@ -40,19 +40,19 @@ export const MovieCard = (): JSX.Element => {
         </Text>
         <List display="flex">
           <ListItem>
-            <Image src={StarFull} />
+            <Image src={StarFull} alt="star full" />
           </ListItem>
           <ListItem>
-            <Image src={StarFull} />
+            <Image src={StarFull} alt="star full" />
           </ListItem>
           <ListItem>
-            <Image src={StarFull} />
+            <Image src={StarFull} alt="star full" />
           </ListItem>
           <ListItem>
-            <Image src={StarEmpty} />
+            <Image src={StarEmpty} alt="stars empty" />
           </ListItem>
           <ListItem>
-            <Image src={StarEmpty} />
+            <Image src={StarEmpty} alt="stars empty" />
           </ListItem>
         </List>
       </Link>
