@@ -7,7 +7,10 @@ export const SidebarLinks = () => {
     <>
       <SidebarChildrenLinks>
         <Link
-          _hover={{ textDecor: 'none', paddingLeft: '2.5rem' }}
+          _hover={{
+            textDecor: 'none',
+            paddingLeft: '2.5rem',
+          }}
           as={NavLink}
           width="100%"
           to="/"
