@@ -1,17 +1,16 @@
 import { SidebarLinks } from '../SidebarLinks';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { SidebarWrapperLink } from '../SidebarWrapperLink';
-export const SidebarItems = () => {
-  const { pathname } = useLocation();
-  console.log(pathname);
-  useEffect(() => {
-    console.log('Ola');
-  }, [pathname]);
 
+import { Flex } from '@chakra-ui/react';
+export const SidebarItems = () => {
   return (
-    <SidebarWrapperLink>
+    <Flex
+      as="ul"
+      flexDir="column"
+      maxW="28.5rem"
+      gap="3.7rem"
+      paddingInline="2.4rem"
+    >
       <SidebarLinks />
-    </SidebarWrapperLink>
+    </Flex>
   );
 };

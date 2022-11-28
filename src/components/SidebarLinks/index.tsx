@@ -1,50 +1,104 @@
 import { Sword, MaskSad, Balloon, Ghost, HouseLine } from 'phosphor-react';
 import { NavLink } from 'react-router-dom';
 import { SidebarChildrenLinks } from '../SidebarChildrenLinks';
-import { Flex, Text } from '@chakra-ui/react';
+import { Text, Link, Flex } from '@chakra-ui/react';
 export const SidebarLinks = () => {
   return (
     <>
       <SidebarChildrenLinks>
-        <NavLink to="/">
-          <Flex align="center" gap="15px">
+        <Link
+          _hover={{ textDecor: 'none', paddingLeft: '2.5rem' }}
+          as={NavLink}
+          width="100%"
+          to="/"
+          end
+          _activeLink={{
+            color: 'light.900',
+            backgroundColor: 'orange.900',
+            paddingLeft: '2.5rem',
+          }}
+        >
+          <Flex alignItems="center" gap="1.6rem">
             <HouseLine size={32} />
-            <Text>Home</Text>
+            <Text as="span">Home</Text>
           </Flex>
-        </NavLink>
+        </Link>
       </SidebarChildrenLinks>
       <SidebarChildrenLinks>
-        <NavLink to="/aventura">
-          <Flex align="center" gap="15px">
+        <Link
+          _hover={{ textDecor: 'none', paddingLeft: '2.5rem' }}
+          gap="1.6rem"
+          _activeLink={{
+            color: 'light.900',
+            backgroundColor: 'orange.900',
+            paddingLeft: '2.5rem',
+          }}
+          width="100%"
+          as={NavLink}
+          to="aventura"
+        >
+          <Flex alignItems="center" gap="1.6rem">
             <Sword size={32} />
-            <Text>Aventura</Text>
+            <Text as="span">Ação e Aventura</Text>
           </Flex>
-        </NavLink>
+        </Link>
       </SidebarChildrenLinks>
       <SidebarChildrenLinks>
-        <NavLink to="/drama">
-          <Flex align="center" gap="15px">
+        <Link
+          _hover={{ textDecor: 'none', paddingLeft: '2.5rem' }}
+          gap="1.6rem"
+          as={NavLink}
+          to="/drama"
+          _activeLink={{
+            color: 'light.900',
+            backgroundColor: 'orange.900',
+            paddingLeft: '2.5rem',
+          }}
+          width="100%"
+        >
+          <Flex alignItems="center" gap="1.6rem">
             <MaskSad size={32} />
-            <Text>Drama</Text>
+            <Text as="span">Drama</Text>
           </Flex>
-        </NavLink>
+        </Link>
       </SidebarChildrenLinks>
       <SidebarChildrenLinks>
-        <NavLink to="/infantil">
-          <Flex align="center" gap="15px">
+        <Link
+          _hover={{ textDecor: 'none', paddingLeft: '2.5rem' }}
+          gap="1.6rem"
+          as={NavLink}
+          to="/infantil"
+          _activeLink={{
+            color: 'light.900',
+            backgroundColor: 'orange.900',
+            paddingLeft: '2.5rem',
+          }}
+          width="100%"
+        >
+          <Flex alignItems="center" gap="1.6rem">
             <Balloon size={32} />
-            <Text>Infantil</Text>
+            <Text as="span">Infantil</Text>
           </Flex>
-        </NavLink>
+        </Link>
       </SidebarChildrenLinks>
       <SidebarChildrenLinks>
-        <NavLink to="/terror">
-          <Flex align="center" gap="15px">
+        <Link
+          _hover={{ textDecor: 'none', paddingLeft: '2.5rem' }}
+          gap="1.6rem"
+          as={NavLink}
+          to="/terror"
+          _activeLink={{
+            color: 'light.900',
+            backgroundColor: 'orange.900',
+            paddingLeft: '2.5rem',
+          }}
+          width="100%"
+        >
+          <Flex alignItems="center" gap="1.6rem">
             <Ghost size={32} />
-
-            <Text>Terror</Text>
+            <Text as="span">Terror</Text>
           </Flex>
-        </NavLink>
+        </Link>
       </SidebarChildrenLinks>
     </>
   );
