@@ -8,7 +8,7 @@ export const App = (): JSX.Element => {
     <BrowserRouter>
       <Container maxWidth="100%" display="flex" padding="0" gap="4.2rem">
         <Sidebar />
-        <Home flex="3">
+        <Home>
           <ContainerMovies />
         </Home>
       </Container>
