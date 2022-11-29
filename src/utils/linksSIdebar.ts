@@ -1,6 +1,6 @@
 import { Sword, MaskSad } from 'phosphor-react';
 
-export const Links = [
-  { genre: 'Aventura', icon: Sword, id: 1 },
-  { genre: 'Drama', icon: MaskSad, id: 2 },
+export const LinksElement = [
+  { genre: 'Aventura', Icon: Sword, id: 1 },
+  { genre: 'Drama', Icon: MaskSad, id: 2 },
 ];
