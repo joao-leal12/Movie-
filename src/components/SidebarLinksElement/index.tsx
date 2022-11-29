@@ -1,17 +1,19 @@
 import { SidebarChildrenLinks } from '../SidebarChildrenLinks';
 import { Link, Flex, Text } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
-interface ILinks {
-  text: string;
-  icon: string[];
-  path: string;
-}
-export const SidebarLinksElement = ({ text, icon, path, ...rest }: ILinks) => {
+import { ILinksElements } from '../../types/SidebarLinksElementsProps';
+export const SidebarLinksElement = ({
+  text,
+  Icon,
+  path,
+  ...rest
+}: ILinksElements) => {
   return (
     <SidebarChildrenLinks>
       <Link
         as={NavLink}
         to={path}
+        {...rest}
         _hover={{
           textDecor: 'none',
           paddingLeft: '2.5rem',
@@ -22,9 +24,9 @@ export const SidebarLinksElement = ({ text, icon, path, ...rest }: ILinks) => {
           paddingLeft: '2.5rem',
         }}
         width="100%"
-        {...rest}
       >
         <Flex alignItems="center" gap="1.6rem">
+          <Icon size={32} />
           <Text>{text}</Text>
         </Flex>
       </Link>
