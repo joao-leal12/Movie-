@@ -1,13 +1,12 @@
 import { SidebarChildrenLinks } from '../SidebarChildrenLinks';
 import { Link, Flex, Text } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
-
 import { LinksElement } from '../../utils/LinksElement';
 
 export const SidebarLinksElement = () => {
   return (
     <>
-      {LinksElement.map(({ genre, Icon, id, path }) => (
+      {LinksElement.map(({ genre, Icon, id, path, ...rest }) => (
         <SidebarChildrenLinks key={id}>
           <Link
             as={NavLink}
@@ -22,6 +21,7 @@ export const SidebarLinksElement = () => {
               paddingLeft: '2.5rem',
             }}
             width="100%"
+            {...rest}
           >
             <Flex alignItems="center" gap="1.6rem">
               <Icon size={32} />
