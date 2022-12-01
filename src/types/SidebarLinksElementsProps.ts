@@ -1,6 +1,12 @@
+import { IconProps } from 'phosphor-react';
+import React from 'react';
+
 export interface ILinksElements {
-  text: string;
-  Icon: any;
+  genre: string | any;
+  Icon: React.ForwardRefExoticComponent<
+    IconProps & React.RefAttributes<SVGSVGElement>
+  >;
+  id: number;
   path: string;
-  end?: any;
+  end?: string;
 }
