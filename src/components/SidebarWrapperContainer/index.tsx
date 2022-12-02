@@ -5,5 +5,10 @@ export const SidebarWrapperContainer = chakra('section', {
     flex: '1',
     backgroundColor: 'light.900',
     maxWidth: '28.5rem',
+    paddingTop: '7rem',
+    paddingBottom: '10rem',
+    borderTopRightRadius: '90px',
+    borderBottomRightRadius: '90px',
+    boxShadow: '2px 6px 18px 0px #FB3F3F',
   },
 });
