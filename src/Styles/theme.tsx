@@ -40,6 +40,7 @@ export const ThemeConfig = extendTheme({
     dark: {
       900: '#000',
       500: '#8A7E72',
+      700: 'rgba(0, 0, 0, 0.25)',
     },
 
     yellow: {

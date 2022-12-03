@@ -13,8 +13,8 @@ export const Sidebar = () => {
         fontFamily="roboto"
         fontWeight="400"
         paddingLeft="1.2rem"
-        marginTop="5rem"
-        marginBottom="6.5rem"
+        marginTop="3.6rem"
+        marginBottom="5.6rem"
       >
         Genero
       </Heading>
