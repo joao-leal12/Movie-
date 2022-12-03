@@ -6,7 +6,7 @@ export const SidebarItems = () => {
       as="ul"
       flexDir="column"
       maxW="28.5rem"
-      gap="3.7rem"
+      gap="2.4rem"
       paddingInline="2.4rem"
     >
       <SidebarLinks />

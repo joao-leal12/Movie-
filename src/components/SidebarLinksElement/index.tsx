@@ -23,7 +23,7 @@ export const SidebarLinksElement = () => {
             width="100%"
             {...rest}
           >
-            <Flex alignItems="center" gap="1.6rem">
+            <Flex alignItems="center" gap=".8 rem">
               <Icon size={32} />
               <Text>{genre}</Text>
             </Flex>
