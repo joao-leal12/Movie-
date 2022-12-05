@@ -2,7 +2,7 @@ import { Sidebar } from '.';
 import { Meta, StoryObj } from '@storybook/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeConfig } from '../../Styles/theme';
+import { ThemeConfigs } from '../../Styles/theme';
 
 export default {
   title: 'SidebarComponents/Sidebar',
@@ -11,7 +11,7 @@ export default {
     (Story) => {
       return (
         <BrowserRouter>
-          <ChakraProvider theme={ThemeConfig}>{Story()}</ChakraProvider>
+          <ChakraProvider theme={ThemeConfigs}>{Story()}</ChakraProvider>
         </BrowserRouter>
       );
     },

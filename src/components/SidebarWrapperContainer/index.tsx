@@ -5,7 +5,7 @@ export const SidebarWrapperContainer = chakra('section', {
     flex: '1',
     backgroundColor: 'light.900',
     maxWidth: '28.5rem',
-    paddingTop: '6.6rem',
+    paddingTop: '6rem',
     paddingBottom: '9.1rem',
     borderTopRightRadius: '90px',
     borderBottomRightRadius: '90px',
