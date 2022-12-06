@@ -10,6 +10,7 @@ import {
 import CardImage from '../../assets/card-image.png';
 import StarFull from '../../assets/starFull.png';
 import StarEmpty from '../../assets/starEmpty.png';
+
 export const MovieCard = () => {
   return (
     <WrapItem
