@@ -4,7 +4,6 @@ import { Home } from './pages/Home';
 import { Sidebar } from './components/Sidebar';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './components/Header';
-import { TesteContainer } from './components/TesteContainer';
 
 export const App = (): JSX.Element => {
   return (
@@ -14,7 +13,6 @@ export const App = (): JSX.Element => {
         <Sidebar />
         <Home>
           <ContainerMovies />
-          <TesteContainer />
         </Home>
       </Container>
     </BrowserRouter>

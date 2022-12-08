@@ -1,5 +1,5 @@
 export interface IReturnApi {
-  response: IResponseResults;
+  response: IResponseResults[];
 }
 
 export type IResponseResults = Record<any, any>;

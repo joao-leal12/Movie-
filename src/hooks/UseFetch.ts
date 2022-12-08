@@ -1,28 +1,25 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
-import { IReturnApi } from '../types/ApiReturn';
-import { GET_MOVIES } from '../utils/API/GET_MOVIES';
 
 export const UseFetch = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setErro] = useState<any>(null);
-  const { url } = GET_MOVIES();
-  const request = useCallback(async (): Promise<IReturnApi> => {
+
+  const request = useCallback(async (url: string) => {
     let response;
     try {
       setLoading(true);
       const responseApi = await axios.get(url);
-      response = responseApi.data.results;
-      console.log(response);
-    } catch (err) {
+      response = await responseApi.data.results;
+    } catch (erro) {
       response = null;
-      setErro(err);
+      console.log(erro);
+      setErro('Estou apenas testando');
     } finally {
       setLoading(false);
       setData(response);
     }
-
     return { response };
   }, []);
 

@@ -10,8 +10,18 @@ import {
 import CardImage from '../../assets/card-image.png';
 import StarFull from '../../assets/starFull.png';
 import StarEmpty from '../../assets/starEmpty.png';
+import { GET_GENRE } from '../../utils/API/GET_MOVIES';
+import { useEffect } from 'react';
+import { UseFetch } from '../../hooks/UseFetch';
 
-export const MovieCard = () => {
+export const MovieCard = ({ card }: any) => {
+  const { url } = GET_GENRE();
+  const { data, request } = UseFetch();
+
+  useEffect(() => {
+    void request(url);
+    console.log(data);
+  }, []);
   return (
     <WrapItem
       bg="white"
@@ -34,7 +44,7 @@ export const MovieCard = () => {
           mt="1.3rem"
           whiteSpace="nowrap"
         >
-          Home Alone 2
+          {card.title}
         </Heading>
         <Text fontSize="1.8rem" letterSpacing="0.16em">
           Comedy

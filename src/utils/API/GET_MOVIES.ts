@@ -6,3 +6,9 @@ export const GET_MOVIES = (): IApiMovies => {
     url: `${URL}/popular?api_key=${API_KEY}`,
   };
 };
+
+export const GET_GENRE = (): IApiMovies => {
+  return {
+    url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
+  };
+};
