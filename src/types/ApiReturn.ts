@@ -1,5 +1,6 @@
-export interface IReturnApi {
-  response: IResponseResults[];
+export interface InforMoviesCard {
+  id: number;
+  title: string;
+  poster_path?: string;
+  genre_ids: number[];
 }
-
-export type IResponseResults = Record<any, any>;

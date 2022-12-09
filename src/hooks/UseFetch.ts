@@ -8,19 +8,21 @@ export const UseFetch = () => {
 
   const request = useCallback(async (url: string) => {
     let response;
+    let responseApi;
     try {
       setLoading(true);
-      const responseApi = await axios.get(url);
-      response = await responseApi.data.results;
+      setErro(null);
+      responseApi = await axios.get(url);
+      response = await responseApi.data;
     } catch (erro) {
       response = null;
       console.log(erro);
-      setErro('Estou apenas testando');
+      setErro(erro);
     } finally {
       setLoading(false);
       setData(response);
     }
-    return { response };
+    return { responseApi, response };
   }, []);
 
   return { data, request, loading, error };

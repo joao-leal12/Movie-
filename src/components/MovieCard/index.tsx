@@ -10,18 +10,8 @@ import {
 import CardImage from '../../assets/card-image.png';
 import StarFull from '../../assets/starFull.png';
 import StarEmpty from '../../assets/starEmpty.png';
-import { GET_GENRE } from '../../utils/API/GET_MOVIES';
-import { useEffect } from 'react';
-import { UseFetch } from '../../hooks/UseFetch';
 
-export const MovieCard = ({ card }: any) => {
-  const { url } = GET_GENRE();
-  const { data, request } = UseFetch();
-
-  useEffect(() => {
-    void request(url);
-    console.log(data);
-  }, []);
+export const MovieCard = () => {
   return (
     <WrapItem
       bg="white"
@@ -44,11 +34,12 @@ export const MovieCard = ({ card }: any) => {
           mt="1.3rem"
           whiteSpace="nowrap"
         >
-          {card.title}
+          Spawn
         </Heading>
         <Text fontSize="1.8rem" letterSpacing="0.16em">
           Comedy
         </Text>
+
         <List display="flex">
           <ListItem>
             <Image src={StarFull} alt="star full" />
