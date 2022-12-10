@@ -10,5 +10,6 @@ export const SidebarWrapperContainer = chakra('section', {
     borderTopRightRadius: '90px',
     borderBottomRightRadius: '90px',
     boxShadow: '2px 6px 18px 0px #FB3F3F',
+    maxHeight: '60.4rem',
   },
 });

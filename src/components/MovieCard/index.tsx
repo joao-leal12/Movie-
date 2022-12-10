@@ -11,7 +11,7 @@ import CardImage from '../../assets/card-image.png';
 import StarFull from '../../assets/starFull.png';
 import StarEmpty from '../../assets/starEmpty.png';
 
-export const MovieCard = () => {
+export const MovieCard = ({ dataMovie }: any) => {
   return (
     <WrapItem
       bg="white"
