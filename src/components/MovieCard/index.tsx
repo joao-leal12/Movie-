@@ -3,13 +3,13 @@ import {
   Link,
   Image,
   Heading,
-  Text,
   List,
   ListItem,
 } from '@chakra-ui/react';
 import CardImage from '../../assets/card-image.png';
 import StarFull from '../../assets/starFull.png';
 import StarEmpty from '../../assets/starEmpty.png';
+import { Genre } from '../Genre';
 
 export const MovieCard = ({ dataMovie }: any) => {
   return (
@@ -36,9 +36,8 @@ export const MovieCard = ({ dataMovie }: any) => {
         >
           Spawn
         </Heading>
-        <Text fontSize="1.8rem" letterSpacing="0.16em">
-          Comedy
-        </Text>
+
+        <Genre genre={dataMovie.genre_ids} />
 
         <List display="flex">
           <ListItem>

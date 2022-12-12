@@ -11,9 +11,7 @@ export const MoviesList = () => {
   useEffect(() => {
     const getMovieData = async () => {
       const { results } = await request(url);
-
       setData(results);
-      console.log(data);
     };
 
     void getMovieData();
@@ -27,8 +25,8 @@ export const MoviesList = () => {
         justifyItems="center"
         gap="2.4rem"
       >
-        {data.map((movie: { id: any }) => (
-          <MovieCard dataMovie={data} key={movie.id} />
+        {data.map((movie: { id: number }) => (
+          <MovieCard dataMovie={movie} key={movie.id} />
         ))}
       </chakra.ul>
     );
