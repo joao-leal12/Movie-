@@ -24,9 +24,9 @@ export const Genre = ({ genre }: number[] | any) => {
         genres.id === genre[0] ? setGenreMovie(genres.name) : ''
       );
     }
-  }, [genre]);
+  }, [genre, inforGenres]);
   return (
-    <Text fontSize="1.8rem" letterSpacing="0.16em">
+    <Text fontSize="2rem" letterSpacing="0.16em">
       {genreMovie}
     </Text>
   );

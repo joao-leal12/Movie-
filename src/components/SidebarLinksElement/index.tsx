@@ -6,7 +6,7 @@ import { LinksElement } from '../../utils/LinksElement';
 export const SidebarLinksElement = () => {
   return (
     <>
-      {LinksElement.map(({ genre, Icon, id, path, ...rest }) => (
+      {LinksElement.map(({ genre, Icon, id, path, ...rest }: any) => (
         <SidebarChildrenLinks key={id}>
           <Link
             as={NavLink}
