@@ -1,18 +1,15 @@
 import { chakra } from '@chakra-ui/react';
 import { MovieCard } from '../MovieCard';
 import { GET_MOVIES } from '../../utils/API/API_ROUTES';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { UseFetch } from '../../hooks/UseFetch';
 export const MoviesList = () => {
-  const { url } = GET_MOVIES();
   const { request, loading } = UseFetch();
   const [data, setData] = useState<any>(null);
-  const [rest, setRest] = useState(0);
-  const [divider, setDivider] = useState(1);
-  const controller = 6;
-
+  const observer: any = useRef<HTMLElement>();
   useEffect(() => {
     const getMovieData = async () => {
+      const { url } = GET_MOVIES(1);
       const { results } = await request(url);
 
       setData(results);
@@ -22,38 +19,14 @@ export const MoviesList = () => {
   }, []);
 
   useEffect(() => {
-    function InfiniteScroll() {
-      let wait = false;
+    const intersectOb = new IntersectionObserver(() => {
+      console.log('Amigo, estou aqui');
+    });
+    if (observer.current != null) intersectOb.observe(observer.current);
 
-      const scroll = scrollY;
-      const height = document.body.offsetHeight - window.innerHeight;
-      if (scroll > height * 0.75 && !wait) {
-        implementationScroll();
-        wait = true;
-        setInterval(() => {
-          wait = false;
-        }, 2000);
-      }
-    }
-    function implementationScroll() {
-      if (data != null) {
-        const count = data.length / 6;
-        const restStatic = data.length % 6;
-        if (divider < Math.floor(count)) {
-          setDivider(divider + 1);
-        } else if (rest < restStatic) {
-          setRest(rest + 1);
-        }
-      }
-    }
-    window.addEventListener('sroll', InfiniteScroll);
-    window.addEventListener('wheel', InfiniteScroll);
+    return () => intersectOb.disconnect();
+  });
 
-    return () => {
-      window.removeEventListener('scroll', InfiniteScroll);
-      window.removeEventListener('wheel', InfiniteScroll);
-    };
-  }, [divider, rest, data]);
   if (loading) return <p style={{ color: 'white' }}>Carregando caralho....</p>;
   if (data != null)
     return (
@@ -63,15 +36,10 @@ export const MoviesList = () => {
         justifyItems="center"
         gap="2.4rem"
       >
-        {data.map((movie: { id: number }, index: number) =>
-          index < controller * divider + rest ? (
-            <MovieCard dataMovie={movie} key={movie.id} />
-          ) : (
-            <React.Fragment key={movie.id}>
-              <p>Carregando cacetinho</p>
-            </React.Fragment>
-          )
-        )}
+        {data.map((movie: { id: number }, index: number) => (
+          <MovieCard dataMovie={movie} key={movie.id + index} />
+        ))}
+        <div ref={observer} style={{ width: '100%', height: '90px' }}></div>
       </chakra.ul>
     );
   else return null;

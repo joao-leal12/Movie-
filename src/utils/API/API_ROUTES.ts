@@ -1,9 +1,9 @@
 import { API_KEY } from '../API_KEY';
 import { IApiMovies } from '../../types/ApiType';
 import { URL } from './URL';
-export const GET_MOVIES = (): IApiMovies => {
+export const GET_MOVIES = (pages: number): IApiMovies => {
   return {
-    url: `${URL}/popular?api_key=${API_KEY}`,
+    url: `${URL}/popular?api_key=${API_KEY}&page=${pages}`,
   };
 };
 
