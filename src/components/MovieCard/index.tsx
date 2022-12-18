@@ -3,7 +3,6 @@ import { Genre } from '../Genre';
 import { useEffect, useState } from 'react';
 import { StarAverage } from '../StarAverage';
 import { ICardMovie } from '../../types/MoviesCards';
-// poster_path, genre_ids,vote_average
 
 export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
   const [path, setPath] = useState('');
