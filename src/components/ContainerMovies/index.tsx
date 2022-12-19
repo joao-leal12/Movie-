@@ -1,9 +1,10 @@
 import { chakra } from '@chakra-ui/react';
-import { MoviesList } from '../MoviesList';
+import { RoutesMovies } from '../RoutesMovies';
+
 export const ContainerMovies = () => {
   return (
     <chakra.section mt="2rem">
-      <MoviesList />
+      <RoutesMovies />
     </chakra.section>
   );
 };
