@@ -6,6 +6,7 @@ import { ICardMovie } from '../../types/MoviesCards';
 
 export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
   const [path, setPath] = useState('');
+
   useEffect(() => {
     setPath(dataMovie.poster_path);
   }, [dataMovie]);
