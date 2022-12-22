@@ -1,30 +1,19 @@
 import { chakra } from '@chakra-ui/react';
 import { MovieCard } from '../MovieCard';
-import { GET_MOVIES } from '../../utils/API/API_ROUTES';
-import { useEffect, useState, useRef } from 'react';
-import { UseFetch } from '../../hooks/UseFetch';
+
+import { useEffect, useState, useRef, Fragment } from 'react';
+import { IPropsMovieList } from '../../types/ApiType';
 import { IMovieData } from '../../types/ApiReturn';
 import { Loading } from '../helpers/loading';
+
 type IWait = boolean;
-export const MoviesList = () => {
-  const { request, loading } = UseFetch();
-  const [data, setData] = useState<IMovieData[] | null>(null);
+
+export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const [limitRender, SetLimitRender] = useState(6);
   const [count, setCount] = useState(1);
   const [infinite, setInfinite] = useState(false);
   const [wait, setWait] = useState<IWait>(false);
   const observer = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const getMovieData = async () => {
-      const { url } = GET_MOVIES(1);
-      const { results } = await request(url);
-
-      setData(results);
-    };
-
-    void getMovieData();
-  }, []);
 
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
@@ -62,7 +51,7 @@ export const MoviesList = () => {
     return () => intersectOb.disconnect();
   }, [limitRender, count, data, infinite, wait]);
 
-  if (loading) return <p style={{ color: 'white' }}>Carregando....</p>;
+  if (loading === true) return <Loading loading={loading} />;
   if (data != null)
     return (
       <chakra.ul
@@ -71,11 +60,13 @@ export const MoviesList = () => {
         justifyItems="center"
         gap="2.4rem"
       >
+        {/* {data !== null && data.map(movie : IMovieData, index)} */}
+
         {data.map((movie: IMovieData, index: number) =>
           index < limitRender ? (
             <MovieCard dataMovie={movie} key={movie.id + index} />
           ) : (
-            <Loading key={movie.id + index} />
+            <Fragment key={movie.id + index}></Fragment>
           )
         )}
         <div ref={observer} style={{ width: '100%', height: '90px' }}></div>

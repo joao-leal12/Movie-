@@ -1,15 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { MovieCard } from '../MovieCard';
+
 import { UseFetch } from '../../hooks/UseFetch';
 import { GET_MOVIES, GET_GENRE } from '../../utils/API/API_ROUTES';
 import { IMovieData } from '../../types/ApiReturn';
-
+import { MoviesList } from '../MoviesList';
 export const GenreMoviesList = () => {
   const { genre } = useParams();
   const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[] | null>(null);
   const [genresIds, SetGenresIds] = useState(0);
-  const { request } = UseFetch();
+  const { request, loading } = UseFetch();
   const { url } = GET_MOVIES(1);
   interface IGenre {
     id: number;
@@ -56,9 +56,7 @@ export const GenreMoviesList = () => {
   if (moviesOfGenre !== null)
     return (
       <>
-        {moviesOfGenre.map((movie) => (
-          <MovieCard dataMovie={movie} key={movie.id} />
-        ))}
+        <MoviesList data={moviesOfGenre} loading={loading} />
       </>
     );
   else return null;

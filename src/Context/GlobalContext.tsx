@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { GET_MOVIES } from '../utils/API/API_ROUTES';
-import { IMovieData } from '../types/ApiReturn';
+
 import { UseFetch } from '../hooks/UseFetch';
 
 interface IChildrenProps {
@@ -17,7 +17,7 @@ export const GlobalContext = createContext<IReturndata>({
 
 export const GlobalProvider = ({ children }: IChildrenProps) => {
   const { request } = UseFetch();
-  const [data, setData] = useState<IMovieData | null>(null);
+  const [data, setData] = useState<IReturndata | null>(null);
   useEffect(() => {
     const getMovieData = async () => {
       const { url } = GET_MOVIES(1);
@@ -30,6 +30,8 @@ export const GlobalProvider = ({ children }: IChildrenProps) => {
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ data }}>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={{ data, setData }}>
+      {children}
+    </GlobalContext.Provider>
   );
 };
