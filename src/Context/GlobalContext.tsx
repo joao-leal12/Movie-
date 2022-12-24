@@ -1,37 +1,26 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { GET_MOVIES } from '../utils/API/API_ROUTES';
+import { createContext, ReactNode, useState } from 'react';
 
-import { UseFetch } from '../hooks/UseFetch';
+interface IinitialValue {
+  newElement: string;
+  handleChangeInput: (value: string) => void;
+}
 
-interface IChildrenProps {
+interface Ichildren {
   children: ReactNode;
 }
-interface IReturndata {
-  data: null;
-  setData: () => void;
-}
-export const GlobalContext = createContext<IReturndata>({
-  data: null,
-  setData: () => {},
-});
 
-export const GlobalProvider = ({ children }: IChildrenProps) => {
-  const { request } = UseFetch();
-  const [data, setData] = useState<IReturndata | null>(null);
-  useEffect(() => {
-    const getMovieData = async () => {
-      const { url } = GET_MOVIES(1);
-      const { results } = await request(url);
+export const ContextCreate = createContext({} as IinitialValue);
 
-      setData(results);
-    };
+export const GlobalContext = ({ children }: Ichildren) => {
+  const [newElement, setNewElement] = useState('');
 
-    void getMovieData();
-  }, []);
+  function handleChangeInput(value: string) {
+    setNewElement(value);
+  }
 
   return (
-    <GlobalContext.Provider value={{ data, setData }}>
+    <ContextCreate.Provider value={{ newElement, handleChangeInput }}>
       {children}
-    </GlobalContext.Provider>
+    </ContextCreate.Provider>
   );
 };

@@ -6,7 +6,11 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { MagnifyingGlass } from 'phosphor-react';
+import { useContext } from 'react';
+import { ContextCreate } from '../../Context/GlobalContext';
 export const InputSearchMovies = () => {
+  const { handleChangeInput } = useContext(ContextCreate);
+
   return (
     <Box paddingInline="1.4rem">
       <InputGroup>
@@ -19,6 +23,7 @@ export const InputSearchMovies = () => {
           minHeight="3.5rem"
           fontSize="1.8rem"
           _placeholder={{ color: 'dark.500' }}
+          onChange={(e) => handleChangeInput(e.target.value)}
         />
         <InputRightElement top="4px">
           <Button

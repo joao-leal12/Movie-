@@ -1,7 +1,7 @@
 import { chakra } from '@chakra-ui/react';
 import { MovieCard } from '../MovieCard';
-
-import { useEffect, useState, useRef, Fragment } from 'react';
+import { ContextCreate } from '../../Context/GlobalContext';
+import { useEffect, useState, useRef, Fragment, useContext } from 'react';
 import { IPropsMovieList } from '../../types/ApiType';
 import { IMovieData } from '../../types/ApiReturn';
 import { Loading } from '../helpers/loading';
@@ -13,11 +13,15 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const [count, setCount] = useState(1);
   const [infinite, setInfinite] = useState(false);
   const [wait, setWait] = useState<IWait>(false);
+  const [load, setLoad] = useState(true);
   const observer = useRef<HTMLDivElement>(null);
+  const { newElement } = useContext(ContextCreate);
 
+  console.log(newElement);
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
       setInfinite(false);
+      setLoad(false);
     }
   }, [limitRender, data, infinite]);
   useEffect(() => {
@@ -41,6 +45,7 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
             setTimeout(() => {
               setWait(false);
               SetLimitRender((limitRender) => limitRender + rest);
+              setLoad(false);
             }, 500);
           }
         }
@@ -51,26 +56,27 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
     return () => intersectOb.disconnect();
   }, [limitRender, count, data, infinite, wait]);
 
-  if (loading === true) return <Loading loading={loading} />;
+  if (loading === true)
+    return <Loading positions="absolute" Height="100vh" text="carregando..." />;
   if (data != null)
     return (
-      <chakra.ul
-        display="grid"
-        gridTemplateColumns="repeat(3, 1fr) "
-        justifyItems="center"
-        gap="2.4rem"
-      >
-        {/* {data !== null && data.map(movie : IMovieData, index)} */}
-
-        {data.map((movie: IMovieData, index: number) =>
-          index < limitRender ? (
-            <MovieCard dataMovie={movie} key={movie.id + index} />
-          ) : (
-            <Fragment key={movie.id + index}></Fragment>
-          )
-        )}
-        <div ref={observer} style={{ width: '100%', height: '90px' }}></div>
-      </chakra.ul>
+      <>
+        <chakra.ul
+          display="grid"
+          gridTemplateColumns="repeat(3, 1fr) "
+          justifyItems="center"
+          gap="2.4rem"
+        >
+          {data.map((movie: IMovieData, index: number) =>
+            index < limitRender ? (
+              <MovieCard dataMovie={movie} key={movie.id + index} />
+            ) : (
+              <Fragment key={movie.id + index}></Fragment>
+            )
+          )}
+        </chakra.ul>
+        {load && <Loading refs={observer} positions="static" Height="auto" />}
+      </>
     );
   else return null;
 };

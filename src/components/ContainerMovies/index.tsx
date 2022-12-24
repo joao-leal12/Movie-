@@ -1,6 +1,6 @@
 import { chakra } from '@chakra-ui/react';
 import { RoutesMovies } from '../RoutesMovies';
-import { GlobalProvider } from '../../Context/GlobalContext';
+
 import { useState, useEffect } from 'react';
 import { IMovieData } from '../../types/ApiReturn';
 import { UseFetch } from '../../hooks/UseFetch';
@@ -22,10 +22,8 @@ export const ContainerMovies = () => {
   }, []);
 
   return (
-    <GlobalProvider>
-      <chakra.section mt="2rem">
-        <RoutesMovies data={dataMovies} loading={loading} />
-      </chakra.section>
-    </GlobalProvider>
+    <chakra.section mt="2rem">
+      <RoutesMovies data={dataMovies} loading={loading} />
+    </chakra.section>
   );
 };

@@ -4,19 +4,25 @@ import { Home } from './pages/Home';
 import { Sidebar } from './components/Sidebar';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './components/Header';
-import { Loading } from './components/helpers/loading';
-
+import { GlobalContext } from './Context/GlobalContext';
 export const App = (): JSX.Element => {
   return (
-    <BrowserRouter>
-      <Header />
-      {/* <Container maxWidth="100%" display="flex" padding="0" gap="4.2rem">
-        <Sidebar />
-        <Home>
-          <ContainerMovies />
-        </Home>
-      </Container> */}
-      <Loading />
-    </BrowserRouter>
+    <GlobalContext>
+      <BrowserRouter>
+        <Header />
+        <Container
+          maxWidth="100%"
+          display="flex"
+          padding="0"
+          gap="4.2rem"
+          position="static"
+        >
+          <Sidebar />
+          <Home>
+            <ContainerMovies />
+          </Home>
+        </Container>
+      </BrowserRouter>
+    </GlobalContext>
   );
 };
