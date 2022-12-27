@@ -1,23 +1,40 @@
 import { Flex, Spinner, Heading } from '@chakra-ui/react';
+import { useEffect, RefObject } from 'react';
 
-export const Loading = ({
+export interface IPropsLoading {
+  refs?: RefObject<HTMLDivElement> | null;
+  positions?: any;
+  Height?: string;
+  text?: string;
+  overFlow?: string;
+  OpacityEl?: string;
+}
+
+export const Loading: React.FC<IPropsLoading> = ({
   refs = null,
   positions,
   Height = '100vh',
   text = 'carregando...',
-}: any) => {
+  overFlow = 'auto',
+  OpacityEl,
+}: IPropsLoading) => {
+  useEffect(() => {
+    document.body.style.overflow = overFlow;
+  }, [overFlow]);
+
   return (
     <Flex
-      height={Height}
-      width="100% "
+      min-height={Height}
+      width="100"
       position={positions}
-      zIndex="100000"
+      zIndex="100000000"
       justifyContent="center"
       alignItems="center"
       backgroundImage="radial-gradient(50% 50% at 50% 50%, #FB3F3F 0%, #FC8346 100%)  "
       inset="0"
       ref={refs}
       overflow="hidden"
+      opacity={OpacityEl}
     >
       <Flex
         flexDirection="column"

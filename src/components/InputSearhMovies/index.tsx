@@ -6,10 +6,9 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { MagnifyingGlass } from 'phosphor-react';
-import { useContext } from 'react';
-import { ContextCreate } from '../../Context/GlobalContext';
+import { useContextCreate } from '../../hooks/useContextCreate';
 export const InputSearchMovies = () => {
-  const { handleChangeInput } = useContext(ContextCreate);
+  const { handleChangeInput } = useContextCreate();
 
   return (
     <Box paddingInline="1.4rem">

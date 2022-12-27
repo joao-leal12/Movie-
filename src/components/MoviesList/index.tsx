@@ -1,11 +1,11 @@
 import { chakra } from '@chakra-ui/react';
 import { MovieCard } from '../MovieCard';
-import { ContextCreate } from '../../Context/GlobalContext';
-import { useEffect, useState, useRef, Fragment, useContext } from 'react';
+
+import { useEffect, useState, useRef, Fragment } from 'react';
 import { IPropsMovieList } from '../../types/ApiType';
 import { IMovieData } from '../../types/ApiReturn';
 import { Loading } from '../helpers/loading';
-
+import { useContextCreate } from '../../hooks/useContextCreate';
 type IWait = boolean;
 
 export const MoviesList = ({ data, loading }: IPropsMovieList) => {
@@ -14,10 +14,10 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const [infinite, setInfinite] = useState(false);
   const [wait, setWait] = useState<IWait>(false);
   const [load, setLoad] = useState(true);
-  const observer = useRef<HTMLDivElement>(null);
-  const { newElement } = useContext(ContextCreate);
+  const observer = useRef<HTMLDivElement | null>(null);
 
-  console.log(newElement);
+  const { opacityEl } = useContextCreate();
+
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
       setInfinite(false);
@@ -57,7 +57,15 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   }, [limitRender, count, data, infinite, wait]);
 
   if (loading === true)
-    return <Loading positions="absolute" Height="100vh" text="carregando..." />;
+    return (
+      <Loading
+        positions="absolute"
+        Height="100vh"
+        text="carregando..."
+        overFlow="hidden"
+        OpacityEl={opacityEl}
+      />
+    );
   if (data != null)
     return (
       <>
@@ -75,7 +83,14 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
             )
           )}
         </chakra.ul>
-        {load && <Loading refs={observer} positions="static" Height="auto" />}
+        {load && (
+          <Loading
+            refs={observer}
+            positions="static"
+            Height="auto"
+            OpacityEl={opacityEl}
+          />
+        )}
       </>
     );
   else return null;

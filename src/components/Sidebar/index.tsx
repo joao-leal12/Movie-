@@ -2,6 +2,7 @@ import { InputSearchMovies } from '../InputSearhMovies';
 import { SidebarItems } from '../SidebarItems';
 import { SidebarWrapperContainer } from '../SidebarWrapperContainer';
 import { Heading } from '@chakra-ui/react';
+
 export const Sidebar = () => {
   return (
     <SidebarWrapperContainer>

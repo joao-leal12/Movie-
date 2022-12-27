@@ -12,3 +12,9 @@ export const GET_GENRE = (): IApiMovies => {
     url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
   };
 };
+
+export const GET_FILTER = (id: number): IApiMovies => {
+  return {
+    url: `${URL}${id}/similar?api_key=${API_KEY}`,
+  };
+};
