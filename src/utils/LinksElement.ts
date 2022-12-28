@@ -1,3 +1,4 @@
+// import { IconProps } from '@chakra-ui/react';
 import { Sword, MaskSad, Balloon, Ghost, HouseLine } from 'phosphor-react';
 import { ILinksElements } from '../types/SidebarLinksElementsProps';
 export const LinksElement: ILinksElements[] = [

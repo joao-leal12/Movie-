@@ -16,14 +16,24 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const [load, setLoad] = useState(true);
   const observer = useRef<HTMLDivElement | null>(null);
 
-  const { opacityEl } = useContextCreate();
-
+  const { opacityEl, setStyleOfOpacity, setStyleHome } = useContextCreate();
+  console.log(opacityEl);
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
       setInfinite(false);
       setLoad(false);
     }
   }, [limitRender, data, infinite]);
+
+  useEffect(() => {
+    if (loading === true) {
+      setStyleOfOpacity('1');
+      setStyleHome('0');
+    } else {
+      setStyleOfOpacity('0');
+      setStyleHome('1');
+    }
+  }, [loading]);
   useEffect(() => {
     const intersectOb = new IntersectionObserver((entries) => {
       if (data != null) {
@@ -71,7 +81,12 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
       <>
         <chakra.ul
           display="grid"
-          gridTemplateColumns="repeat(3, 1fr) "
+          gridTemplateColumns={[
+            'repeat(2, 1fr)',
+            'repeat(2, 1fr)',
+            'repeat(2, 1fr)',
+            'repeat(3,1fr)',
+          ]}
           justifyItems="center"
           gap="2.4rem"
         >
@@ -83,14 +98,7 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
             )
           )}
         </chakra.ul>
-        {load && (
-          <Loading
-            refs={observer}
-            positions="static"
-            Height="auto"
-            OpacityEl={opacityEl}
-          />
-        )}
+        {load && <Loading refs={observer} positions="static" Height="auto" />}
       </>
     );
   else return null;

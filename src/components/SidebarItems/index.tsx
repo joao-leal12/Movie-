@@ -5,9 +5,9 @@ export const SidebarItems = () => {
     <Flex
       as="ul"
       flexDir="column"
-      maxW="28.5rem"
+      maxW={['5.4rem', '5.4rem', '5.4rem', '28.5rem']}
       gap="2.4rem"
-      paddingInline="2.4rem"
+      paddingInline={['0', '0', '0', '2.4rem']}
     >
       <SidebarLinks />
     </Flex>

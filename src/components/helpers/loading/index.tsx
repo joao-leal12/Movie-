@@ -10,13 +10,13 @@ export interface IPropsLoading {
   OpacityEl?: string;
 }
 
-export const Loading: React.FC<IPropsLoading> = ({
+export const Loading = ({
   refs = null,
   positions,
   Height = '100vh',
   text = 'carregando...',
   overFlow = 'auto',
-  OpacityEl,
+  OpacityEl = '1',
 }: IPropsLoading) => {
   useEffect(() => {
     document.body.style.overflow = overFlow;
