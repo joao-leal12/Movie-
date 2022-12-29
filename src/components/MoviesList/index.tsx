@@ -17,7 +17,7 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const observer = useRef<HTMLDivElement | null>(null);
 
   const { opacityEl, setStyleOfOpacity, setStyleHome } = useContextCreate();
-  console.log(opacityEl);
+
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
       setInfinite(false);

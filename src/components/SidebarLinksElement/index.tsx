@@ -19,7 +19,7 @@ export const SidebarLinksElement = () => {
               _activeLink={{
                 color: 'light.900',
                 backgroundColor: 'orange.900',
-                paddingLeft: { base: 0, md: 0, lg: '2.5rem' },
+                paddingLeft: { base: 0, md: '2.5rem', lg: '2.5rem' },
               }}
               width="100%"
               {...rest}
@@ -27,10 +27,10 @@ export const SidebarLinksElement = () => {
               <Flex
                 alignItems="center"
                 justifyContent={[
-                  'flex-start',
-                  'flex-start',
                   'center',
                   'center',
+                  'flex-start',
+                  'flex-start',
                 ]}
                 gap=".8rem"
                 width="100%"
