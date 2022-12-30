@@ -5,7 +5,7 @@ export const Header = chakra('header', {
     display: 'flex',
     height: '220px',
     position: 'relative',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     zIndex: '100',
     _before: {
       backgroundImage: 'url(./src/assets/logo.svg)',

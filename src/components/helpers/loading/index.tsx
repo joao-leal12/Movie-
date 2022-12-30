@@ -6,8 +6,9 @@ export interface IPropsLoading {
   positions?: any;
   Height?: string;
   text?: string;
-  overFlow?: string;
+
   OpacityEl?: string;
+  loading?: boolean;
 }
 
 export const Loading = ({
@@ -15,12 +16,16 @@ export const Loading = ({
   positions,
   Height = '100vh',
   text = 'carregando...',
-  overFlow = 'auto',
   OpacityEl = '1',
+  loading,
 }: IPropsLoading) => {
   useEffect(() => {
-    document.body.style.overflow = overFlow;
-  }, [overFlow]);
+    if (loading === false) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, []);
 
   return (
     <Flex

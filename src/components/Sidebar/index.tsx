@@ -5,6 +5,7 @@ import { Heading } from '@chakra-ui/react';
 import { useContextCreate } from '../../hooks/useContextCreate';
 export const Sidebar = () => {
   const { OpacityHome } = useContextCreate();
+
   return (
     <SidebarWrapperContainer opacity={OpacityHome}>
       <InputSearchMovies />

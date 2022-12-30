@@ -4,11 +4,14 @@ import { Home } from './pages/Home';
 import { Sidebar } from './components/Sidebar';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './components/Header';
+import { ToogleColor } from './components/ToogleColor';
 
 export const App = (): JSX.Element => {
   return (
     <BrowserRouter>
-      <Header />
+      <Header>
+        <ToogleColor />
+      </Header>
       <Container
         maxWidth="100%"
         display="flex"

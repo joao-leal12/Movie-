@@ -72,8 +72,8 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
         positions="absolute"
         Height="100vh"
         text="carregando..."
-        overFlow="hidden"
         OpacityEl={opacityEl}
+        loading={loading}
       />
     );
   if (data != null)
