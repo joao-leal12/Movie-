@@ -1,12 +1,12 @@
-import { Flex, Spinner, Heading } from '@chakra-ui/react';
+import { Flex, Spinner, Heading, useColorModeValue } from '@chakra-ui/react';
 import { useEffect, RefObject } from 'react';
+import { Logo } from '../../Logo';
 
 export interface IPropsLoading {
   refs?: RefObject<HTMLDivElement> | null;
   positions?: any;
   Height?: string;
   text?: string;
-
   OpacityEl?: string;
   loading?: boolean;
 }
@@ -19,6 +19,8 @@ export const Loading = ({
   OpacityEl = '1',
   loading,
 }: IPropsLoading) => {
+  const ColorWord = useColorModeValue('#111', '#ddd');
+  const ColorSpinner = useColorModeValue('#FB4340', '#767e70');
   useEffect(() => {
     if (loading === false) {
       document.body.style.overflow = 'hidden';
@@ -35,7 +37,7 @@ export const Loading = ({
       zIndex="100000000"
       justifyContent="center"
       alignItems="center"
-      backgroundImage="radial-gradient(50% 50% at 50% 50%, #FB3F3F 0%, #FC8346 100%)  "
+      background="transparent "
       inset="0"
       ref={refs}
       overflow="hidden"
@@ -47,13 +49,9 @@ export const Loading = ({
         alignItems="center"
         width="100%"
       >
-        <Flex
-          backgroundImage="url(./src/assets/logo.svg)"
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          width="100%"
-          height="237px"
-        ></Flex>
+        <Flex>
+          <Logo />
+        </Flex>
         <Flex
           justifyContent="center"
           alignItems="center"
@@ -62,7 +60,7 @@ export const Loading = ({
           top="-50px"
           width="100%"
         >
-          <Heading as="h3" fontSize="3.2rem">
+          <Heading as="h3" fontSize="3.2rem" color={ColorWord}>
             {text}
           </Heading>
           <Spinner
@@ -70,7 +68,7 @@ export const Loading = ({
             thickness="4px"
             speed="0.60s"
             emptyColor="gray.200"
-            color="#FB4340"
+            color={ColorSpinner}
           />
         </Flex>
       </Flex>

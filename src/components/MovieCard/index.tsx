@@ -1,20 +1,21 @@
-import { WrapItem, Link, Image } from '@chakra-ui/react';
+import { WrapItem, Link, Image, useColorModeValue } from '@chakra-ui/react';
 import { Genre } from '../Genre';
 import { useEffect, useState } from 'react';
 import { StarAverage } from '../StarAverage';
 import { ICardMovie } from '../../types/MoviesCards';
 import { useContextCreate } from '../../hooks/useContextCreate';
+
 export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
   const { OpacityHome } = useContextCreate();
   const [path, setPath] = useState('');
-
+  const bg = useColorModeValue('light.900', '#767E70');
   useEffect(() => {
     setPath(dataMovie.poster_path);
   }, [dataMovie]);
   const pathUrl = `https://image.tmdb.org/t/p/w500${path}`;
   return (
     <WrapItem
-      bg="white"
+      bg={bg}
       p="2.4rem"
       maxW="343px"
       borderTopLeftRadius="10rem"
