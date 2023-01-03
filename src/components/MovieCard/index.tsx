@@ -3,10 +3,8 @@ import { Genre } from '../Genre';
 import { useEffect, useState } from 'react';
 import { StarAverage } from '../StarAverage';
 import { ICardMovie } from '../../types/MoviesCards';
-import { useContextCreate } from '../../hooks/useContextCreate';
 
 export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
-  const { OpacityHome } = useContextCreate();
   const [path, setPath] = useState('');
   const bg = useColorModeValue('light.900', '#767E70');
   useEffect(() => {
@@ -23,7 +21,6 @@ export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
       borderBottomLeftRadius="1.6rem"
       borderBottomRightRadius="10rem"
       overflow="hidden"
-      opacity={OpacityHome}
     >
       <Link display="block" _hover={{ textDecor: 'none' }}>
         <Image

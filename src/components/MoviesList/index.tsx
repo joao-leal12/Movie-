@@ -5,18 +5,14 @@ import { useEffect, useState, useRef, Fragment } from 'react';
 import { IPropsMovieList } from '../../types/ApiType';
 import { IMovieData } from '../../types/ApiReturn';
 import { Loading } from '../helpers/loading';
-import { useContextCreate } from '../../hooks/useContextCreate';
-type IWait = boolean;
 
 export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const [limitRender, SetLimitRender] = useState(6);
   const [count, setCount] = useState(1);
   const [infinite, setInfinite] = useState(false);
-  const [wait, setWait] = useState<IWait>(false);
+  const [wait, setWait] = useState<boolean>(false);
   const [load, setLoad] = useState(true);
   const observer = useRef<HTMLDivElement | null>(null);
-
-  const { opacityEl, setStyleOfOpacity, setStyleHome } = useContextCreate();
 
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
@@ -25,15 +21,6 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
     }
   }, [limitRender, data, infinite]);
 
-  useEffect(() => {
-    if (loading === true) {
-      setStyleOfOpacity('1');
-      setStyleHome('0');
-    } else {
-      setStyleOfOpacity('0');
-      setStyleHome('1');
-    }
-  }, [loading]);
   useEffect(() => {
     const intersectOb = new IntersectionObserver((entries) => {
       if (data != null) {
@@ -72,7 +59,6 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
         positions="absolute"
         Height="100vh"
         text="carregando..."
-        OpacityEl={opacityEl}
         loading={loading}
       />
     );

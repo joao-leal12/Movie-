@@ -5,5 +5,6 @@ export const Home = chakra('main', {
     display: 'flex',
     flex: '2',
     paddingRight: '3.6rem',
+    position: 'relative',
   },
 });

@@ -1,7 +1,13 @@
-import { Flex, Spinner, Heading, useColorModeValue } from '@chakra-ui/react';
+import {
+  Flex,
+  Spinner,
+  Heading,
+  useColorModeValue,
+  Button,
+} from '@chakra-ui/react';
 import { useEffect, RefObject } from 'react';
 import { Logo } from '../../Logo';
-
+import { UseFetch } from '../../../hooks/UseFetch';
 export interface IPropsLoading {
   refs?: RefObject<HTMLDivElement> | null;
   positions?: any;
@@ -16,11 +22,12 @@ export const Loading = ({
   positions,
   Height = '100vh',
   text = 'carregando...',
-  OpacityEl = '1',
   loading,
 }: IPropsLoading) => {
   const ColorWord = useColorModeValue('#111', '#ddd');
   const ColorSpinner = useColorModeValue('#FB4340', '#767e70');
+  const { controller } = UseFetch();
+
   useEffect(() => {
     if (loading === false) {
       document.body.style.overflow = 'hidden';
@@ -32,7 +39,7 @@ export const Loading = ({
   return (
     <Flex
       min-height={Height}
-      width="100"
+      width="100%"
       position={positions}
       zIndex="100000000"
       justifyContent="center"
@@ -40,8 +47,6 @@ export const Loading = ({
       background="transparent "
       inset="0"
       ref={refs}
-      overflow="hidden"
-      opacity={OpacityEl}
     >
       <Flex
         flexDirection="column"
@@ -70,6 +75,11 @@ export const Loading = ({
             emptyColor="gray.200"
             color={ColorSpinner}
           />
+        </Flex>
+        <Flex marginTop="-25px">
+          <Button size="lg" color="white" onClick={() => controller.abort()}>
+            Cancelar
+          </Button>
         </Flex>
       </Flex>
     </Flex>

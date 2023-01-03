@@ -17,6 +17,7 @@ export const ContainerMovies = () => {
 
     setDataMovies(results);
   };
+
   useEffect(() => {
     void getMovieData();
   }, []);
