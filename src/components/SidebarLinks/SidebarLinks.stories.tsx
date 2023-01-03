@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
 import { SidebarWrapperContainer } from '../SidebarWrapperContainer';
 import { ChakraProvider } from '@chakra-ui/react';
-import { ThemeConfig } from '../../Styles/theme';
+import { ThemeConfigs } from '../../Styles/theme';
 export default {
   title: 'components/SidebarLinks',
   component: SidebarLinks,
@@ -11,7 +11,7 @@ export default {
     (Story) => {
       return (
         <BrowserRouter>
-          <ChakraProvider theme={ThemeConfig}>
+          <ChakraProvider theme={ThemeConfigs}>
             <SidebarWrapperContainer>{Story()}</SidebarWrapperContainer>
           </ChakraProvider>
         </BrowserRouter>

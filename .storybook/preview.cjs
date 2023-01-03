@@ -1,9 +1,9 @@
-import {ThemeConfig} from '../src/Styles/theme'
+import {ThemeConfigs} from '../src/Styles/theme'
 
 
 export const parameters = {
   chakra: { 
-    theme: ThemeConfig,   
+    theme: ThemeConfigs,   
   }, 
   actions: { argTypesRegex: "^on[A-Z].*" },  
   controls: {

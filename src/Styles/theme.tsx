@@ -1,6 +1,6 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
-export const ThemeConfig = extendTheme({
+export const ThemeConfigs: ThemeConfig = extendTheme({
   config: {
     initialColorMode: 'light',
     useSystemColorMode: false,
@@ -16,8 +16,6 @@ export const ThemeConfig = extendTheme({
         color: '#000 ',
         fontFamily: 'Roboto',
         height: '100%',
-        backgroundImage:
-          'radial-gradient(50% 50% at 50% 50%, #FB3F3F 0%, #FC8346 100%)',
       },
       ':root': {
         fontSize: '62.5%',
@@ -51,6 +49,12 @@ export const ThemeConfig = extendTheme({
     },
     orange: {
       900: '#FC8346',
+    },
+    LightImg: {
+      img: 'radial-gradient(50% 50% at 50% 50%, #FB3F3F 0%, #FC8346 100%)',
+    },
+    DarkImg: {
+      img: '12190e',
     },
   },
 });
