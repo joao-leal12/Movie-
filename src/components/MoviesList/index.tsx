@@ -2,8 +2,8 @@ import { chakra } from '@chakra-ui/react';
 import { MovieCard } from '../MovieCard';
 
 import { useEffect, useState, useRef, Fragment } from 'react';
-import { IPropsMovieList } from '../../types/ApiType';
-import { IMovieData } from '../../types/ApiReturn';
+import { IPropsMovieList, IMovieData } from '../../types/ApiType';
+
 import { Loading } from '../helpers/loading';
 
 export const MoviesList = ({ data, loading }: IPropsMovieList) => {
@@ -50,7 +50,9 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
     });
     if (observer.current != null) intersectOb.observe(observer.current);
 
-    return () => intersectOb.disconnect();
+    return () => {
+      intersectOb.disconnect();
+    };
   }, [limitRender, count, data, infinite, wait]);
 
   if (loading === true)
@@ -84,7 +86,7 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
             )
           )}
         </chakra.ul>
-        {load && <Loading refs={observer} positions="static" Height="auto" />}
+        {load && <Loading refs={observer} positions="relative" Height="auto" />}
       </>
     );
   else return null;

@@ -10,12 +10,7 @@ export const useFilter = (data: IMovieData[] | null) => {
     if (newElement.length > 0) {
       setElementsFiltered(
         data?.filter((movie) =>
-          movie.title
-            .split('')
-            .slice(0, newElement.length)
-            .join('')
-            .toLowerCase()
-            .includes(newElement.toLowerCase())
+          movie.title.toLowerCase().includes(newElement.toLowerCase())
         )
       );
     }

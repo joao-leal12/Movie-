@@ -1,25 +1,20 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
-import { UseFetch } from '../../hooks/UseFetch';
-import { GET_MOVIES, GET_GENRE } from '../../utils/API/API_ROUTES';
-import { IMovieData } from '../../types/ApiReturn';
+import { GET_GENRE, GET_MOVIES_OF_GENRE } from '../../utils/API/API_ROUTES';
+import { IMovieData, IGenre } from '../../types/ApiType';
 import { MoviesList } from '../MoviesList';
+import { UseFetch } from '../../hooks/UseFetch';
+
 export const GenreMoviesList = () => {
   const { genre } = useParams();
   const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[] | null>(null);
   const [genresIds, SetGenresIds] = useState(0);
   const { request, loading } = UseFetch();
-  const { url } = GET_MOVIES(1);
-  interface IGenre {
-    id: number;
-    name: string;
-  }
 
   useEffect(() => {
     const { url } = GET_GENRE();
 
-    void request(url)
+    request(url)
       .then((res) => {
         const { genres } = res;
 
@@ -27,10 +22,10 @@ export const GenreMoviesList = () => {
           .filter((gen: { name: string | undefined }) =>
             gen.name === genre ? gen : ''
           )
-          .reduce((IdPrev: number, IdNext: IGenre) => {
-            IdPrev = IdNext.id;
+          .reduce((acc: number, IdNext: IGenre) => {
+            acc = IdNext.id;
 
-            return IdPrev;
+            return acc;
           }, 0);
 
         return result;
@@ -38,26 +33,28 @@ export const GenreMoviesList = () => {
       .then((result) => SetGenresIds(result));
   }, [genresIds, genre]);
   useEffect(() => {
-    void request(url)
-      .then((response) => {
-        const { results } = response;
+    if (genresIds > 0) {
+      const { url } = GET_MOVIES_OF_GENRE(genresIds);
+      request(url)
+        .then((response) => {
+          const { results } = response;
 
-        const newValue = results.filter((result: { genre_ids: number[] }) =>
-          result.genre_ids.includes(genresIds)
-        );
-        return newValue;
-      })
-      .then((newValue) => {
-        setMoviesOfGenre(newValue);
-        console.log(moviesOfGenre);
-      });
+          const newValue = results;
+          return newValue;
+        })
+        .then((newValue) => {
+          if (newValue.length > 0) {
+            setMoviesOfGenre(newValue);
+          }
+        });
+    }
   }, [request, genresIds, genre]);
 
-  if (moviesOfGenre !== null)
-    return (
-      <>
+  return (
+    <>
+      {moviesOfGenre !== null && (
         <MoviesList data={moviesOfGenre} loading={loading} />
-      </>
-    );
-  else return null;
+      )}
+    </>
+  );
 };

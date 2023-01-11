@@ -4,13 +4,15 @@ import {
   InputRightElement,
   Input,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { MagnifyingGlass } from 'phosphor-react';
 import { useContextCreate } from '../../hooks/useContextCreate';
 
 export const InputSearchMovies = () => {
   const { handleChangeInput, setOnInput } = useContextCreate();
-
+  const PlaceHolder = useColorModeValue('dark.500', 'white');
+  const Border = useColorModeValue('1px solid #8A7E72', '1px solid #eee');
   return (
     <Box paddingInline="1.4rem">
       <InputGroup>
@@ -19,10 +21,10 @@ export const InputSearchMovies = () => {
           placeholder="Pesquisar"
           borderRadius="10rem"
           paddingInline="1.2rem"
-          border={['none', 'none', '1px solid #8A7E72']}
+          border={['none', 'none', Border]}
           minHeight="3.5rem"
           fontSize="1.8rem"
-          _placeholder={{ color: 'dark.500' }}
+          _placeholder={{ color: PlaceHolder }}
           marginBottom={['1rem', '2.5rem', '0', '0']}
           onChange={(e) => handleChangeInput(e.target.value)}
         />

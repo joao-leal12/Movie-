@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import { Star } from 'phosphor-react';
 import { List, ListItem } from '@chakra-ui/react';
-interface IStars {
-  rating: number;
-}
+import { IStars } from '../../types/ApiType';
+
 type IEstaticElements = number;
 export const StarAverage = ({ rating }: IStars) => {
   const maxRating: IEstaticElements = 10;

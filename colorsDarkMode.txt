@@ -1,5 +1,0 @@
-DarkBG : 12190e; 
-DarkPopCorn : 394334; 
-Gray300: 767e70; 
-Gray600 : 6c766b 
-GrayGr: 465045 . 

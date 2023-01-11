@@ -13,7 +13,6 @@ export interface IPropsLoading {
   positions?: any;
   Height?: string;
   text?: string;
-  OpacityEl?: string;
   loading?: boolean;
 }
 

@@ -1,7 +1,7 @@
 import { chakra } from '@chakra-ui/react';
 import { RoutesMovies } from '../RoutesMovies';
 import { useState, useEffect } from 'react';
-import { IMovieData } from '../../types/ApiReturn';
+import { IMovieData } from '../../types/ApiType';
 import { UseFetch } from '../../hooks/UseFetch';
 import { GET_MOVIES } from '../../utils/API/API_ROUTES';
 import { useFilter } from '../../hooks/useFilter';
@@ -19,14 +19,14 @@ export const ContainerMovies = () => {
   };
 
   useEffect(() => {
-    void getMovieData();
+    getMovieData();
   }, []);
   useEffect(() => {
     if (ElementsFiltered !== undefined && ElementsFiltered.length > 0) {
       setDataMovies(ElementsFiltered);
     }
     if (newElement.length === 0) {
-      void getMovieData();
+      getMovieData();
     }
   }, [ElementsFiltered, newElement]);
 

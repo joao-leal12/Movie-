@@ -36,3 +36,17 @@ export interface ILinksElements {
   path: string;
   end?: boolean;
 }
+
+export interface IGenre {
+  id: number;
+  name: string;
+}
+
+export interface IStars {
+  rating: number;
+}
+
+export interface IRoutes {
+  data: IMovieData[] | null;
+  loading: boolean;
+}
