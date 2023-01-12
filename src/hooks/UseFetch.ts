@@ -5,6 +5,7 @@ export const UseFetch = () => {
   const [loading, setLoading] = useState(false);
   const Controller = new AbortController();
   const { signal } = Controller;
+
   const request = useCallback(async (url: string) => {
     try {
       setLoading(true);
@@ -19,5 +20,5 @@ export const UseFetch = () => {
     }
   }, []);
 
-  return { request, loading };
+  return { request, loading, Controller };
 };

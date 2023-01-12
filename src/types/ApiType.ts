@@ -50,3 +50,10 @@ export interface IRoutes {
   data: IMovieData[] | null;
   loading: boolean;
 }
+
+export interface IMovieFilter {
+  data: IMovieData[] | null;
+  getMovieData: () => void;
+  setDataMovies: any;
+  loading: boolean;
+}
