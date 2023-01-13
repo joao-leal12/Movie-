@@ -18,6 +18,10 @@ export interface IMovieData {
   vote_average: number;
   poster_path: string;
 }
+export interface IGenresFilter {
+  genre: number[];
+  inforGenres?: IGenresCard[];
+}
 
 export interface ICardMovie {
   poster_path?: string;
@@ -25,6 +29,10 @@ export interface ICardMovie {
   vote_average?: number;
 }
 
+export interface IMounTCardMovie {
+  dataMovie: ICardMovie;
+  inforGenres?: IGenresCard[];
+}
 export interface INavLinkProps {
   text: string;
 }
@@ -56,4 +64,9 @@ export interface IMovieFilter {
   getMovieData: () => void;
   setDataMovies: any;
   loading: boolean;
+}
+
+export interface IGenresCard {
+  id: number;
+  name: string;
 }

@@ -2,17 +2,32 @@ import { chakra } from '@chakra-ui/react';
 import { MovieCard } from '../MovieCard';
 
 import { useEffect, useState, useRef, Fragment } from 'react';
-import { IPropsMovieList, IMovieData } from '../../types/ApiType';
-
+import { IPropsMovieList, IMovieData, IGenresCard } from '../../types/ApiType';
+import { GET_GENRE } from '../../utils/API/API_ROUTES';
 import { Loading } from '../helpers/loading';
-
+import axios from 'axios';
 export const MoviesList = ({ data, loading }: IPropsMovieList) => {
   const [limitRender, SetLimitRender] = useState(6);
   const [count, setCount] = useState(1);
   const [infinite, setInfinite] = useState(false);
   const [wait, setWait] = useState<boolean>(false);
   const [load, setLoad] = useState(true);
+  const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
+  const { url } = GET_GENRE();
+  const controller = new AbortController();
   const observer = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    axios
+      .get(url, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setInforGenres(response.data.genres);
+        }
+      });
+  }, []);
 
   useEffect(() => {
     if (data !== null && limitRender >= data.length) {
@@ -80,7 +95,11 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
         >
           {data.map((movie: IMovieData, index: number) =>
             index < limitRender ? (
-              <MovieCard dataMovie={movie} key={movie.id + index} />
+              <MovieCard
+                dataMovie={movie}
+                key={movie.id + index}
+                inforGenres={inforGenres}
+              />
             ) : (
               <Fragment key={movie.id + index}></Fragment>
             )

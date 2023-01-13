@@ -2,9 +2,12 @@ import { WrapItem, Link, Image, useColorModeValue } from '@chakra-ui/react';
 import { Genre } from '../Genre';
 import { useEffect, useState } from 'react';
 import { StarAverage } from '../StarAverage';
-import { ICardMovie } from '../../types/ApiType';
+import { IMounTCardMovie } from '../../types/ApiType';
 
-export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
+export const MovieCard = ({
+  dataMovie,
+  inforGenres,
+}: IMounTCardMovie | any) => {
   const [path, setPath] = useState('');
   const [load, setLoad] = useState(false);
   const bg = useColorModeValue('light.900', '#767E70');
@@ -68,7 +71,7 @@ export const MovieCard = ({ dataMovie }: ICardMovie | any) => {
               onLoad={() => setLoad(true)}
             />
 
-            <Genre genre={dataMovie.genre_ids} />
+            <Genre genre={dataMovie.genre_ids} inforGenres={inforGenres} />
             <StarAverage rating={dataMovie.vote_average} />
           </Link>
         </WrapItem>
