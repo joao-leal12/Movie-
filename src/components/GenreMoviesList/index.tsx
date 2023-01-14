@@ -8,11 +8,11 @@ import { useFilter } from '../../hooks/useFilter';
 import axios from 'axios';
 export const GenreMoviesList = () => {
   const { genre } = useParams();
-  const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[] | null>(null);
+  const [moviesByGenre, setMoviesByGenre] = useState<IMovieData[] | null>(null);
   const [genresIds, SetGenresIds] = useState(0);
 
   const { request, loading } = UseFetch();
-  const { ElementsFiltered, newElement } = useFilter(moviesOfGenre);
+  const { ElementsFiltered, newElement } = useFilter(moviesByGenre);
   function GetMoviesofGenre() {
     if (genresIds > 0) {
       const { url } = GET_MOVIES_OF_GENRE(genresIds);
@@ -23,7 +23,7 @@ export const GenreMoviesList = () => {
         })
         .then((newValue) => {
           if (newValue.length > 0) {
-            setMoviesOfGenre(newValue);
+            setMoviesByGenre(newValue);
           }
         });
     }
@@ -55,13 +55,8 @@ export const GenreMoviesList = () => {
       .then((result) => {
         SetGenresIds(result);
       });
-
-    return () => {
-      if (genresIds > 0) controller.abort();
-    };
   }, [genre, genresIds]);
   useEffect(() => {
-    // GetMoviesofGenre();
     const controller = new AbortController();
     const { signal } = controller;
     const { url } = GET_MOVIES_OF_GENRE(genresIds);
@@ -72,13 +67,13 @@ export const GenreMoviesList = () => {
       .then((response) => {
         const { results } = response.data;
 
-        if (results.length > 0) setMoviesOfGenre(results);
+        if (results.length > 0) setMoviesByGenre(results);
       });
-  }, [genresIds]);
+  }, [genresIds, genre]);
 
   useEffect(() => {
     if (ElementsFiltered !== undefined && ElementsFiltered.length > 0) {
-      setMoviesOfGenre(ElementsFiltered);
+      setMoviesByGenre(ElementsFiltered);
     }
     if (newElement.length === 0 && ElementsFiltered !== undefined) {
       GetMoviesofGenre();
@@ -87,8 +82,8 @@ export const GenreMoviesList = () => {
 
   return (
     <>
-      {moviesOfGenre !== null && (
-        <MoviesList data={moviesOfGenre} loading={loading} />
+      {moviesByGenre !== null && (
+        <MoviesList data={moviesByGenre} loading={loading} />
       )}
     </>
   );

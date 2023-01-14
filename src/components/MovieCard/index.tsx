@@ -42,7 +42,7 @@ export const MovieCard = ({
               mb="1.5rem"
             />
 
-            <Genre genre={dataMovie.genre_ids} />
+            <Genre genre={dataMovie.genre_ids} inforGenre={inforGenres} />
             <StarAverage rating={dataMovie.vote_average} />
           </Link>
         </WrapItem>
@@ -71,7 +71,7 @@ export const MovieCard = ({
               onLoad={() => setLoad(true)}
             />
 
-            <Genre genre={dataMovie.genre_ids} inforGenres={inforGenres} />
+            <Genre genre={dataMovie.genre_ids} />
             <StarAverage rating={dataMovie.vote_average} />
           </Link>
         </WrapItem>
