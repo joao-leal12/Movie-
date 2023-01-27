@@ -1,74 +1,32 @@
 import { chakra } from '@chakra-ui/react';
+import { useEffect, useState, useRef, Fragment } from 'react';
+
+import { IPropsMovieList, IMovieData } from '../../types/ApiType';
+import { useContextCreate } from '../../hooks/useContextCreate';
+
+import { Loading } from '../helpers/loading';
 import { MovieCard } from '../MovieCard';
 
-import { useEffect, useState, useRef, Fragment } from 'react';
-import { IPropsMovieList, IMovieData, IGenresCard } from '../../types/ApiType';
-import { GET_GENRE } from '../../utils/API/API_ROUTES';
-import { Loading } from '../helpers/loading';
-import axios from 'axios';
 export const MoviesList = ({ data, loading }: IPropsMovieList) => {
-  const [limitRender, SetLimitRender] = useState(6);
-  const [count, setCount] = useState(1);
-  const [infinite, setInfinite] = useState(false);
-  const [wait, setWait] = useState<boolean>(false);
-  const [load, setLoad] = useState(true);
-  const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
-  const { url } = GET_GENRE();
-  const controller = new AbortController();
+  const [renderCards, setRenderCards] = useState<IMovieData[]>([]);
+
+  const { inforGenres, count } = useContextCreate();
   const observer = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    axios
-      .get(url, {
-        signal: controller.signal,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setInforGenres(response.data.genres);
-        }
-      });
-  }, []);
+    if (data.length === 0) return;
+    setRenderCards((prev) => [...prev, data]);
+    console.log(renderCards);
+  }, [data]);
 
   useEffect(() => {
-    if (data !== null && limitRender >= data.length) {
-      setInfinite(false);
-      setLoad(false);
-    }
-  }, [limitRender, data, infinite]);
-
-  useEffect(() => {
-    const intersectOb = new IntersectionObserver((entries) => {
-      if (data != null) {
-        const limit = Math.floor(data.length / 6);
-        const rest = data.length % 6;
-
-        setInfinite(true);
-
-        if (entries.some((entry) => entry.isIntersecting)) {
-          if (count < limit && infinite && !wait) {
-            setWait(true);
-            setTimeout(() => {
-              setWait(false);
-              setCount((Count) => Count + 1);
-              SetLimitRender((limitRender) => limitRender + 6);
-            }, 500);
-          } else if (infinite && count >= limit) {
-            setWait(true);
-            setTimeout(() => {
-              setWait(false);
-              SetLimitRender((limitRender) => limitRender + rest);
-              setLoad(false);
-            }, 500);
-          }
-        }
-      }
-    });
+    const intersectOb = new IntersectionObserver((entries) => {});
     if (observer.current != null) intersectOb.observe(observer.current);
 
     return () => {
       intersectOb.disconnect();
     };
-  }, [limitRender, count, data, infinite, wait]);
+  }, [count, data]);
 
   if (loading === true)
     return (
@@ -94,7 +52,7 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
           gap="2.4rem"
         >
           {data.map((movie: IMovieData, index: number) =>
-            index < limitRender ? (
+            data.length > 0 ? (
               <MovieCard
                 dataMovie={movie}
                 key={movie.id + index}
@@ -105,7 +63,7 @@ export const MoviesList = ({ data, loading }: IPropsMovieList) => {
             )
           )}
         </chakra.ul>
-        {load && <Loading refs={observer} positions="relative" Height="auto" />}
+        <Loading refs={observer} positions="relative" Height="auto" />
       </>
     );
   else return null;

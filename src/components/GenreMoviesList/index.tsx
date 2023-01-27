@@ -1,45 +1,25 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { GET_GENRE, GET_MOVIES_OF_GENRE } from '../../utils/API/API_ROUTES';
-import { IMovieData, IGenre } from '../../types/ApiType';
+import { IGenre } from '../../types/ApiType';
 import { MoviesList } from '../MoviesList';
 import { UseFetch } from '../../hooks/UseFetch';
-import { useFilter } from '../../hooks/useFilter';
-import axios from 'axios';
+import { useContextCreate } from '../../hooks/useContextCreate';
+import { apiCall } from '../../lib/apiCall';
+
 export const GenreMoviesList = () => {
   const { genre } = useParams();
-  const [moviesByGenre, setMoviesByGenre] = useState<IMovieData[] | null>(null);
-  const [genresIds, SetGenresIds] = useState(0);
 
-  const { request, loading } = UseFetch();
-  const { ElementsFiltered, newElement } = useFilter(moviesByGenre);
-  function GetMoviesofGenre() {
-    if (genresIds > 0) {
-      const { url } = GET_MOVIES_OF_GENRE(genresIds);
-      request(url)
-        .then((response) => {
-          const { results } = response;
-          return results;
-        })
-        .then((newValue) => {
-          if (newValue.length > 0) {
-            setMoviesByGenre(newValue);
-          }
-        });
-    }
-  }
+  const { genresIds, SetGenresIds, moviesOfGenre, setMoviesOfGenre } =
+    useContextCreate();
+  const { loading } = UseFetch();
 
   useEffect(() => {
     const { url } = GET_GENRE();
-    const controller = new AbortController();
-    const { signal } = controller;
-    axios
-      .get(url, {
-        signal,
-      })
-      .then((res) => {
-        // const { genres } = res || {};
 
+    apiCall
+      .get(url)
+      .then((res) => {
         const result = res?.data.genres
           .filter((gen: { name: string | undefined }) =>
             gen.name === genre ? gen : null
@@ -55,35 +35,29 @@ export const GenreMoviesList = () => {
       .then((result) => {
         SetGenresIds(result);
       });
-  }, [genre, genresIds]);
+  }, [genresIds, genre]);
+
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
     const { url } = GET_MOVIES_OF_GENRE(genresIds);
-    axios
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    apiCall
       .get(url, {
         signal,
       })
       .then((response) => {
         const { results } = response.data;
 
-        if (results.length > 0) setMoviesByGenre(results);
+        if (results.length > 0) setMoviesOfGenre(results);
       });
+
+    return () => controller.abort();
   }, [genresIds, genre]);
-
-  useEffect(() => {
-    if (ElementsFiltered !== undefined && ElementsFiltered.length > 0) {
-      setMoviesByGenre(ElementsFiltered);
-    }
-    if (newElement.length === 0 && ElementsFiltered !== undefined) {
-      GetMoviesofGenre();
-    }
-  }, [ElementsFiltered, newElement]);
-
   return (
     <>
-      {moviesByGenre !== null && (
-        <MoviesList data={moviesByGenre} loading={loading} />
+      {moviesOfGenre.length > 0 && (
+        <MoviesList data={moviesOfGenre} loading={loading} />
       )}
     </>
   );

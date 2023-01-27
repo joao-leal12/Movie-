@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useContextCreate } from './useContextCreate';
 import { IMovieData } from '../types/ApiType';
 
-export const useFilter = (data: IMovieData[] | null) => {
+export const useFilter = (data: IMovieData[]) => {
   const { newElement } = useContextCreate();
 
-  const [ElementsFiltered, setElementsFiltered] = useState<IMovieData[]>();
+  const [ElementsFiltered, setElementsFiltered] = useState<IMovieData[]>([]);
   const filteredElements = useCallback(() => {
     if (newElement.length > 0) {
       setElementsFiltered(

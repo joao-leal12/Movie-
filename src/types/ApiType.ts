@@ -1,5 +1,5 @@
 import { IconProps } from 'phosphor-react';
-import { ForwardRefExoticComponent } from 'react';
+import { ForwardRefExoticComponent, ReactNode } from 'react';
 
 export interface IApiMovies {
   url: string;
@@ -69,4 +69,8 @@ export interface IMovieFilter {
 export interface IGenresCard {
   id: number;
   name: string;
+}
+
+export interface Ichildren {
+  children: ReactNode;
 }

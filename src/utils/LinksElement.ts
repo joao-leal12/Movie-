@@ -1,6 +1,6 @@
 // import { IconProps } from '@chakra-ui/react';
 import { Sword, MaskSad, Balloon, Ghost, HouseLine } from 'phosphor-react';
-import { ILinksElements } from '../types/SidebarLinksElementsProps';
+import { ILinksElements } from '../types/ApiType';
 export const LinksElement: ILinksElements[] = [
   { genre: 'Home', Icon: HouseLine, id: 1, path: '/', end: true },
   { genre: 'Aventura', Icon: Sword, id: 2, path: '/movie/Adventure' },

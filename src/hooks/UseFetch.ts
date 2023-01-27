@@ -6,6 +6,7 @@ export const UseFetch = () => {
   const request = useCallback(async (url: string) => {
     try {
       setLoading(true);
+
       const { data } = await axios.get(url);
       return data;
     } catch (erro) {

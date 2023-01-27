@@ -6,11 +6,12 @@ import { ILinksElements } from '../../types/ApiType';
 
 export const SidebarLinksElement = () => {
   const ColorLink = useColorModeValue('#8A7E72', 'light.900');
+
   return (
     <>
       {LinksElement.map(
         ({ genre, Icon, id, path, ...rest }: ILinksElements) => (
-          <SidebarChildrenLinks key={id}>
+          <SidebarChildrenLinks key={id} id={`${id}`}>
             <Link
               as={NavLink}
               to={path}

@@ -3,12 +3,11 @@ import { Star } from 'phosphor-react';
 import { List, ListItem } from '@chakra-ui/react';
 import { IStars } from '../../types/ApiType';
 
-type IEstaticElements = number;
 export const StarAverage = ({ rating }: IStars) => {
-  const maxRating: IEstaticElements = 10;
-  const maxStars: IEstaticElements = 5;
+  const maxRating: number = 10;
+  const maxStars: number = 5;
 
-  const starsWillFilled: IEstaticElements = useMemo(
+  const starsWillFilled = useMemo(
     () => Math.round((maxStars * rating) / maxRating),
     [maxRating, rating, maxStars]
   );
