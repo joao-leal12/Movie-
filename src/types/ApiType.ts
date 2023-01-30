@@ -1,5 +1,5 @@
 import { IconProps } from 'phosphor-react';
-import { ForwardRefExoticComponent, ReactNode } from 'react';
+import { ForwardRefExoticComponent, ReactNode, RefObject } from 'react';
 
 export interface IApiMovies {
   url: string;
@@ -7,8 +7,10 @@ export interface IApiMovies {
 }
 
 export interface IPropsMovieList {
-  data: any;
+  data: IMovieData[];
   loading?: boolean;
+  load: boolean;
+  observer: any;
 }
 
 export interface IMovieData {
@@ -29,8 +31,8 @@ export interface ICardMovie {
   vote_average?: number;
 }
 
-export interface IMounTCardMovie {
-  dataMovie: ICardMovie;
+export interface IMountCardMovie {
+  dataMovie: IMovieData;
   inforGenres?: IGenresCard[];
 }
 export interface INavLinkProps {
@@ -73,4 +75,12 @@ export interface IGenresCard {
 
 export interface Ichildren {
   children: ReactNode;
+}
+
+export interface IPropsLoading {
+  refs?: RefObject<HTMLDivElement> | null;
+  positions?: any;
+  Height?: string;
+  text?: string;
+  loading?: boolean;
 }

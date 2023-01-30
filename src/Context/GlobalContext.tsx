@@ -3,7 +3,7 @@ import { useBoolean } from '@chakra-ui/react';
 
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_MOVIES, GET_GENRE } from '../utils/API/API_ROUTES';
+import { GET_GENRE } from '../utils/API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
 
 export const ContextCreate = createContext({} as IinitialValueProps);
@@ -11,20 +11,13 @@ export const ContextCreate = createContext({} as IinitialValueProps);
 export const GlobalContext = ({ children }: Ichildren) => {
   const [newElement, setNewElement] = useState('');
   const [dataMovies, setDataMovies] = useState<IMovieData[]>([]);
-  const [count, setCount] = useState<number>(1);
-
+  const [count, setCount] = useState([1]);
   const [genres, setGenres] = useState('');
   const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
   const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[]>([]);
-  const [onInput, setOnInput] = useBoolean();
   const [genresIds, SetGenresIds] = useState(0);
-  useEffect(() => {
-    const { url } = GET_MOVIES(1);
-    const controller = new AbortController();
-    apiCall.get(url).then((response) => setDataMovies(response.data.results));
 
-    return () => controller.abort();
-  }, [count]);
+  const [onInput, setOnInput] = useBoolean();
 
   useEffect(() => {
     const { url } = GET_GENRE();

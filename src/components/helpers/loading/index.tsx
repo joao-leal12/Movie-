@@ -1,18 +1,11 @@
 import { Flex, Spinner, Heading, useColorModeValue } from '@chakra-ui/react';
-import { useEffect, RefObject } from 'react';
+import { useEffect } from 'react';
 import { Logo } from '../../Logo';
-
-export interface IPropsLoading {
-  refs?: RefObject<HTMLDivElement> | null;
-  positions?: any;
-  Height?: string;
-  text?: string;
-  loading?: boolean;
-}
+import { IPropsLoading } from '../../../types/ApiType';
 
 export const Loading = ({
   refs = null,
-  positions,
+  positions = 'absolute',
   Height = '100vh',
   text = 'carregando...',
   loading,
