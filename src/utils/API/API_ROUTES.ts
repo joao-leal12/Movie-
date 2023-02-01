@@ -3,7 +3,7 @@ import { IApiMovies } from '../../types/ApiType';
 
 const ApiKey = import.meta.env.VITE_API_KEY;
 
-export const GET_MOVIES = (pages: string): IApiMovies => {
+export const GET_MOVIES = (pages: number): IApiMovies => {
   return {
     url: `/movie/popular?api_key=${ApiKey}&page=${pages}`,
   };

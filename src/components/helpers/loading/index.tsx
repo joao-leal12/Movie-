@@ -5,7 +5,7 @@ import { IPropsLoading } from '../../../types/ApiType';
 
 export const Loading = ({
   refs = null,
-  positions = 'absolute',
+  positions = 'relative',
   Height = '100vh',
   text = 'carregando...',
   loading,
