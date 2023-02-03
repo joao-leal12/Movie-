@@ -1,7 +1,12 @@
 import { Grid } from '@chakra-ui/react';
-import { Eskeleton } from '../Eskeleton';
-
-export const ListMoviesWrapper = () => {
+import { IMovieData } from '../../types/ApiType';
+import { useContextCreate } from '../../hooks/useContextCreate';
+import { MovieCard } from '../MovieCard';
+interface IListMoviesProps {
+  data: IMovieData[];
+}
+export const ListMoviesWrapper = ({ data = [] }: IListMoviesProps) => {
+  const { inforGenres } = useContextCreate();
   return (
     <Grid
       as="section"
@@ -13,9 +18,14 @@ export const ListMoviesWrapper = () => {
       ]}
       gap={'2.4rem'}
     >
-      {Array.from({ length: 6 }).map((_, index) => (
-        <Eskeleton key={index} />
-      ))}
+      {data.length > 0 &&
+        data.map((movie) => (
+          <MovieCard
+            inforGenres={inforGenres}
+            key={movie.id}
+            dataMovie={movie}
+          />
+        ))}
     </Grid>
   );
 };

@@ -10,9 +10,14 @@ export const animationContainer = {
   visible: {
     opacity: 1,
     scale: 1,
+    backgroundPosition: ['0', '200%'],
     transition: {
       delayChildren: 0.3,
       staggerChildren: 0.2,
     },
   },
+};
+
+export const DivComponentAnimation = {
+  bakgroundPosition: ['0', '200%'],
 };

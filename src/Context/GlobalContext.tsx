@@ -3,7 +3,7 @@ import { useBoolean } from '@chakra-ui/react';
 
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE } from '../API/API_ROUTES';
+import { GET_GENRE, GET_MOVIES } from '../API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
 
 export const ContextCreate = createContext({} as IinitialValueProps);
@@ -35,6 +35,15 @@ export const GlobalContext = ({ children }: Ichildren) => {
       controller.abort();
     };
   }, [moviesOfGenre]);
+
+  useEffect(() => {
+    const { url } = GET_MOVIES(1);
+    const controller = new AbortController();
+    apiCall
+      .get(url, { signal: controller.signal })
+      .then((response) => setListMovies(response.data.results));
+    return () => controller.abort();
+  }, []);
 
   function handleChangeInput(value: string) {
     setNewElement(value);

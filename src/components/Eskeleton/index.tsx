@@ -1,8 +1,12 @@
-import { MotionBox, animationContainer } from '../../Styles/animation';
-
-export const Eskeleton = () => {
+import { MotionBox } from '../../Styles/animation';
+interface IEskeletonProps {
+  load: boolean;
+}
+export const Eskeleton = ({ load }: IEskeletonProps) => {
   return (
     <MotionBox
+      opacity={!load ? '1' : '0'}
+      position={!load ? 'relative' : 'absolute'}
       p="2.4rem"
       width="315px"
       borderTopLeftRadius="10rem"
@@ -15,8 +19,11 @@ export const Eskeleton = () => {
       backgroundSize={'200%'}
       marginBottom={'2rem'}
       initial="hidden"
-      animate="visible"
-      variants={animationContainer}
+      animate={{
+        backgroundPosition: ['0', '200%'],
+        transitionTimingFunction: 'linear',
+        transition: { repeat: Infinity },
+      }}
     />
   );
 };

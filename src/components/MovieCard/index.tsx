@@ -3,6 +3,7 @@ import { Genre } from '../Genre';
 import { useEffect, useState } from 'react';
 import { StarAverage } from '../StarAverage';
 import { IMountCardMovie } from '../../types/ApiType';
+import { Eskeleton } from '../Eskeleton';
 
 export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
   const [path, setPath] = useState('');
@@ -15,64 +16,36 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
   const pathUrl = `https://image.tmdb.org/t/p/w500${path}`;
   return (
     <>
-      {load ? (
-        <WrapItem
-          bg={bg}
-          p="2.4rem"
-          maxW="343px"
-          borderTopLeftRadius="10rem"
-          borderTopRightRadius="1.6rem"
-          borderBottomLeftRadius="1.6rem"
-          borderBottomRightRadius="10rem"
-          overflow="hidden"
-          opacity="1"
-        >
-          <Link display="block" _hover={{ textDecor: 'none' }}>
-            <Image
-              src={pathUrl}
-              maxW="295px"
-              alt="movie-image"
-              borderTopLeftRadius="10rem"
-              borderTopRightRadius="1.6rem"
-              borderBottomLeftRadius="1.6rem"
-              borderBottomRightRadius="10rem"
-              mb="1.5rem"
-            />
+      <WrapItem
+        bg={bg}
+        p="2.4rem"
+        maxW="343px"
+        borderTopLeftRadius="10rem"
+        borderTopRightRadius="1.6rem"
+        borderBottomLeftRadius="1.6rem"
+        borderBottomRightRadius="10rem"
+        overflow="hidden"
+        opacity={load ? '1' : '0'}
+        onLoad={() => setLoad(true)}
+        position={load ? 'relative' : 'absolute'}
+      >
+        <Link display="block" _hover={{ textDecor: 'none' }}>
+          <Image
+            src={pathUrl}
+            maxW="295px"
+            alt="movie-image"
+            borderTopLeftRadius="10rem"
+            borderTopRightRadius="1.6rem"
+            borderBottomLeftRadius="1.6rem"
+            borderBottomRightRadius="10rem"
+            mb="1.5rem"
+          />
 
-            <Genre genre={dataMovie.genre_ids} inforGenre={inforGenres} />
-            <StarAverage rating={dataMovie.vote_average} />
-          </Link>
-        </WrapItem>
-      ) : (
-        <WrapItem
-          bg={bg}
-          p="2.4rem"
-          maxW="343px"
-          borderTopLeftRadius="10rem"
-          borderTopRightRadius="1.6rem"
-          borderBottomLeftRadius="1.6rem"
-          borderBottomRightRadius="10rem"
-          overflow="hidden"
-          opacity="0"
-        >
-          <Link display="block" _hover={{ textDecor: 'none' }}>
-            <Image
-              src={pathUrl}
-              maxW="295px"
-              alt="movie-image"
-              borderTopLeftRadius="10rem"
-              borderTopRightRadius="1.6rem"
-              borderBottomLeftRadius="1.6rem"
-              borderBottomRightRadius="10rem"
-              mb="1.5rem"
-              onLoad={() => setLoad(true)}
-            />
-
-            <Genre genre={dataMovie.genre_ids} />
-            <StarAverage rating={dataMovie.vote_average} />
-          </Link>
-        </WrapItem>
-      )}
+          <Genre genre={dataMovie.genre_ids} inforGenre={inforGenres} />
+          <StarAverage rating={dataMovie.vote_average} />
+        </Link>
+      </WrapItem>
+      <Eskeleton load={load} />
     </>
   );
 };
