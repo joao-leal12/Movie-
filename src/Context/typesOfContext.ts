@@ -9,8 +9,6 @@ export interface IinitialValueProps {
     off: () => void;
     toggle: () => void;
   };
-  dataMovies: IMovieData[];
-  setDataMovies: (initialValue: any) => void;
   genresIds: number;
   SetGenresIds: (initialValue: number) => void;
   genres: string;
@@ -19,6 +17,8 @@ export interface IinitialValueProps {
   setMoviesOfGenre: (initialValue: []) => void;
   inforGenres: IGenresCard[];
   setInforGenres: (initialValue: []) => void;
-  count: number[];
-  setCount: (initialValue: number[]) => void;
+  loading: boolean;
+  setLoading: (initialValue: boolean) => void;
+  listMovies: IMovieData[];
+  setListMovies: (initialValue: []) => void;
 }

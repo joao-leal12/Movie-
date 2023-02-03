@@ -1,11 +1,8 @@
-import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
-import { ContainerMovies } from './components/ContainerMovies';
-import { Home } from './pages/Home';
-import { Sidebar } from './components/Sidebar';
+import { Flex, useColorModeValue } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './components/Header';
-import { ToogleColor } from './components/ToogleColor';
-import { Logo } from './components/Logo';
+import { Footer } from './components/Footer';
+import { MainContainer } from './components/MainContainer';
 
 export const App = (): JSX.Element => {
   const bg = useColorModeValue(
@@ -15,22 +12,9 @@ export const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Flex flexDir="column" bg={bg}>
-        <Header>
-          <Logo />
-          <ToogleColor />
-        </Header>
-        <Container
-          maxWidth="100%"
-          display="flex"
-          padding="0"
-          gap="4.2rem"
-          position="static"
-        >
-          <Sidebar />
-          <Home>
-            <ContainerMovies />
-          </Home>
-        </Container>
+        <Header />
+        <MainContainer />
+        <Footer />
       </Flex>
     </BrowserRouter>
   );

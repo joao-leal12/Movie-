@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { IApiMovies } from '../../types/ApiType';
+import { IApiMovies } from '../types/ApiType';
 
 const ApiKey = import.meta.env.VITE_API_KEY;
 

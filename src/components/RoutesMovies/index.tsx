@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
-import { HomeContainerList } from '../HomeContainerList';
 import { GenreMoviesList } from '../GenreMoviesList';
+import { HomeMoviesList } from '../HomeMovieList';
 
 export const RoutesMovies = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomeContainerList />} />
+      <Route path="/" element={<HomeMoviesList />} />
       <Route path="movie/:genre" element={<GenreMoviesList />} />
     </Routes>
   );

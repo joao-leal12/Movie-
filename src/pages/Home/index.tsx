@@ -1,10 +1,10 @@
-import { chakra } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { RoutesMovies } from '../../components/RoutesMovies';
 
-export const Home = chakra('main', {
-  baseStyle: {
-    display: 'flex',
-    flex: '2',
-    paddingRight: '3.6rem',
-    position: 'relative',
-  },
-});
+export const Home = () => {
+  return (
+    <Flex as="section" flex={2} position={'relative'}>
+      <RoutesMovies />
+    </Flex>
+  );
+};

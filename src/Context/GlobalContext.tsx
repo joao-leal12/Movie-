@@ -3,22 +3,20 @@ import { useBoolean } from '@chakra-ui/react';
 
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE } from '../utils/API/API_ROUTES';
+import { GET_GENRE } from '../API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
 
 export const ContextCreate = createContext({} as IinitialValueProps);
 
 export const GlobalContext = ({ children }: Ichildren) => {
   const [newElement, setNewElement] = useState('');
-  const [dataMovies, setDataMovies] = useState<IMovieData[]>([]);
-  const [count, setCount] = useState([1]);
   const [genres, setGenres] = useState('');
   const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
   const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[]>([]);
   const [genresIds, SetGenresIds] = useState(0);
-
+  const [loading, setLoading] = useState<boolean>(true);
   const [onInput, setOnInput] = useBoolean();
-
+  const [listMovies, setListMovies] = useState<IMovieData[]>([]);
   useEffect(() => {
     const { url } = GET_GENRE();
     const controller = new AbortController();
@@ -31,13 +29,12 @@ export const GlobalContext = ({ children }: Ichildren) => {
         if (response.status === 200) {
           setInforGenres(response.data.genres);
         }
-      })
-      .catch((e) => console.log(e));
+      });
 
     return () => {
       controller.abort();
     };
-  }, [dataMovies, moviesOfGenre]);
+  }, [moviesOfGenre]);
 
   function handleChangeInput(value: string) {
     setNewElement(value);
@@ -50,8 +47,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
         handleChangeInput,
         onInput,
         setOnInput,
-        dataMovies,
-        setDataMovies,
         genresIds,
         SetGenresIds,
         genres,
@@ -60,8 +55,10 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setMoviesOfGenre,
         inforGenres,
         setInforGenres,
-        count,
-        setCount,
+        loading,
+        setLoading,
+        listMovies,
+        setListMovies,
       }}
     >
       {children}

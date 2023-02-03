@@ -1,9 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { GET_GENRE, GET_MOVIES_OF_GENRE } from '../../utils/API/API_ROUTES';
+import { GET_GENRE, GET_MOVIES_OF_GENRE } from '../../API/API_ROUTES';
 import { IGenre } from '../../types/ApiType';
-import { MoviesList } from '../MoviesList';
-import { UseFetch } from '../../hooks/UseFetch';
+
 import { useContextCreate } from '../../hooks/useContextCreate';
 import { apiCall } from '../../lib/apiCall';
 
@@ -12,7 +11,6 @@ export const GenreMoviesList = () => {
 
   const { genresIds, SetGenresIds, moviesOfGenre, setMoviesOfGenre } =
     useContextCreate();
-  const { loading } = UseFetch();
 
   useEffect(() => {
     const { url } = GET_GENRE();
@@ -54,11 +52,5 @@ export const GenreMoviesList = () => {
 
     return () => controller.abort();
   }, [genresIds, genre]);
-  return (
-    <>
-      {moviesOfGenre.length > 0 && (
-        <MoviesList data={moviesOfGenre} loading={loading} />
-      )}
-    </>
-  );
+  return <>{moviesOfGenre.length > 0 && <h1>Ola</h1>}</>;
 };
