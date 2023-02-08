@@ -47,11 +47,6 @@ export interface ILinksElements {
   end?: boolean;
 }
 
-export interface IGenre {
-  id: number;
-  name: string;
-}
-
 export interface IStars {
   rating: number;
 }

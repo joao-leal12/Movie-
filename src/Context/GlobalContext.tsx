@@ -3,48 +3,62 @@ import { useBoolean } from '@chakra-ui/react';
 
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE, GET_MOVIES } from '../API/API_ROUTES';
+import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
 
 export const ContextCreate = createContext({} as IinitialValueProps);
 
 export const GlobalContext = ({ children }: Ichildren) => {
+  const [onInput, setOnInput] = useBoolean();
   const [newElement, setNewElement] = useState('');
-  const [genres, setGenres] = useState('');
+  const [genres, setGenres] = useState(0);
   const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
   const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[]>([]);
   const [genresIds, SetGenresIds] = useState(0);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [onInput, setOnInput] = useBoolean();
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const { url } = GET_GENRE();
-    const controller = new AbortController();
-    const signal = controller.signal;
-    apiCall
-      .get(url, {
-        signal,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setInforGenres(response.data.genres);
-        }
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [moviesOfGenre]);
-
-  useEffect(() => {
-    const { url } = GET_MOVIES(1);
-    const controller = new AbortController();
-    apiCall
-      .get(url, { signal: controller.signal })
-      .then((response) => setListMovies(response.data.results));
-    return () => controller.abort();
+    apiCall.get(url).then((response) => {
+      if (response.status === 200) {
+        setInforGenres(response.data.genres);
+      }
+    });
   }, []);
 
+  useEffect(() => {
+    const { url } = GET_MOVIES(page);
+    const controller = new AbortController();
+    const { signal } = controller;
+    setIsLoading(true);
+
+    apiCall
+      .get(url, { signal })
+      .then((response) => {
+        setListMovies([...listMovies, ...response.data.results]);
+        setIsLoading(false);
+      })
+      .catch((e) => console.log(e));
+    return () => controller.abort();
+  }, [page]);
+
+  useEffect(() => {
+    const { url } = GET_MOVIES_OF_GENRE(genres, page);
+    const controller = new AbortController();
+    const { signal } = controller;
+    setIsLoading(true);
+    apiCall
+      .get(url, { signal })
+      .then((response) => {
+        const { results } = response.data;
+        setIsLoading(false);
+        if (results.length > 0) setMoviesOfGenre(results);
+      })
+      .catch((e) => console.log(e));
+
+    return () => controller.abort();
+  }, [genres]);
   function handleChangeInput(value: string) {
     setNewElement(value);
   }
@@ -64,10 +78,12 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setMoviesOfGenre,
         inforGenres,
         setInforGenres,
-        loading,
-        setLoading,
         listMovies,
         setListMovies,
+        page,
+        setPage,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

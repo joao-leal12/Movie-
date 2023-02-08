@@ -1,10 +1,10 @@
-import { WrapItem, Link, Image, useColorModeValue } from '@chakra-ui/react';
+import { Link, Image, useColorModeValue } from '@chakra-ui/react';
 import { Genre } from '../Genre';
 import { useEffect, useState } from 'react';
 import { StarAverage } from '../StarAverage';
 import { IMountCardMovie } from '../../types/ApiType';
 import { Eskeleton } from '../Eskeleton';
-
+import { MotionWrapperItems } from '../../Styles/animation';
 export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
   const [path, setPath] = useState('');
   const [load, setLoad] = useState(false);
@@ -16,7 +16,7 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
   const pathUrl = `https://image.tmdb.org/t/p/w500${path}`;
   return (
     <>
-      <WrapItem
+      <MotionWrapperItems
         bg={bg}
         p="2.4rem"
         maxW="343px"
@@ -28,6 +28,8 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
         opacity={load ? '1' : '0'}
         onLoad={() => setLoad(true)}
         position={load ? 'relative' : 'absolute'}
+        initial="hidden"
+        animate="visible"
       >
         <Link display="block" _hover={{ textDecor: 'none' }}>
           <Image
@@ -44,7 +46,7 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
           <Genre genre={dataMovie.genre_ids} inforGenre={inforGenres} />
           <StarAverage rating={dataMovie.vote_average} />
         </Link>
-      </WrapItem>
+      </MotionWrapperItems>
       <Eskeleton load={load} />
     </>
   );

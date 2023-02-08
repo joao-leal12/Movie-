@@ -1,56 +1,29 @@
-import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { GET_GENRE, GET_MOVIES_OF_GENRE } from '../../API/API_ROUTES';
-import { IGenre } from '../../types/ApiType';
-
+import { useParams } from 'react-router-dom';
+import { Flex } from '@chakra-ui/react';
 import { useContextCreate } from '../../hooks/useContextCreate';
-import { apiCall } from '../../lib/apiCall';
+import { ListMoviesWrapper } from '../ListMoviesWrapper';
+type IGenresParamsProps = Record<string, string>;
 
-export const GenreMoviesList = () => {
-  const { genre } = useParams();
+export const GenreMovieList = () => {
+  const { genre } = useParams() as IGenresParamsProps;
 
-  const { genresIds, SetGenresIds, moviesOfGenre, setMoviesOfGenre } =
-    useContextCreate();
-
-  useEffect(() => {
-    const { url } = GET_GENRE();
-
-    apiCall
-      .get(url)
-      .then((res) => {
-        const result = res?.data.genres
-          .filter((gen: { name: string | undefined }) =>
-            gen.name === genre ? gen : null
-          )
-          .reduce((acc: number, IdNext: IGenre) => {
-            acc = IdNext.id;
-
-            return acc;
-          }, 0);
-
-        return result;
-      })
-      .then((result) => {
-        SetGenresIds(result);
-      });
-  }, [genresIds, genre]);
+  const { inforGenres, setGenres, moviesOfGenre } = useContextCreate();
 
   useEffect(() => {
-    const { url } = GET_MOVIES_OF_GENRE(genresIds);
-    const controller = new AbortController();
-    const signal = controller.signal;
+    const newValue = inforGenres
+      .filter((genres) => genres.name.includes(genre))
+      .reduce((firstValue, Value) => {
+        firstValue = Value.id;
 
-    apiCall
-      .get(url, {
-        signal,
-      })
-      .then((response) => {
-        const { results } = response.data;
+        return firstValue;
+      }, {});
+    if (typeof newValue === 'number') setGenres(newValue);
+  }, [genre, inforGenres]);
 
-        if (results.length > 0) setMoviesOfGenre(results);
-      });
-
-    return () => controller.abort();
-  }, [genresIds, genre]);
-  return <>{moviesOfGenre.length > 0 && <h1>Ola</h1>}</>;
+  return (
+    <Flex as="section">
+      <ListMoviesWrapper data={moviesOfGenre} />
+    </Flex>
+  );
 };

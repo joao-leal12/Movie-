@@ -21,8 +21,11 @@ export const GET_FILTER = (id: number): IApiMovies => {
   };
 };
 
-export const GET_MOVIES_OF_GENRE = (genre: number | undefined): IApiMovies => {
+export const GET_MOVIES_OF_GENRE = (
+  genre: number,
+  page: number
+): IApiMovies => {
   return {
-    url: `discover/movie?api_key=${ApiKey}&with_genres=${genre}`,
+    url: `discover/movie?api_key=${ApiKey}&with_genres=${genre}&page=${page}`,
   };
 };
