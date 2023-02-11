@@ -1,7 +1,6 @@
 import { InputSearchMovies } from '../InputSearhMovies';
 import { SidebarItems } from '../SidebarItems';
-import { SidebarWrapperContainer } from '../SidebarWrapperContainer';
-import { Heading, useColorModeValue } from '@chakra-ui/react';
+import { Heading, Box, useColorModeValue } from '@chakra-ui/react';
 
 export const Sidebar = () => {
   const sidebarColor = useColorModeValue('light.900', '#767e70');
@@ -11,7 +10,18 @@ export const Sidebar = () => {
   );
   const colorModeSidebar = useColorModeValue('#000', '#fff');
   return (
-    <SidebarWrapperContainer backgroundColor={sidebarColor} boxShadow={Shadow}>
+    <Box
+      as={'section'}
+      flex={'1'}
+      maxW={'28.5rem'}
+      paddingTop={'6rem'}
+      paddingBottom={'9.1rem'}
+      maxH={'60.4rem'}
+      borderTopRightRadius={'90px'}
+      borderBottomRightRadius={'90px'}
+      backgroundColor={sidebarColor}
+      boxShadow={Shadow}
+    >
       <InputSearchMovies />
       <Heading
         fontSize="3.6rem"
@@ -28,6 +38,6 @@ export const Sidebar = () => {
         Genero
       </Heading>
       <SidebarItems />
-    </SidebarWrapperContainer>
+    </Box>
   );
 };

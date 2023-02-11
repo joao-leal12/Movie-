@@ -17,6 +17,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [genresIds, SetGenresIds] = useState(0);
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
   const [page, setPage] = useState(1);
+  const [pageMoviesOfGenre, setPageMoviesOfGenre] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const { url } = GET_GENRE();
@@ -31,7 +32,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
     const { url } = GET_MOVIES(page);
     const controller = new AbortController();
     const { signal } = controller;
-    setIsLoading(true);
 
     apiCall
       .get(url, { signal })
@@ -44,21 +44,28 @@ export const GlobalContext = ({ children }: Ichildren) => {
   }, [page]);
 
   useEffect(() => {
-    const { url } = GET_MOVIES_OF_GENRE(genres, page);
+    const { url } = GET_MOVIES_OF_GENRE(genres, pageMoviesOfGenre);
     const controller = new AbortController();
     const { signal } = controller;
-    setIsLoading(true);
+
     apiCall
       .get(url, { signal })
       .then((response) => {
         const { results } = response.data;
         setIsLoading(false);
-        if (results.length > 0) setMoviesOfGenre(results);
+        if (results.length > 0) {
+          if (pageMoviesOfGenre > 1) {
+            setMoviesOfGenre([...moviesOfGenre, ...results]);
+          } else {
+            setMoviesOfGenre(results);
+          }
+        }
       })
       .catch((e) => console.log(e));
 
     return () => controller.abort();
-  }, [genres]);
+  }, [genres, pageMoviesOfGenre, isLoading]);
+
   function handleChangeInput(value: string) {
     setNewElement(value);
   }
@@ -84,6 +91,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setPage,
         isLoading,
         setIsLoading,
+        pageMoviesOfGenre,
+        setPageMoviesOfGenre,
       }}
     >
       {children}

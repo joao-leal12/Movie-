@@ -1,4 +1,3 @@
-import { SidebarChildrenLinks } from '../SidebarChildrenLinks';
 import { Link, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import { LinksElement } from '../../utils/LinksElement';
@@ -11,7 +10,21 @@ export const SidebarLinksElement = () => {
     <>
       {LinksElement.map(
         ({ genre, Icon, id, path, ...rest }: ILinksElements) => (
-          <SidebarChildrenLinks key={id} id={`${id}`}>
+          <Flex
+            key={id}
+            id={`${id}`}
+            as={'li'}
+            flexDir={'row'}
+            alignItems={'center'}
+            gap={'1.5rem'}
+            color={'dark.500'}
+            fontSize={'1.8rem'}
+            overflow={'hidden'}
+            borderRadius={'1.6rem'}
+            width={'100%'}
+            _hover={{ background: 'orange.900', color: 'light.900' }}
+            _active={{ background: 'orange.900', color: 'light.900' }}
+          >
             <Link
               as={NavLink}
               to={path}
@@ -46,7 +59,7 @@ export const SidebarLinksElement = () => {
                 </Text>
               </Flex>
             </Link>
-          </SidebarChildrenLinks>
+          </Flex>
         )
       )}
     </>

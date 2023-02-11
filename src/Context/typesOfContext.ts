@@ -23,4 +23,6 @@ export interface IinitialValueProps {
   setPage: (initialValue: number) => void;
   isLoading: boolean;
   setIsLoading: (initialValue: boolean) => void;
+  pageMoviesOfGenre: number;
+  setPageMoviesOfGenre: (initialValue: number) => void;
 }

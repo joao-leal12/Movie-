@@ -8,7 +8,14 @@ type IGenresParamsProps = Record<string, string>;
 export const GenreMovieList = () => {
   const { genre } = useParams() as IGenresParamsProps;
 
-  const { inforGenres, setGenres, moviesOfGenre } = useContextCreate();
+  const {
+    inforGenres,
+    setGenres,
+    moviesOfGenre,
+    pageMoviesOfGenre,
+    setPageMoviesOfGenre,
+    setIsLoading,
+  } = useContextCreate();
 
   useEffect(() => {
     const newValue = inforGenres
@@ -17,13 +24,20 @@ export const GenreMovieList = () => {
         firstValue = Value.id;
 
         return firstValue;
-      }, {});
+      }, 0);
     if (typeof newValue === 'number') setGenres(newValue);
   }, [genre, inforGenres]);
-
+  useEffect(() => {
+    setPageMoviesOfGenre(1);
+    setIsLoading(true);
+  }, [genre]);
   return (
     <Flex as="section">
-      <ListMoviesWrapper data={moviesOfGenre} />
+      <ListMoviesWrapper
+        data={moviesOfGenre}
+        page={pageMoviesOfGenre}
+        setPage={setPageMoviesOfGenre}
+      />
     </Flex>
   );
 };
