@@ -22,10 +22,10 @@ export const GET_FILTER = (id: number): IApiMovies => {
 };
 
 export const GET_MOVIES_OF_GENRE = (
-  genre: number,
+  genreCode: number,
   page: number
 ): IApiMovies => {
   return {
-    url: `discover/movie?api_key=${ApiKey}&with_genres=${genre}&page=${page}`,
+    url: `discover/movie?api_key=${ApiKey}&with_genres=${genreCode}&page=${page}`,
   };
 };

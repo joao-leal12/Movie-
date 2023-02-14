@@ -11,13 +11,13 @@ export const ContextCreate = createContext({} as IinitialValueProps);
 export const GlobalContext = ({ children }: Ichildren) => {
   const [onInput, setOnInput] = useBoolean();
   const [newElement, setNewElement] = useState('');
-  const [genres, setGenres] = useState(0);
+  const [genresCode, setGenresCode] = useState(0);
   const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
-  const [moviesOfGenre, setMoviesOfGenre] = useState<IMovieData[]>([]);
   const [genresIds, SetGenresIds] = useState(0);
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
+  const [genrePathRoute, setGenrePathRoute] = useState<string>('');
   const [page, setPage] = useState(1);
-  const [pageMoviesOfGenre, setPageMoviesOfGenre] = useState(1);
+
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const { url } = GET_GENRE();
@@ -29,42 +29,32 @@ export const GlobalContext = ({ children }: Ichildren) => {
   }, []);
 
   useEffect(() => {
-    const { url } = GET_MOVIES(page);
-    const controller = new AbortController();
-    const { signal } = controller;
+    if (genrePathRoute === '') {
+      const { url } = GET_MOVIES(1);
 
-    apiCall
-      .get(url, { signal })
-      .then((response) => {
-        setListMovies([...listMovies, ...response.data.results]);
-        setIsLoading(false);
-      })
-      .catch((e) => console.log(e));
-    return () => controller.abort();
-  }, [page]);
+      apiCall
+        .get(url)
+        .then((response) => {
+          setListMovies(response.data.results);
+          setIsLoading(false);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [page, genrePathRoute]);
 
   useEffect(() => {
-    const { url } = GET_MOVIES_OF_GENRE(genres, pageMoviesOfGenre);
-    const controller = new AbortController();
-    const { signal } = controller;
-
-    apiCall
-      .get(url, { signal })
-      .then((response) => {
-        const { results } = response.data;
-        setIsLoading(false);
-        if (results.length > 0) {
-          if (pageMoviesOfGenre > 1) {
-            setMoviesOfGenre([...moviesOfGenre, ...results]);
-          } else {
-            setMoviesOfGenre(results);
-          }
-        }
-      })
-      .catch((e) => console.log(e));
-
-    return () => controller.abort();
-  }, [genres, pageMoviesOfGenre, isLoading]);
+    if (genrePathRoute !== '') {
+      const { url } = GET_MOVIES_OF_GENRE(genresCode, 1);
+      apiCall
+        .get(url)
+        .then((response) => {
+          const { results } = response.data;
+          setIsLoading(false);
+          setListMovies(results);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [genresCode, isLoading, genrePathRoute]);
 
   function handleChangeInput(value: string) {
     setNewElement(value);
@@ -79,10 +69,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setOnInput,
         genresIds,
         SetGenresIds,
-        genres,
-        setGenres,
-        moviesOfGenre,
-        setMoviesOfGenre,
+        genresCode,
+        setGenresCode,
         inforGenres,
         setInforGenres,
         listMovies,
@@ -91,8 +79,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setPage,
         isLoading,
         setIsLoading,
-        pageMoviesOfGenre,
-        setPageMoviesOfGenre,
+        genrePathRoute,
+        setGenrePathRoute,
       }}
     >
       {children}

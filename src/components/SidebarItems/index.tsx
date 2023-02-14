@@ -1,5 +1,5 @@
-import { SidebarLinks } from '../SidebarLinks';
 import { Flex } from '@chakra-ui/react';
+import { SidebarLinksElement } from '../SidebarLinksElement';
 
 export const SidebarItems = () => {
   return (
@@ -10,7 +10,7 @@ export const SidebarItems = () => {
       gap="2.4rem"
       paddingInline={['0', '0', '0', '2.4rem']}
     >
-      <SidebarLinks />
+      <SidebarLinksElement />
     </Flex>
   );
 };

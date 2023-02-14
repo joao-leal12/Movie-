@@ -11,10 +11,8 @@ export interface IinitialValueProps {
   };
   genresIds: number;
   SetGenresIds: (initialValue: number) => void;
-  genres: number;
-  setGenres: (initialValue: number) => void;
-  moviesOfGenre: IMovieData[];
-  setMoviesOfGenre: (initialValue: IMovieData[]) => void;
+  genresCode: number;
+  setGenresCode: (initialValue: number) => void;
   inforGenres: IGenresCard[];
   setInforGenres: (initialValue: []) => void;
   listMovies: IMovieData[];
@@ -23,6 +21,6 @@ export interface IinitialValueProps {
   setPage: (initialValue: number) => void;
   isLoading: boolean;
   setIsLoading: (initialValue: boolean) => void;
-  pageMoviesOfGenre: number;
-  setPageMoviesOfGenre: (initialValue: number) => void;
+  genrePathRoute: string;
+  setGenrePathRoute: (initialValue: string) => void;
 }
