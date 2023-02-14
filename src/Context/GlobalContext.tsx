@@ -30,12 +30,17 @@ export const GlobalContext = ({ children }: Ichildren) => {
 
   useEffect(() => {
     if (genrePathRoute === '') {
-      const { url } = GET_MOVIES(1);
+      const { url } = GET_MOVIES(page);
 
       apiCall
         .get(url)
         .then((response) => {
-          setListMovies(response.data.results);
+          if (page > 1) {
+            setListMovies([...listMovies, ...response.data.results]);
+            console.log(page);
+          } else {
+            setListMovies(response.data.results);
+          }
           setIsLoading(false);
         })
         .catch((e) => console.log(e));
@@ -44,17 +49,23 @@ export const GlobalContext = ({ children }: Ichildren) => {
 
   useEffect(() => {
     if (genrePathRoute !== '') {
-      const { url } = GET_MOVIES_OF_GENRE(genresCode, 1);
+      const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
+      console.log(page);
       apiCall
         .get(url)
         .then((response) => {
           const { results } = response.data;
           setIsLoading(false);
           setListMovies(results);
+          if (page > 1) {
+            setListMovies([...listMovies, ...results]);
+          } else {
+            setListMovies(results);
+          }
         })
         .catch((e) => console.log(e));
     }
-  }, [genresCode, isLoading, genrePathRoute]);
+  }, [genresCode, isLoading, genrePathRoute, page]);
 
   function handleChangeInput(value: string) {
     setNewElement(value);

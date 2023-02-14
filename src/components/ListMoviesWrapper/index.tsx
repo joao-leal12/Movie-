@@ -20,6 +20,7 @@ export const ListMoviesWrapper = ({
   const LoadingWrapperObserve = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    setLoad(true);
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         if (page < 5) {

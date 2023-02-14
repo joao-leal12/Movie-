@@ -15,6 +15,11 @@ export const HomeMoviesList = () => {
     setGenrePathRoute,
   } = useContextCreate();
   const { genrePath } = useParams() as IGenreParamsProps;
+
+  useEffect(() => {
+    setPage(1);
+    console.log(page);
+  }, [genrePath]);
   useEffect(() => {
     if (genrePath !== undefined) {
       setGenrePathRoute(genrePath);
