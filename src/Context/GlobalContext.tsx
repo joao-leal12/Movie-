@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
 import { useBoolean } from '@chakra-ui/react';
-
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
 import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
@@ -9,7 +8,6 @@ import { apiCall } from '../lib/apiCall';
 export const ContextCreate = createContext({} as IinitialValueProps);
 
 export const GlobalContext = ({ children }: Ichildren) => {
-  const [onInput, setOnInput] = useBoolean();
   const [newElement, setNewElement] = useState('');
   const [genresCode, setGenresCode] = useState(0);
   const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
@@ -17,8 +15,9 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
   const [genrePathRoute, setGenrePathRoute] = useState<string>('');
   const [page, setPage] = useState(1);
-
+  const [onInput, setOnInput] = useBoolean();
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const { url } = GET_GENRE();
     apiCall.get(url).then((response) => {
@@ -37,7 +36,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
         .then((response) => {
           if (page > 1) {
             setListMovies([...listMovies, ...response.data.results]);
-            console.log(page);
           } else {
             setListMovies(response.data.results);
           }

@@ -18,7 +18,6 @@ export const HomeMoviesList = () => {
 
   useEffect(() => {
     setPage(1);
-    console.log(page);
   }, [genrePath]);
   useEffect(() => {
     if (genrePath !== undefined) {

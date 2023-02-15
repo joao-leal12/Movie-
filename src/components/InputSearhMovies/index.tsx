@@ -13,6 +13,7 @@ export const InputSearchMovies = () => {
   const { handleChangeInput, setOnInput } = useContextCreate();
   const PlaceHolder = useColorModeValue('dark.500', 'white');
   const Border = useColorModeValue('1px solid #8A7E72', '1px solid #eee');
+  const ColorGlass = useColorModeValue('black ', 'white');
   return (
     <Box paddingInline="1.4rem">
       <InputGroup>
@@ -24,6 +25,7 @@ export const InputSearchMovies = () => {
           border={['none', 'none', Border]}
           minHeight="3.5rem"
           fontSize="1.8rem"
+          color={PlaceHolder}
           _placeholder={{ color: PlaceHolder }}
           marginBottom={['1rem', '2.5rem', '0', '0']}
           onChange={(e) => handleChangeInput(e.target.value)}
@@ -39,7 +41,7 @@ export const InputSearchMovies = () => {
             _active={{ background: 'none' }}
             onClick={setOnInput.toggle}
           >
-            <MagnifyingGlass size={18} color="#8A7E72" />
+            <MagnifyingGlass size={18} color={ColorGlass} />
           </Button>
         </InputRightElement>
       </InputGroup>
