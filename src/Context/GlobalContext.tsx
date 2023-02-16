@@ -1,8 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
-import { useBoolean } from '@chakra-ui/react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
+import {
+  GET_GENRE,
+  GET_MOVIES,
+  GET_MOVIES_OF_GENRE,
+  GET_MOVIES_FILTERED,
+} from '../API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
 
 export const ContextCreate = createContext({} as IinitialValueProps);
@@ -15,7 +19,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
   const [genrePathRoute, setGenrePathRoute] = useState<string>('');
   const [page, setPage] = useState(1);
-  const [onInput, setOnInput] = useBoolean();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -48,7 +51,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
   useEffect(() => {
     if (genrePathRoute !== '') {
       const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
-      console.log(page);
       apiCall
         .get(url)
         .then((response) => {
@@ -65,8 +67,33 @@ export const GlobalContext = ({ children }: Ichildren) => {
     }
   }, [genresCode, isLoading, genrePathRoute, page]);
 
+  useEffect(() => {
+    if (newElement !== '') {
+      window.addEventListener('keydown', filmsFilteredByTyping);
+    }
+
+    return () => window.removeEventListener('keydown', filmsFilteredByTyping);
+  }, [newElement]);
   function handleChangeInput(value: string) {
     setNewElement(value);
+  }
+  function filteredMovies() {
+    const { url } = GET_MOVIES_FILTERED(newElement, page);
+    apiCall(url).then((response) => {
+      if (page === 1) {
+        setListMovies(response.data.results);
+      } else {
+        setListMovies([...listMovies, ...response.data.results]);
+      }
+    });
+  }
+
+  function filteredMoviesOnHandleClick() {
+    filteredMovies();
+  }
+
+  function filmsFilteredByTyping(e: KeyboardEvent) {
+    if (e.code === 'Enter') filteredMovies();
   }
 
   return (
@@ -74,8 +101,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
       value={{
         newElement,
         handleChangeInput,
-        onInput,
-        setOnInput,
         genresIds,
         SetGenresIds,
         genresCode,
@@ -90,6 +115,9 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setIsLoading,
         genrePathRoute,
         setGenrePathRoute,
+        filteredMovies,
+        filteredMoviesOnHandleClick,
+        filmsFilteredByTyping,
       }}
     >
       {children}

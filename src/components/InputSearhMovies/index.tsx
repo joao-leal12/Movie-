@@ -8,12 +8,12 @@ import {
 } from '@chakra-ui/react';
 import { MagnifyingGlass } from 'phosphor-react';
 import { useContextCreate } from '../../hooks/useContextCreate';
-
 export const InputSearchMovies = () => {
-  const { handleChangeInput, setOnInput } = useContextCreate();
+  const { handleChangeInput, filteredMoviesOnHandleClick } = useContextCreate();
   const PlaceHolder = useColorModeValue('dark.500', 'white');
   const Border = useColorModeValue('1px solid #8A7E72', '1px solid #eee');
   const ColorGlass = useColorModeValue('black ', 'white');
+
   return (
     <Box paddingInline="1.4rem">
       <InputGroup>
@@ -39,7 +39,7 @@ export const InputSearchMovies = () => {
             paddingRight="1.4rem"
             _hover={{ background: 'none' }}
             _active={{ background: 'none' }}
-            onClick={setOnInput.toggle}
+            onClick={filteredMoviesOnHandleClick}
           >
             <MagnifyingGlass size={18} color={ColorGlass} />
           </Button>

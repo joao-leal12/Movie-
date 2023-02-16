@@ -29,3 +29,9 @@ export const GET_MOVIES_OF_GENRE = (
     url: `discover/movie?api_key=${ApiKey}&with_genres=${genreCode}&page=${page}`,
   };
 };
+
+export const GET_MOVIES_FILTERED = (movieName: string, page: number) => {
+  return {
+    url: `search/movie?api_key=${ApiKey}&query=${movieName}&page=${page}`,
+  };
+};
