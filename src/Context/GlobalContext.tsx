@@ -17,10 +17,9 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
   const [genresIds, SetGenresIds] = useState(0);
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
-  const [genrePathRoute, setGenrePathRoute] = useState<string>('');
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [genreName, setGenreName] = useState('');
   useEffect(() => {
     const { url } = GET_GENRE();
     apiCall.get(url).then((response) => {
@@ -31,7 +30,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   }, []);
 
   useEffect(() => {
-    if (genrePathRoute === '') {
+    if (genreName === '/' || genreName === '') {
       const { url } = GET_MOVIES(page);
 
       apiCall
@@ -46,10 +45,10 @@ export const GlobalContext = ({ children }: Ichildren) => {
         })
         .catch((e) => console.log(e));
     }
-  }, [page, genrePathRoute]);
+  }, [page, genreName]);
 
   useEffect(() => {
-    if (genrePathRoute !== '') {
+    if (genreName !== '/' && genreName !== '') {
       const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
       apiCall
         .get(url)
@@ -65,7 +64,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
         })
         .catch((e) => console.log(e));
     }
-  }, [genresCode, isLoading, genrePathRoute, page]);
+  }, [genresCode, isLoading, genreName, page]);
 
   useEffect(() => {
     if (newElement !== '') {
@@ -113,11 +112,11 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setPage,
         isLoading,
         setIsLoading,
-        genrePathRoute,
-        setGenrePathRoute,
         filteredMovies,
         filteredMoviesOnHandleClick,
         filmsFilteredByTyping,
+        genreName,
+        setGenreName,
       }}
     >
       {children}

@@ -1,38 +1,27 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { Flex } from '@chakra-ui/react';
 import { ListMoviesWrapper } from '../ListMoviesWrapper';
 import { useContextCreate } from '../../hooks/useContextCreate';
 
 export const HomeMoviesList = () => {
-  type IGenreParamsProps = Record<string, string>;
-  const {
-    listMovies,
-    page,
-    setPage,
-    inforGenres,
-    setGenresCode,
-    setGenrePathRoute,
-  } = useContextCreate();
-  const { genrePath } = useParams() as IGenreParamsProps;
+  const { listMovies, page, setPage, inforGenres, setGenresCode, genreName } =
+    useContextCreate();
 
   useEffect(() => {
     setPage(1);
-  }, [genrePath]);
+  }, [genreName]);
+  console.log(genreName);
   useEffect(() => {
-    if (genrePath !== undefined) {
-      setGenrePathRoute(genrePath);
+    if (genreName !== '/') {
       const newValue = inforGenres
-        .filter((genres) => genres.name.includes(genrePath))
+        .filter((genres) => genres.name.includes(genreName))
         .reduce((firstValue, Value) => {
           firstValue = Value.id;
           return firstValue;
         }, 0);
       if (typeof newValue === 'number') setGenresCode(newValue);
-    } else {
-      setGenrePathRoute('');
     }
-  }, [genrePath, inforGenres]);
+  }, [genreName, inforGenres]);
   return (
     <Flex as="section">
       <ListMoviesWrapper data={listMovies} page={page} setPage={setPage} />

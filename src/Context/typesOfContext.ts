@@ -18,6 +18,6 @@ export interface IinitialValueProps {
   setPage: (initialValue: number) => void;
   isLoading: boolean;
   setIsLoading: (initialValue: boolean) => void;
-  genrePathRoute: string;
-  setGenrePathRoute: (initialValue: string) => void;
+  genreName: string;
+  setGenreName: (initialValue: string) => void;
 }

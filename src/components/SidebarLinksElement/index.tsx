@@ -2,10 +2,11 @@ import { Link, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import { LinksElement } from '../../utils/LinksElement';
 import { ILinksElements } from '../../types/ApiType';
+import { useContextCreate } from '../../hooks/useContextCreate';
 
 export const SidebarLinksElement = () => {
   const ColorLink = useColorModeValue('#8A7E72', 'light.900');
-
+  const { setGenreName } = useContextCreate();
   return (
     <>
       {LinksElement.map(
@@ -26,6 +27,7 @@ export const SidebarLinksElement = () => {
             _active={{ background: 'orange.900', color: 'light.900' }}
           >
             <Link
+              onClick={() => setGenreName(path)}
               as={NavLink}
               to={path}
               _hover={{

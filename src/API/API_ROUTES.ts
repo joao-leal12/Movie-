@@ -17,7 +17,7 @@ export const GET_GENRE = (): IApiMovies => {
 
 export const GET_FILTER = (id: number): IApiMovies => {
   return {
-    url: `${id}/similar?api_key=${ApiKey}`,
+    url: `${id}/similar?api_key=${ApiKey}&language="pt-BR"`,
   };
 };
 
