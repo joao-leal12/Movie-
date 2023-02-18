@@ -49,6 +49,7 @@ export const ListMoviesWrapper = ({
             'repeat(3,1fr)',
           ]}
           gap={'2.4rem'}
+          paddingRight={'2.5rem'}
         >
           {data.length > 0 &&
             data.map((movie) => (

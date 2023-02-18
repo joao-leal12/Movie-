@@ -19,7 +19,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [listMovies, setListMovies] = useState<IMovieData[]>([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [genreName, setGenreName] = useState('');
+  const [genreName, setGenreName] = useState('/');
+
   useEffect(() => {
     const { url } = GET_GENRE();
     apiCall.get(url).then((response) => {
@@ -30,7 +31,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   }, []);
 
   useEffect(() => {
-    if (genreName === '/' || genreName === '') {
+    if (genreName === '/') {
       const { url } = GET_MOVIES(page);
 
       apiCall
@@ -48,14 +49,13 @@ export const GlobalContext = ({ children }: Ichildren) => {
   }, [page, genreName]);
 
   useEffect(() => {
-    if (genreName !== '/' && genreName !== '') {
+    if (genreName !== '/') {
       const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
       apiCall
         .get(url)
         .then((response) => {
           const { results } = response.data;
           setIsLoading(false);
-          setListMovies(results);
           if (page > 1) {
             setListMovies([...listMovies, ...results]);
           } else {
@@ -64,29 +64,33 @@ export const GlobalContext = ({ children }: Ichildren) => {
         })
         .catch((e) => console.log(e));
     }
-  }, [genresCode, isLoading, genreName, page]);
+  }, [genresCode, genreName, page]);
 
-  useEffect(() => {
-    if (newElement !== '') {
-      window.addEventListener('keydown', filmsFilteredByTyping);
-    }
+  // useEffect(() => {
+  //   if (newElement !== '') {
+  //     window.addEventListener('keydown', filmsFilteredByTyping);
+  //   }
 
-    return () => window.removeEventListener('keydown', filmsFilteredByTyping);
-  }, [newElement]);
+  //   return () => window.removeEventListener('keydown', filmsFilteredByTyping);
+  // }, [newElement, genreName]);
   function handleChangeInput(value: string) {
     setNewElement(value);
   }
   function filteredMovies() {
     const { url } = GET_MOVIES_FILTERED(newElement, page);
     apiCall(url).then((response) => {
-      if (page === 1) {
-        setListMovies(response.data.results);
-      } else {
+      if (page > 1) {
         setListMovies([...listMovies, ...response.data.results]);
+      } else {
+        setListMovies(response.data.results);
       }
     });
   }
-
+  useEffect(() => {
+    if (page > 1) {
+      filteredMovies();
+    }
+  }, [page]);
   function filteredMoviesOnHandleClick() {
     filteredMovies();
   }

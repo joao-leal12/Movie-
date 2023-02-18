@@ -10,7 +10,7 @@ export const HomeMoviesList = () => {
   useEffect(() => {
     setPage(1);
   }, [genreName]);
-  console.log(genreName);
+
   useEffect(() => {
     if (genreName !== '/') {
       const newValue = inforGenres

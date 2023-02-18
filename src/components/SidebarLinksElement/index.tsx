@@ -6,7 +6,12 @@ import { useContextCreate } from '../../hooks/useContextCreate';
 
 export const SidebarLinksElement = () => {
   const ColorLink = useColorModeValue('#8A7E72', 'light.900');
-  const { setGenreName } = useContextCreate();
+  const { setGenreName, setPage } = useContextCreate();
+
+  const handleScroll = (path: string) => {
+    setGenreName(path);
+    setPage(1);
+  };
   return (
     <>
       {LinksElement.map(
@@ -27,7 +32,7 @@ export const SidebarLinksElement = () => {
             _active={{ background: 'orange.900', color: 'light.900' }}
           >
             <Link
-              onClick={() => setGenreName(path)}
+              onClick={() => handleScroll(path)}
               as={NavLink}
               to={path}
               _hover={{
