@@ -3,15 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { LinksElement } from '../../utils/LinksElement';
 import { ILinksElements } from '../../types/ApiType';
 import { useContextCreate } from '../../hooks/useContextCreate';
-
 export const SidebarLinksElement = () => {
   const ColorLink = useColorModeValue('#8A7E72', 'light.900');
-  const { setGenreName, setPage } = useContextCreate();
+  const { handleClickOnLinks } = useContextCreate();
 
-  const handleScroll = (path: string) => {
-    setGenreName(path);
-    setPage(1);
-  };
   return (
     <>
       {LinksElement.map(
@@ -32,7 +27,7 @@ export const SidebarLinksElement = () => {
             _active={{ background: 'orange.900', color: 'light.900' }}
           >
             <Link
-              onClick={() => handleScroll(path)}
+              onClick={() => handleClickOnLinks(path)}
               as={NavLink}
               to={path}
               _hover={{

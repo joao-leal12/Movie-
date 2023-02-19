@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
   Box,
   InputGroup,
@@ -6,14 +7,15 @@ import {
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
+
 import { MagnifyingGlass } from 'phosphor-react';
 import { useContextCreate } from '../../hooks/useContextCreate';
 export const InputSearchMovies = () => {
-  const { handleChangeInput, filteredMoviesOnHandleClick } = useContextCreate();
+  const { handleChangeInput, handleStates } = useContextCreate();
   const PlaceHolder = useColorModeValue('dark.500', 'white');
   const Border = useColorModeValue('1px solid #8A7E72', '1px solid #eee');
   const ColorGlass = useColorModeValue('black ', 'white');
-
+  const inputRef: any = useRef();
   return (
     <Box paddingInline="1.4rem">
       <InputGroup>
@@ -29,9 +31,11 @@ export const InputSearchMovies = () => {
           _placeholder={{ color: PlaceHolder }}
           marginBottom={['1rem', '2.5rem', '0', '0']}
           onChange={(e) => handleChangeInput(e.target.value)}
+          ref={inputRef}
         />
         <InputRightElement top="4px">
           <Button
+            onClick={() => handleStates(inputRef)}
             border="none"
             background="none"
             h="2.4rem"
@@ -39,7 +43,6 @@ export const InputSearchMovies = () => {
             paddingRight="1.4rem"
             _hover={{ background: 'none' }}
             _active={{ background: 'none' }}
-            onClick={filteredMoviesOnHandleClick}
           >
             <MagnifyingGlass size={18} color={ColorGlass} />
           </Button>

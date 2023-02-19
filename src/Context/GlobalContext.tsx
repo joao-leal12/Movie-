@@ -20,6 +20,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [genreName, setGenreName] = useState('/');
+  const [searchMovies, setSearchMovies] = useState(false);
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     const { url } = GET_GENRE();
@@ -31,74 +33,76 @@ export const GlobalContext = ({ children }: Ichildren) => {
   }, []);
 
   useEffect(() => {
-    if (genreName === '/') {
+    if (genreName === '/' && !searchMovies) {
       const { url } = GET_MOVIES(page);
 
-      apiCall
-        .get(url)
-        .then((response) => {
-          if (page > 1) {
-            setListMovies([...listMovies, ...response.data.results]);
-          } else {
-            setListMovies(response.data.results);
-          }
-          setIsLoading(false);
-        })
-        .catch((e) => console.log(e));
+      apiCall.get(url).then((response) => {
+        if (page > 1) {
+          setListMovies([...listMovies, ...response.data.results]);
+        } else {
+          setListMovies(response.data.results);
+        }
+        setIsLoading(false);
+      });
     }
   }, [page, genreName]);
 
   useEffect(() => {
-    if (genreName !== '/') {
+    if (genreName !== '/' && !searchMovies) {
       const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
-      apiCall
-        .get(url)
-        .then((response) => {
-          const { results } = response.data;
-          setIsLoading(false);
-          if (page > 1) {
-            setListMovies([...listMovies, ...results]);
-          } else {
-            setListMovies(results);
-          }
-        })
-        .catch((e) => console.log(e));
+      apiCall.get(url).then((response) => {
+        const { results } = response.data;
+        setIsLoading(false);
+        if (page > 1) {
+          setListMovies([...listMovies, ...results]);
+        } else {
+          setListMovies(results);
+        }
+      });
     }
   }, [genresCode, genreName, page]);
 
-  // useEffect(() => {
-  //   if (newElement !== '') {
-  //     window.addEventListener('keydown', filmsFilteredByTyping);
-  //   }
+  useEffect(() => {
+    if (searchMovies && newElement.length > 0) {
+      const { url } = GET_MOVIES_FILTERED(newElement, page);
+      apiCall.get(url).then((response) => {
+        const { results } = response.data;
+        if (results.length < 20) {
+          setLoad(false);
+        } else {
+          setLoad(true);
+        }
+        if (page > 1) {
+          setListMovies([...listMovies, ...results]);
+        } else {
+          setListMovies(results);
+        }
+      });
+    }
+  }, [searchMovies, page, newElement]);
 
-  //   return () => window.removeEventListener('keydown', filmsFilteredByTyping);
-  // }, [newElement, genreName]);
   function handleChangeInput(value: string) {
     setNewElement(value);
-  }
-  function filteredMovies() {
-    const { url } = GET_MOVIES_FILTERED(newElement, page);
-    apiCall(url).then((response) => {
-      if (page > 1) {
-        setListMovies([...listMovies, ...response.data.results]);
-      } else {
-        setListMovies(response.data.results);
-      }
-    });
-  }
-  useEffect(() => {
-    if (page > 1) {
-      filteredMovies();
+    if (searchMovies) {
+      setSearchMovies(false);
     }
-  }, [page]);
-  function filteredMoviesOnHandleClick() {
-    filteredMovies();
   }
 
-  function filmsFilteredByTyping(e: KeyboardEvent) {
-    if (e.code === 'Enter') filteredMovies();
-  }
+  function handleStates(input: any) {
+    setSearchMovies(true);
+    setPage(1);
+    setGenreName('');
 
+    if (input !== null) {
+      input.current.value = '';
+    }
+  }
+  const handleClickOnLinks = (path: string) => {
+    setGenreName(path);
+    setPage(1);
+    setSearchMovies(false);
+    setLoad(true);
+  };
   return (
     <ContextCreate.Provider
       value={{
@@ -116,11 +120,14 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setPage,
         isLoading,
         setIsLoading,
-        filteredMovies,
-        filteredMoviesOnHandleClick,
-        filmsFilteredByTyping,
         genreName,
         setGenreName,
+        searchMovies,
+        setSearchMovies,
+        load,
+        setLoad,
+        handleStates,
+        handleClickOnLinks,
       }}
     >
       {children}

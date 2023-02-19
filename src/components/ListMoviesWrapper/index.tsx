@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Grid, Flex } from '@chakra-ui/react';
 import { IMovieData } from '../../types/ApiType';
 import { useContextCreate } from '../../hooks/useContextCreate';
@@ -15,12 +15,10 @@ export const ListMoviesWrapper = ({
   page,
   setPage,
 }: IListMoviesProps) => {
-  const [load, setLoad] = useState(true);
-  const { inforGenres, isLoading } = useContextCreate();
+  const { inforGenres, isLoading, load, setLoad } = useContextCreate();
   const LoadingWrapperObserve = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setLoad(true);
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         if (page < 5) {
@@ -35,7 +33,8 @@ export const ListMoviesWrapper = ({
       intersectionObserver.observe(LoadingWrapperObserve.current);
 
     return () => intersectionObserver.disconnect();
-  }, [page, data]);
+  }, [page, data, load]);
+
   if (isLoading) return <Loading positions="absolute" />;
   if (data !== null)
     return (

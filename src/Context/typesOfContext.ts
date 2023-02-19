@@ -3,9 +3,8 @@ import { IMovieData, IGenresCard } from '../types/ApiType';
 export interface IinitialValueProps {
   newElement: string;
   handleChangeInput: (value: string) => void;
-  filteredMovies: () => void;
-  filteredMoviesOnHandleClick: () => void;
-  filmsFilteredByTyping: (e: KeyboardEvent) => void;
+  handleStates: (input: any) => void;
+  handleClickOnLinks: (path: string) => void;
   genresIds: number;
   SetGenresIds: (initialValue: number) => void;
   genresCode: number;
@@ -20,4 +19,8 @@ export interface IinitialValueProps {
   setIsLoading: (initialValue: boolean) => void;
   genreName: string;
   setGenreName: (initialValue: string) => void;
+  searchMovies: boolean;
+  setSearchMovies: (initialValue: boolean) => void;
+  load: boolean;
+  setLoad: (initialValue: boolean) => void;
 }
