@@ -1,19 +1,12 @@
-import { chakra } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { Logo } from '../Logo';
+import { ToogleColor } from '../ToogleColor';
 
-export const Header = chakra('header', {
-  baseStyle: {
-    display: 'flex',
-    height: '220px',
-    position: 'relative',
-    justifyContent: 'flex-start',
-    zIndex: '100',
-    _before: {
-      backgroundImage: 'url(./src/assets/logo.svg)',
-      backgroundRepeat: 'no-repeat',
-      content: '" "',
-      height: '100%',
-      position: 'absolute',
-      width: '100%',
-    },
-  },
-});
+export const Header = () => {
+  return (
+    <Flex as="header" width="100%" justify={'space-between'}>
+      <Logo />
+      <ToogleColor />
+    </Flex>
+  );
+};

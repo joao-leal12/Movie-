@@ -1,8 +1,10 @@
-import { chakra } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { HomeMoviesList } from '../../components/HomeMovieList';
 
-export const Home = chakra('main', {
-  baseStyle: {
-    display: 'flex',
-    flex: '2',
-  },
-});
+export const Home = () => {
+  return (
+    <Flex as="section" flex={2} position={'relative'}>
+      <HomeMoviesList />
+    </Flex>
+  );
+};
