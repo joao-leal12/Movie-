@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, MutableRefObject } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
 import {
@@ -81,22 +81,17 @@ export const GlobalContext = ({ children }: Ichildren) => {
     }
   }, [searchMovies, page, newElement]);
 
-  function handleChangeInput(value: string) {
-    setNewElement(value);
-    if (searchMovies) {
-      setSearchMovies(false);
-    }
-  }
-
-  function handleStates(input: any) {
+  const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     setSearchMovies(true);
     setPage(1);
     setGenreName('');
 
     if (input !== null) {
+      setNewElement(input.current.value);
       input.current.value = '';
     }
-  }
+  };
+
   const handleClickOnLinks = (path: string) => {
     setGenreName(path);
     setPage(1);
@@ -107,7 +102,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
     <ContextCreate.Provider
       value={{
         newElement,
-        handleChangeInput,
         genresIds,
         SetGenresIds,
         genresCode,

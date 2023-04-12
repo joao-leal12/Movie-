@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import {
   Box,
   InputGroup,
@@ -11,11 +11,11 @@ import {
 import { MagnifyingGlass } from 'phosphor-react';
 import { useContextCreate } from '../../hooks/useContextCreate';
 export const InputSearchMovies = () => {
-  const { handleChangeInput, handleStates } = useContextCreate();
+  const { handleStates } = useContextCreate();
   const PlaceHolder = useColorModeValue('dark.500', 'white');
   const Border = useColorModeValue('1px solid #8A7E72', '1px solid #eee');
   const ColorGlass = useColorModeValue('black ', 'white');
-  const inputRef: any = useRef();
+  const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   return (
     <Box paddingInline="1.4rem">
       <InputGroup>
@@ -30,7 +30,6 @@ export const InputSearchMovies = () => {
           color={PlaceHolder}
           _placeholder={{ color: PlaceHolder }}
           marginBottom={['1rem', '2.5rem', '0', '0']}
-          onChange={(e) => handleChangeInput(e.target.value)}
           ref={inputRef}
         />
         <InputRightElement top="4px">

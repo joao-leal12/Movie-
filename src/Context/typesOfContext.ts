@@ -2,7 +2,6 @@ import { IMovieData, IGenresCard } from '../types/ApiType';
 
 export interface IinitialValueProps {
   newElement: string;
-  handleChangeInput: (value: string) => void;
   handleStates: (input: any) => void;
   handleClickOnLinks: (path: string) => void;
   genresIds: number;
