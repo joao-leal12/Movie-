@@ -1,89 +1,65 @@
-import { createContext, useState, useEffect, MutableRefObject } from 'react';
+import { createContext, useState, MutableRefObject } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import {
-  GET_GENRE,
-  GET_MOVIES,
-  GET_MOVIES_OF_GENRE,
-  GET_MOVIES_FILTERED,
-} from '../API/API_ROUTES';
+import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
-
+import { useQuery } from 'react-query';
 export const ContextCreate = createContext({} as IinitialValueProps);
-
+export interface IGenres {
+  genres: IGenresCard[];
+}
 export const GlobalContext = ({ children }: Ichildren) => {
   const [newElement, setNewElement] = useState('');
   const [genresCode, setGenresCode] = useState(0);
-  const [inforGenres, setInforGenres] = useState<IGenresCard[]>([]);
   const [genresIds, SetGenresIds] = useState(0);
-  const [listMovies, setListMovies] = useState<IMovieData[]>([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [genreName, setGenreName] = useState('/');
   const [searchMovies, setSearchMovies] = useState(false);
   const [load, setLoad] = useState(true);
 
-  useEffect(() => {
-    const { url } = GET_GENRE();
-    apiCall.get(url).then((response) => {
-      if (response.status === 200) {
-        setInforGenres(response.data.genres);
-      }
-    });
-  }, []);
+  const { data: genres } = useQuery<IGenres | undefined>(
+    'infor-genres',
+    async () => {
+      const { url } = GET_GENRE();
 
-  useEffect(() => {
-    if (genreName === '/' && !searchMovies) {
-      const { url } = GET_MOVIES(page);
-
-      apiCall.get(url).then((response) => {
-        if (page > 1) {
-          setListMovies([...listMovies, ...response.data.results]);
-        } else {
-          setListMovies(response.data.results);
-        }
-        setIsLoading(false);
-      });
+      return await apiCall.get(url).then((response) => response.data);
     }
-  }, [page, genreName]);
-
-  useEffect(() => {
-    if (genreName !== '/' && !searchMovies) {
-      const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
-      apiCall.get(url).then((response) => {
-        const { results } = response.data;
-        setIsLoading(false);
-        if (page > 1) {
-          setListMovies([...listMovies, ...results]);
-        } else {
-          setListMovies(results);
-        }
-      });
+  );
+  const { data: listMovies, isLoading } = useQuery<IMovieData[]>(
+    'Movies-home',
+    async () => {
+      const { url } = GET_MOVIES(1);
+      return await apiCall.get(url).then((response) => response.data.results);
     }
-  }, [genresCode, genreName, page]);
+  );
 
-  useEffect(() => {
-    if (searchMovies && newElement.length > 0) {
-      const { url } = GET_MOVIES_FILTERED(newElement, page);
-      apiCall.get(url).then((response) => {
-        const { results } = response.data;
-        if (results.length < 20) {
-          setLoad(false);
-        } else {
-          setLoad(true);
-        }
-        if (page > 1) {
-          setListMovies([...listMovies, ...results]);
-        } else {
-          setListMovies(results);
-        }
-      });
-    }
-  }, [searchMovies, page, newElement]);
+  const { data: listMoviesByGenres, isLoading: isLoadingByGenres } = useQuery<
+    IMovieData[]
+  >('Movies-by-genre', async () => {
+    const { url } = GET_MOVIES_OF_GENRE(genresCode, 1);
+
+    return await apiCall.get(url).then((response) => response.data.results);
+  });
+
+  // useEffect(() => {
+  //   if (searchMovies && newElement.length > 0) {
+  //     const { url } = GET_MOVIES_FILTERED(newElement, page);
+  //     apiCall.get(url).then((response) => {
+  //       const { results } = response.data;
+  //       if (results.length < 20) {
+  //         setLoad(false);
+  //       } else {
+  //         setLoad(true);
+  //       }
+  //       if (page > 1) {
+
+  //     });
+  //   }
+  // }, [searchMovies, page, newElement]);
 
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     setSearchMovies(true);
-    setPage(1);
+
     setGenreName('');
 
     if (input !== null) {
@@ -94,7 +70,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
 
   const handleClickOnLinks = (path: string) => {
     setGenreName(path);
-    setPage(1);
+
     setSearchMovies(false);
     setLoad(true);
   };
@@ -106,14 +82,9 @@ export const GlobalContext = ({ children }: Ichildren) => {
         SetGenresIds,
         genresCode,
         setGenresCode,
-        inforGenres,
-        setInforGenres,
-        listMovies,
-        setListMovies,
-        page,
-        setPage,
+        genres,
         isLoading,
-        setIsLoading,
+        listMovies,
         genreName,
         setGenreName,
         searchMovies,
@@ -122,6 +93,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setLoad,
         handleStates,
         handleClickOnLinks,
+        listMoviesByGenres,
+        isLoadingByGenres,
       }}
     >
       {children}

@@ -47,7 +47,7 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
             mb="1.5rem"
           />
 
-          <Genre genre={dataMovie.genre_ids} inforGenre={inforGenres} />
+          <Genre genre={dataMovie.genre_ids} inforGenres={inforGenres} />
           <StarAverage rating={dataMovie.vote_average} />
         </Link>
       </MotionWrapperItems>

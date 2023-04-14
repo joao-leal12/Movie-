@@ -2,16 +2,15 @@ import { useState, useEffect } from 'react';
 import { Text } from '@chakra-ui/react';
 import { IGenresFilter } from '../../types/ApiType';
 
-export const Genre = ({ genre, inforGenre = [] }: IGenresFilter) => {
-  const [genreMovie, setGenreMovie] = useState<string | null>(null);
+export const Genre = ({ genre, inforGenres }: IGenresFilter) => {
+  const [genreMovie, setGenreMovie] = useState<string | undefined>();
 
   useEffect(() => {
-    if (inforGenre.length > 0) {
-      inforGenre.filter((genres) =>
-        genres.id === genre[0] ? setGenreMovie(genres.name) : ''
-      );
+    if (inforGenres != null && inforGenres?.length > 0) {
+      const nameOfGenres = inforGenres.find((genres) => genres.id === genre[0]);
+      setGenreMovie(nameOfGenres?.name);
     }
-  }, [genre, inforGenre]);
+  }, [genre, inforGenres]);
 
   return (
     <>

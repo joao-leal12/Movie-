@@ -1,4 +1,5 @@
-import { IMovieData, IGenresCard } from '../types/ApiType';
+import { IMovieData } from '../types/ApiType';
+import { IGenres } from './GlobalContext';
 
 export interface IinitialValueProps {
   newElement: string;
@@ -8,18 +9,15 @@ export interface IinitialValueProps {
   SetGenresIds: (initialValue: number) => void;
   genresCode: number;
   setGenresCode: (initialValue: number) => void;
-  inforGenres: IGenresCard[];
-  setInforGenres: (initialValue: []) => void;
-  listMovies: IMovieData[];
-  setListMovies: (initialValue: []) => void;
-  page: number;
-  setPage: (initialValue: number) => void;
+  genres: IGenres | undefined;
   isLoading: boolean;
-  setIsLoading: (initialValue: boolean) => void;
   genreName: string;
   setGenreName: (initialValue: string) => void;
   searchMovies: boolean;
   setSearchMovies: (initialValue: boolean) => void;
   load: boolean;
   setLoad: (initialValue: boolean) => void;
+  listMovies: IMovieData[] | undefined;
+  listMoviesByGenres: IMovieData[] | undefined;
+  isLoadingByGenres: boolean;
 }

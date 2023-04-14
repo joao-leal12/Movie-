@@ -22,7 +22,7 @@ export interface IMovieData {
 }
 export interface IGenresFilter {
   genre: number[];
-  inforGenre?: IGenresCard[];
+  inforGenres: IGenresCard[] | undefined;
 }
 
 export interface ICardMovie {
