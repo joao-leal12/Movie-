@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Text } from '@chakra-ui/react';
 import { IGenresFilter } from '../../types/ApiType';
-
+import { When } from '../When';
 export const Genre = ({ genre, inforGenres }: IGenresFilter) => {
   const [genreMovie, setGenreMovie] = useState<string | undefined>();
 
@@ -13,12 +13,10 @@ export const Genre = ({ genre, inforGenres }: IGenresFilter) => {
   }, [genre, inforGenres]);
 
   return (
-    <>
-      {genreMovie !== null && (
-        <Text fontSize="2rem" letterSpacing="0.16em">
-          {genreMovie}
-        </Text>
-      )}
-    </>
+    <When expr={genreMovie !== null}>
+      <Text fontSize="2rem" letterSpacing="0.16em">
+        {genreMovie}
+      </Text>
+    </When>
   );
 };

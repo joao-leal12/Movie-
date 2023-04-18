@@ -1,4 +1,4 @@
-import { createContext, useState, MutableRefObject } from 'react';
+import { createContext, useState, MutableRefObject, useEffect } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
 import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
@@ -25,7 +25,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
       return await apiCall.get(url).then((response) => response.data);
     }
   );
-  const { data: listMovies, isLoading } = useQuery<IMovieData[]>(
+  const { data: listMovies = [], isLoading } = useQuery<IMovieData[]>(
     'Movies-home',
     async () => {
       const { url } = GET_MOVIES(1);
@@ -33,13 +33,23 @@ export const GlobalContext = ({ children }: Ichildren) => {
     }
   );
 
-  const { data: listMoviesByGenres, isLoading: isLoadingByGenres } = useQuery<
-    IMovieData[]
-  >('Movies-by-genre', async () => {
-    const { url } = GET_MOVIES_OF_GENRE(genresCode, 1);
+  const {
+    data: listMoviesByGenres = [],
+    isLoading: isLoadingByGenres,
+    refetch,
+  } = useQuery<IMovieData[]>(
+    'Movies-by-genre',
+    async () => {
+      const { url } = GET_MOVIES_OF_GENRE(genresCode, 1);
 
-    return await apiCall.get(url).then((response) => response.data.results);
-  });
+      return await apiCall.get(url).then((response) => response.data.results);
+    },
+    {}
+  );
+
+  useEffect(() => {
+    refetch({ queryKey: ['Moives-by-genre', genresCode] });
+  }, [genresCode]);
 
   // useEffect(() => {
   //   if (searchMovies && newElement.length > 0) {

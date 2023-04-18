@@ -17,7 +17,7 @@ export interface IinitialValueProps {
   setSearchMovies: (initialValue: boolean) => void;
   load: boolean;
   setLoad: (initialValue: boolean) => void;
-  listMovies: IMovieData[] | undefined;
-  listMoviesByGenres: IMovieData[] | undefined;
+  listMovies: IMovieData[];
+  listMoviesByGenres: IMovieData[];
   isLoadingByGenres: boolean;
 }

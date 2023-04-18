@@ -19,7 +19,7 @@ export const HomeMoviesList = () => {
   }, [genreName, genres]);
   return (
     <Flex as="section">
-      <ListMoviesWrapper />
+      <ListMoviesWrapper genreName={genreName} />
     </Flex>
   );
 };
