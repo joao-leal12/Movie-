@@ -30,7 +30,10 @@ export const GET_MOVIES_OF_GENRE = (
   };
 };
 
-export const GET_MOVIES_FILTERED = (movieName: string, page: number) => {
+export const GET_MOVIES_FILTERED = (
+  movieName: string,
+  page: number
+): IApiMovies => {
   return {
     url: `search/movie?api_key=${ApiKey}&query=${movieName}&page=${page}`,
   };

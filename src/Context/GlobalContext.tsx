@@ -12,7 +12,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [newElement, setNewElement] = useState('');
   const [genresCode, setGenresCode] = useState(0);
   const [genresIds, SetGenresIds] = useState(0);
-
+  const [page, setPage] = useState(1);
   const [genreName, setGenreName] = useState('/');
   const [searchMovies, setSearchMovies] = useState(false);
   const [load, setLoad] = useState(true);
@@ -28,7 +28,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const { data: listMovies = [], isLoading } = useQuery<IMovieData[]>(
     'Movies-home',
     async () => {
-      const { url } = GET_MOVIES(1);
+      const { url } = GET_MOVIES(page);
       return await apiCall.get(url).then((response) => response.data.results);
     }
   );
@@ -40,7 +40,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   } = useQuery<IMovieData[]>(
     'Movies-by-genre',
     async () => {
-      const { url } = GET_MOVIES_OF_GENRE(genresCode, 1);
+      const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
 
       return await apiCall.get(url).then((response) => response.data.results);
     },
@@ -48,25 +48,11 @@ export const GlobalContext = ({ children }: Ichildren) => {
   );
 
   useEffect(() => {
-    refetch({ queryKey: ['Moives-by-genre', genresCode] });
+    refetch({ queryKey: ['Movies-by-genre', genresCode] });
   }, [genresCode]);
-
-  // useEffect(() => {
-  //   if (searchMovies && newElement.length > 0) {
-  //     const { url } = GET_MOVIES_FILTERED(newElement, page);
-  //     apiCall.get(url).then((response) => {
-  //       const { results } = response.data;
-  //       if (results.length < 20) {
-  //         setLoad(false);
-  //       } else {
-  //         setLoad(true);
-  //       }
-  //       if (page > 1) {
-
-  //     });
-  //   }
-  // }, [searchMovies, page, newElement]);
-
+  useEffect(() => {
+    refetch({ queryKey: ['Movies-home', page] });
+  }, [page]);
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     setSearchMovies(true);
 
@@ -105,6 +91,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
         handleClickOnLinks,
         listMoviesByGenres,
         isLoadingByGenres,
+        page,
+        setPage,
       }}
     >
       {children}

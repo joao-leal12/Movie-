@@ -20,4 +20,6 @@ export interface IinitialValueProps {
   listMovies: IMovieData[];
   listMoviesByGenres: IMovieData[];
   isLoadingByGenres: boolean;
+  page: number;
+  setPage: (value: number) => void;
 }

@@ -4,7 +4,7 @@ import { useContextCreate } from '../../hooks/useContextCreate';
 import { MovieCard } from '../MovieCard';
 import { Loading } from '../helpers/loading';
 import { When } from '../When';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { IMovieData } from '../../types/ApiType';
 
 interface IMoviesWrapperProps {
@@ -12,16 +12,30 @@ interface IMoviesWrapperProps {
 }
 export const ListMoviesWrapper = ({ genreName }: IMoviesWrapperProps) => {
   const [moviesRender, setMoviesRender] = useState<IMovieData[]>([]);
-  const { genres, isLoading, listMovies, listMoviesByGenres } =
+  const ObserverLazyLoading = useRef<HTMLDivElement | null>(null);
+  const { genres, isLoading, listMovies, listMoviesByGenres, setPage, page } =
     useContextCreate();
 
   useEffect(() => {
     if (genreName !== '/') {
       setMoviesRender(listMoviesByGenres);
     } else {
-      setMoviesRender(listMovies);
+      setMoviesRender((prevState) => [...prevState, ...listMovies]);
     }
   }, [listMovies, listMoviesByGenres, genreName]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setPage(page + 1);
+      }
+    });
+    if (ObserverLazyLoading.current != null) {
+      observer.observe(ObserverLazyLoading.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
   if (isLoading) return <Loading positions="absolute" />;
   return (
     <Flex flexDir={'column'}>
@@ -36,8 +50,8 @@ export const ListMoviesWrapper = ({ genreName }: IMoviesWrapperProps) => {
         gap={'2.4rem'}
         paddingRight={'2.5rem'}
       >
-        <When expr={moviesRender?.length > 0}>
-          {moviesRender?.map((movie) => (
+        <When expr={moviesRender.length > 0}>
+          {moviesRender.map((movie) => (
             <MovieCard
               key={movie.id}
               inforGenres={genres?.genres}
@@ -46,11 +60,10 @@ export const ListMoviesWrapper = ({ genreName }: IMoviesWrapperProps) => {
           ))}
         </When>
       </Grid>
-      {/* {!isLoading && (
-          <Flex as="div" ref={LoadingWrapperObserve}>
-            <Loading />
-          </Flex>
-        )} */}
+
+      <Flex as="div" ref={ObserverLazyLoading}>
+        <Loading />
+      </Flex>
     </Flex>
   );
 };
