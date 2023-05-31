@@ -1,9 +1,10 @@
-import { createContext, useState, MutableRefObject, useEffect } from 'react';
+import { createContext, useState, MutableRefObject } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
 import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
 import { apiCall } from '../lib/apiCall';
 import { useQuery } from 'react-query';
+// import { UseFetch } from '../hooks/useFetch';
 export const ContextCreate = createContext({} as IinitialValueProps);
 export interface IGenres {
   genres: IGenresCard[];
@@ -16,7 +17,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [genreName, setGenreName] = useState('/');
   const [searchMovies, setSearchMovies] = useState(false);
   const [load, setLoad] = useState(true);
-
+  const [movies, setMovies] = useState<IMovieData[]>([]);
   const { data: genres } = useQuery<IGenres | undefined>(
     'infor-genres',
     async () => {
@@ -33,26 +34,17 @@ export const GlobalContext = ({ children }: Ichildren) => {
     }
   );
 
-  const {
-    data: listMoviesByGenres = [],
-    isLoading: isLoadingByGenres,
-    refetch,
-  } = useQuery<IMovieData[]>(
-    'Movies-by-genre',
-    async () => {
-      const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
+  const { data: listMoviesByGenres = [], isLoading: isLoadingByGenres } =
+    useQuery<IMovieData[]>(
+      'Movies-by-genre',
+      async () => {
+        const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
 
-      return await apiCall.get(url).then((response) => response.data.results);
-    },
-    {}
-  );
+        return await apiCall.get(url).then((response) => response.data.results);
+      },
+      {}
+    );
 
-  useEffect(() => {
-    refetch({ queryKey: ['Movies-by-genre', genresCode] });
-  }, [genresCode]);
-  useEffect(() => {
-    refetch({ queryKey: ['Movies-home', page] });
-  }, [page]);
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     setSearchMovies(true);
 
@@ -66,6 +58,10 @@ export const GlobalContext = ({ children }: Ichildren) => {
 
   const handleClickOnLinks = (path: string) => {
     setGenreName(path);
+
+    // const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
+    // const { data } = UseFetch<IMovieData[]>(url);
+    // setMovies(data as IMovieData[]);
 
     setSearchMovies(false);
     setLoad(true);
@@ -93,6 +89,8 @@ export const GlobalContext = ({ children }: Ichildren) => {
         isLoadingByGenres,
         page,
         setPage,
+        setMovies,
+        movies,
       }}
     >
       {children}

@@ -1,0 +1,3 @@
+export enum PathsRequest {
+  Home = '/',
+}

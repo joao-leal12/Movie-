@@ -22,4 +22,6 @@ export interface IinitialValueProps {
   isLoadingByGenres: boolean;
   page: number;
   setPage: (value: number) => void;
+  movies: IMovieData[];
+  setMovies: (data: IMovieData[]) => void;
 }

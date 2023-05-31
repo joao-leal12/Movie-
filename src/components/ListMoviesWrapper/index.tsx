@@ -4,25 +4,18 @@ import { useContextCreate } from '../../hooks/useContextCreate';
 import { MovieCard } from '../MovieCard';
 import { Loading } from '../helpers/loading';
 import { When } from '../When';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { IMovieData } from '../../types/ApiType';
-
+import { UseFetch } from '../../hooks/useFetch';
+import { GET_MOVIES } from '../../API/API_ROUTES';
 interface IMoviesWrapperProps {
   genreName: string;
 }
 export const ListMoviesWrapper = ({ genreName }: IMoviesWrapperProps) => {
-  const [moviesRender, setMoviesRender] = useState<IMovieData[]>([]);
   const ObserverLazyLoading = useRef<HTMLDivElement | null>(null);
-  const { genres, isLoading, listMovies, listMoviesByGenres, setPage, page } =
-    useContextCreate();
-
-  useEffect(() => {
-    if (genreName !== '/') {
-      setMoviesRender(listMoviesByGenres);
-    } else {
-      setMoviesRender((prevState) => [...prevState, ...listMovies]);
-    }
-  }, [listMovies, listMoviesByGenres, genreName]);
+  const { genres, setPage, page, movies } = useContextCreate();
+  const { url } = GET_MOVIES(1);
+  const { data: listMovies, isLoading } = UseFetch<IMovieData[]>(url);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -50,8 +43,19 @@ export const ListMoviesWrapper = ({ genreName }: IMoviesWrapperProps) => {
         gap={'2.4rem'}
         paddingRight={'2.5rem'}
       >
-        <When expr={moviesRender.length > 0}>
-          {moviesRender.map((movie) => (
+        <When expr={movies.length === 0}>
+          <When expr={listMovies !== undefined && listMovies?.length > 0}>
+            {listMovies?.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                inforGenres={genres?.genres}
+                dataMovie={movie}
+              />
+            ))}
+          </When>
+        </When>
+        <When expr={movies.length > 0}>
+          {movies?.map((movie) => (
             <MovieCard
               key={movie.id}
               inforGenres={genres?.genres}
