@@ -2,8 +2,7 @@ import { createContext, useState, MutableRefObject } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
 import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
-import { apiCall } from '../lib/apiCall';
-import { useQuery } from 'react-query';
+import { UseFetch } from '../hooks/useFetch';
 // import { UseFetch } from '../hooks/useFetch';
 export const ContextCreate = createContext({} as IinitialValueProps);
 export interface IGenres {
@@ -18,32 +17,16 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [searchMovies, setSearchMovies] = useState(false);
   const [load, setLoad] = useState(true);
   const [movies, setMovies] = useState<IMovieData[]>([]);
-  const { data: genres } = useQuery<IGenres | undefined>(
-    'infor-genres',
-    async () => {
-      const { url } = GET_GENRE();
 
-      return await apiCall.get(url).then((response) => response.data);
-    }
-  );
-  const { data: listMovies = [], isLoading } = useQuery<IMovieData[]>(
-    'Movies-home',
-    async () => {
-      const { url } = GET_MOVIES(page);
-      return await apiCall.get(url).then((response) => response.data.results);
-    }
-  );
+  const { url: HomeMoviesUrl } = GET_MOVIES(1);
+  const { url: GenreUrl } = GET_GENRE();
+  const { url: MoviesByGenreUrl } = GET_MOVIES_OF_GENRE(1, genresCode);
 
+  const { data: genres } = UseFetch<IGenres | undefined>(GenreUrl);
+  const { data: listMovies = [], isLoading } =
+    UseFetch<IMovieData[]>(HomeMoviesUrl);
   const { data: listMoviesByGenres = [], isLoading: isLoadingByGenres } =
-    useQuery<IMovieData[]>(
-      'Movies-by-genre',
-      async () => {
-        const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
-
-        return await apiCall.get(url).then((response) => response.data.results);
-      },
-      {}
-    );
+    UseFetch<IMovieData[]>(MoviesByGenreUrl);
 
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     setSearchMovies(true);
