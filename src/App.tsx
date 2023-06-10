@@ -9,7 +9,6 @@ export const App = (): JSX.Element => {
     'radial-gradient(50% 50% at 50% 50%, #FB3F3F 0%, #FC8346 100%)',
     '#111'
   );
-
   return (
     <BrowserRouter>
       <Flex flexDir="column" bg={bg}>
