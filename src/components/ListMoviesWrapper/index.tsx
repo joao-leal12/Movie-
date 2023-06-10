@@ -4,7 +4,6 @@ import { IMovieData } from '../../types/ApiType';
 import { useContextCreate } from '../../hooks/useContextCreate';
 import { MovieCard } from '../MovieCard';
 import { Loading } from '../helpers/loading';
-
 interface IListMoviesProps {
   data: IMovieData[];
   page: number;
@@ -59,6 +58,7 @@ export const ListMoviesWrapper = ({
               />
             ))}
         </Grid>
+
         {!isLoading && load && (
           <Flex as="div" ref={LoadingWrapperObserve}>
             <Loading />
