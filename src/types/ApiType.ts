@@ -12,13 +12,15 @@ export interface IPropsMovieList {
   load: boolean;
   observer: any;
 }
-
 export interface IMovieData {
   genre_ids: number[];
   title: string;
   id: number;
   vote_average: number;
   poster_path: string;
+}
+export interface IMoviesData {
+  results: IMovieData[];
 }
 export interface IGenresFilter {
   genre: number[];

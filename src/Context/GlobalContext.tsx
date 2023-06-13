@@ -1,13 +1,24 @@
-import { createContext, useState, MutableRefObject } from 'react';
+import { createContext, useState, MutableRefObject, useReducer } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE, GET_MOVIES, GET_MOVIES_OF_GENRE } from '../API/API_ROUTES';
+import { GET_GENRE } from '../API/API_ROUTES';
 import { UseFetch } from '../hooks/useFetch';
 // import { UseFetch } from '../hooks/useFetch';
 export const ContextCreate = createContext({} as IinitialValueProps);
 export interface IGenres {
   genres: IGenresCard[];
 }
+
+export const DEFAULT_VALUE = {
+  newElement: '' as string,
+  genresCode: 0 as number,
+  genresIds: 0 as number,
+  page: 0 as number,
+  genreName: '/' as string,
+  searchMovies: false as boolean,
+  load: false as boolean,
+  movies: [] as IMovieData[],
+};
 export const GlobalContext = ({ children }: Ichildren) => {
   const [newElement, setNewElement] = useState('');
   const [genresCode, setGenresCode] = useState(0);
@@ -17,16 +28,26 @@ export const GlobalContext = ({ children }: Ichildren) => {
   const [searchMovies, setSearchMovies] = useState(false);
   const [load, setLoad] = useState(true);
   const [movies, setMovies] = useState<IMovieData[]>([]);
+  const [eventContext, dispatchContext] = useReducer(
+    (prev: typeof DEFAULT_VALUE, next: Partial<typeof DEFAULT_VALUE>) => {
+      return {
+        ...prev,
+        ...next,
+      };
+    },
+    DEFAULT_VALUE
+  );
 
-  const { url: HomeMoviesUrl } = GET_MOVIES(1);
   const { url: GenreUrl } = GET_GENRE();
-  const { url: MoviesByGenreUrl } = GET_MOVIES_OF_GENRE(1, genresCode);
 
-  const { data: genres } = UseFetch<IGenres | undefined>(GenreUrl);
-  const { data: listMovies = [], isLoading } =
-    UseFetch<IMovieData[]>(HomeMoviesUrl);
-  const { data: listMoviesByGenres = [], isLoading: isLoadingByGenres } =
-    UseFetch<IMovieData[]>(MoviesByGenreUrl);
+  const { data: genres } = UseFetch<IGenres | undefined>('genres', GenreUrl);
+
+  // const { data: listMovies = [], isLoading } = UseFetch<IMovieData[]>(
+  //   'movies',
+  //   HomeMoviesUrl
+  // );
+  // const { data: listMoviesByGenres = [], isLoading: isLoadingByGenres } =
+  //   UseFetch<IMovieData[]>('by-genres', MoviesByGenreUrl);
 
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     setSearchMovies(true);
@@ -39,13 +60,9 @@ export const GlobalContext = ({ children }: Ichildren) => {
     }
   };
 
-  const handleClickOnLinks = (path: string) => {
+  const handleClickOnLinks = (e: any, path: string) => {
+    dispatchContext({ genreName: path });
     setGenreName(path);
-
-    // const { url } = GET_MOVIES_OF_GENRE(genresCode, page);
-    // const { data } = UseFetch<IMovieData[]>(url);
-    // setMovies(data as IMovieData[]);
-
     setSearchMovies(false);
     setLoad(true);
   };
@@ -58,8 +75,7 @@ export const GlobalContext = ({ children }: Ichildren) => {
         genresCode,
         setGenresCode,
         genres,
-        isLoading,
-        listMovies,
+
         genreName,
         setGenreName,
         searchMovies,
@@ -68,12 +84,13 @@ export const GlobalContext = ({ children }: Ichildren) => {
         setLoad,
         handleStates,
         handleClickOnLinks,
-        listMoviesByGenres,
-        isLoadingByGenres,
+
         page,
         setPage,
         setMovies,
         movies,
+        eventContext,
+        dispatchContext,
       }}
     >
       {children}
