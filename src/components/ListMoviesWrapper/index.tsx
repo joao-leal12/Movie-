@@ -22,10 +22,6 @@ export const ListMoviesWrapper = () => {
   const { data: listMovies, isLoading } = UseFetch<IMoviesData>('movies', urls);
 
   useEffect(() => {
-    console.log({
-      name: eventContext.genreName,
-      code: eventContext.genresCode,
-    });
     if (eventContext.genreName === '/') {
       setUrls(moviesUrl);
       return;
