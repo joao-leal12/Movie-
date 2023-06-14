@@ -11,27 +11,34 @@ import { GET_MOVIES, GET_MOVIES_OF_GENRE } from '../../API/API_ROUTES';
 
 export const ListMoviesWrapper = () => {
   const ObserverLazyLoading = useRef<HTMLDivElement | null>(null);
-  const { genres, setPage, page, movies, genresCode, genreName } =
-    useContextCreate();
+  const { genres, eventContext, dispatchContext } = useContextCreate();
+
   const { url: moviesUrl } = GET_MOVIES(1);
-  const { url: moviesByGenre } = GET_MOVIES_OF_GENRE(genresCode, 1);
+  const { url: moviesByGenre } = GET_MOVIES_OF_GENRE(
+    eventContext.genresCode,
+    1
+  );
   const [urls, setUrls] = useState(moviesUrl);
   const { data: listMovies, isLoading } = UseFetch<IMoviesData>('movies', urls);
 
   useEffect(() => {
-    if (genreName === '/') {
+    console.log({
+      name: eventContext.genreName,
+      code: eventContext.genresCode,
+    });
+    if (eventContext.genreName === '/') {
       setUrls(moviesUrl);
       return;
     }
-    if (genresCode !== 0) {
+    if (eventContext.genresCode !== 0) {
       setUrls(moviesByGenre);
     }
-  }, [genreName]);
+  }, [eventContext.genreName, eventContext.genresCode]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        setPage(page + 1);
+        dispatchContext({ page: eventContext.page + 1 });
       }
     });
     if (ObserverLazyLoading.current != null) {
@@ -54,21 +61,8 @@ export const ListMoviesWrapper = () => {
         gap={'2.4rem'}
         paddingRight={'2.5rem'}
       >
-        <When expr={movies.length === 0}>
-          <When
-            expr={listMovies !== undefined && listMovies?.results.length > 0}
-          >
-            {listMovies?.results.map((movie: IMovieData) => (
-              <MovieCard
-                key={movie.id}
-                inforGenres={genres?.genres}
-                dataMovie={movie}
-              />
-            ))}
-          </When>
-        </When>
-        <When expr={movies.length > 0}>
-          {movies?.map((movie) => (
+        <When expr={listMovies !== undefined && listMovies?.results.length > 0}>
+          {listMovies?.results.map((movie: IMovieData) => (
             <MovieCard
               key={movie.id}
               inforGenres={genres?.genres}
