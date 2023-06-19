@@ -1,7 +1,7 @@
 import { createContext, MutableRefObject, useReducer } from 'react';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE } from '../API/API_ROUTES';
+import { GET_GENRE, GET_MOVIES_FILTERED } from '../API/API_ROUTES';
 import { UseFetch } from '../hooks/useFetch';
 // import { UseFetch } from '../hooks/useFetch';
 export const ContextCreate = createContext({} as IinitialValueProps);
@@ -10,7 +10,7 @@ export interface IGenres {
 }
 
 export const DEFAULT_VALUE = {
-  newElement: '' as string,
+  movieBySearch: '' as string,
   genresCode: 0 as number,
   genresIds: 0 as number,
   page: 0 as number,
@@ -32,6 +32,10 @@ export const GlobalContext = ({ children }: Ichildren) => {
   );
 
   const { url: GenreUrl } = GET_GENRE();
+  const { url: moviesFilteredName } = GET_MOVIES_FILTERED(
+    eventContext.movieBySearch,
+    1
+  );
 
   const { data: genres } = UseFetch<IGenres | undefined>(
     'genres',
@@ -39,16 +43,26 @@ export const GlobalContext = ({ children }: Ichildren) => {
     eventContext.genreName !== '/'
   );
 
+  const { data: moviesFiltered } = UseFetch<IMovieData[] | undefined>(
+    'filteredMovies',
+    moviesFilteredName,
+    eventContext.searchMovies
+  );
+  console.log(moviesFiltered);
+
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
-    dispatchContext({ searchMovies: true, genreName: '' });
+    dispatchContext({ searchMovies: true });
 
     if (input !== null) {
-      dispatchContext({ newElement: input.current.value });
+      dispatchContext({ movieBySearch: input.current.value });
       input.current.value = '';
     }
   };
 
   const handleClickOnLinks = (e: Event, path: string) => {
+    if (eventContext.searchMovies) {
+      e.preventDefault();
+    }
     dispatchContext({ genreName: path, searchMovies: false, load: true });
   };
   return (
