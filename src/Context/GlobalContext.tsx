@@ -18,6 +18,7 @@ export const DEFAULT_VALUE = {
   searchMovies: false as boolean,
   load: false as boolean,
   movies: [] as IMovieData[],
+  fethList: false as boolean,
 };
 export const GlobalContext = ({ children }: Ichildren) => {
   const [eventContext, dispatchContext] = useReducer(
@@ -32,7 +33,11 @@ export const GlobalContext = ({ children }: Ichildren) => {
 
   const { url: GenreUrl } = GET_GENRE();
 
-  const { data: genres } = UseFetch<IGenres | undefined>('genres', GenreUrl);
+  const { data: genres } = UseFetch<IGenres | undefined>(
+    'genres',
+    GenreUrl,
+    eventContext.genreName !== '/'
+  );
 
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
     dispatchContext({ searchMovies: true, genreName: '' });
