@@ -1,4 +1,5 @@
 import { createContext, MutableRefObject, useReducer } from 'react';
+
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
 import { GET_GENRE, GET_MOVIES_FILTERED } from '../API/API_ROUTES';
@@ -8,7 +9,9 @@ export const ContextCreate = createContext({} as IinitialValueProps);
 export interface IGenres {
   genres: IGenresCard[];
 }
-
+export interface IMoviesFilteredProps {
+  results: IMovieData[];
+}
 export const DEFAULT_VALUE = {
   movieBySearch: '' as string,
   genresCode: 0 as number,
@@ -19,6 +22,7 @@ export const DEFAULT_VALUE = {
   load: false as boolean,
   movies: [] as IMovieData[],
   fethList: false as boolean,
+  urlMovies: '/' as string,
 };
 export const GlobalContext = ({ children }: Ichildren) => {
   const [eventContext, dispatchContext] = useReducer(
@@ -32,10 +36,6 @@ export const GlobalContext = ({ children }: Ichildren) => {
   );
 
   const { url: GenreUrl } = GET_GENRE();
-  const { url: moviesFilteredName } = GET_MOVIES_FILTERED(
-    eventContext.movieBySearch,
-    1
-  );
 
   const { data: genres } = UseFetch<IGenres | undefined>(
     'genres',
@@ -43,26 +43,18 @@ export const GlobalContext = ({ children }: Ichildren) => {
     eventContext.genreName !== '/'
   );
 
-  const { data: moviesFiltered } = UseFetch<IMovieData[] | undefined>(
-    'filteredMovies',
-    moviesFilteredName,
-    eventContext.searchMovies
-  );
-  console.log(moviesFiltered);
-
   const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
-    dispatchContext({ searchMovies: true });
-
-    if (input !== null) {
-      dispatchContext({ movieBySearch: input.current.value });
+    if (input !== null && input.current.value !== '') {
+      const { url: moviesFilteredName } = GET_MOVIES_FILTERED(
+        input.current.value,
+        1
+      );
+      dispatchContext({ urlMovies: moviesFilteredName, searchMovies: true });
       input.current.value = '';
     }
   };
 
   const handleClickOnLinks = (e: Event, path: string) => {
-    if (eventContext.searchMovies) {
-      e.preventDefault();
-    }
     dispatchContext({ genreName: path, searchMovies: false, load: true });
   };
   return (
