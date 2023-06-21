@@ -12,7 +12,6 @@ export interface IPropsMovieList {
   load: boolean;
   observer: any;
 }
-
 export interface IMovieData {
   genre_ids: number[];
   title: string;
@@ -20,9 +19,12 @@ export interface IMovieData {
   vote_average: number;
   poster_path: string;
 }
+export interface IMoviesData {
+  results: IMovieData[];
+}
 export interface IGenresFilter {
   genre: number[];
-  inforGenre?: IGenresCard[];
+  inforGenres: IGenresCard[] | undefined;
 }
 
 export interface ICardMovie {

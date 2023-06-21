@@ -1,70 +1,76 @@
-import { useEffect, useRef } from 'react';
 import { Grid, Flex } from '@chakra-ui/react';
-import { IMovieData } from '../../types/ApiType';
+
 import { useContextCreate } from '../../hooks/useContextCreate';
 import { MovieCard } from '../MovieCard';
 import { Loading } from '../helpers/loading';
-interface IListMoviesProps {
-  data: IMovieData[];
-  page: number;
-  setPage: (initialValue: number) => void;
-}
-export const ListMoviesWrapper = ({
-  data = [],
-  page,
-  setPage,
-}: IListMoviesProps) => {
-  const { inforGenres, isLoading, load, setLoad } = useContextCreate();
-  const LoadingWrapperObserve = useRef<HTMLDivElement | null>(null);
+import { When } from '../When';
+import { useEffect, useRef, useState } from 'react';
+import { IMovieData, IMoviesData } from '../../types/ApiType';
+import { UseFetch } from '../../hooks/useFetch';
+import { GET_MOVIES, GET_MOVIES_OF_GENRE } from '../../API/API_ROUTES';
+
+export const ListMoviesWrapper = () => {
+  const ObserverLazyLoading = useRef<HTMLDivElement | null>(null);
+  const { genres, eventContext, dispatchContext } = useContextCreate();
+
+  const { url: moviesUrl } = GET_MOVIES(1);
+  const { url: moviesByGenre } = GET_MOVIES_OF_GENRE(
+    eventContext.genresCode,
+    1
+  );
+  const [urls, setUrls] = useState(moviesUrl);
+  const { data: listMovies, isLoading } = UseFetch<IMoviesData>('movies', urls);
 
   useEffect(() => {
-    const intersectionObserver = new IntersectionObserver((entries) => {
+    if (eventContext.genreName === '/') {
+      setUrls(moviesUrl);
+      return;
+    }
+    if (eventContext.genresCode !== 0) {
+      setUrls(moviesByGenre);
+    }
+  }, [eventContext.genreName, eventContext.genresCode]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        if (page < 5) {
-          setPage(page + 1);
-        } else {
-          setLoad(false);
-        }
+        dispatchContext({ page: eventContext.page + 1 });
       }
     });
+    if (ObserverLazyLoading.current != null) {
+      observer.observe(ObserverLazyLoading.current);
+    }
 
-    if (LoadingWrapperObserve.current !== null)
-      intersectionObserver.observe(LoadingWrapperObserve.current);
-
-    return () => intersectionObserver.disconnect();
-  }, [page, data, load]);
-
+    return () => observer.disconnect();
+  }, []);
   if (isLoading) return <Loading positions="absolute" />;
-  if (data !== null)
-    return (
-      <Flex flexDir={'column'}>
-        <Grid
-          as="section"
-          templateColumns={[
-            'repeat(2,1fr)',
-            'repeat(2,1fr)',
-            'repeat(2,1fr)',
-            'repeat(3,1fr)',
-          ]}
-          gap={'2.4rem'}
-          paddingRight={'2.5rem'}
-        >
-          {data.length > 0 &&
-            data.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                inforGenres={inforGenres}
-                dataMovie={movie}
-              />
-            ))}
-        </Grid>
+  return (
+    <Flex flexDir={'column'}>
+      <Grid
+        as="section"
+        templateColumns={[
+          'repeat(2,1fr)',
+          'repeat(2,1fr)',
+          'repeat(2,1fr)',
+          'repeat(3,1fr)',
+        ]}
+        gap={'2.4rem'}
+        paddingRight={'2.5rem'}
+      >
+        <When expr={listMovies !== undefined && listMovies?.results.length > 0}>
+          {listMovies?.results.map((movie: IMovieData) => (
+            <MovieCard
+              key={movie.id}
+              inforGenres={genres?.genres}
+              dataMovie={movie}
+            />
+          ))}
+        </When>
+      </Grid>
 
-        {!isLoading && load && (
-          <Flex as="div" ref={LoadingWrapperObserve}>
-            <Loading />
-          </Flex>
-        )}
+      <Flex as="div" ref={ObserverLazyLoading}>
+        <Loading />
       </Flex>
-    );
-  else return null;
+    </Flex>
+  );
 };

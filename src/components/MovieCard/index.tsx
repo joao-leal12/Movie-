@@ -13,7 +13,11 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
   useEffect(() => {
     setPath(dataMovie.poster_path);
   }, [dataMovie]);
-  const pathUrl = `https://image.tmdb.org/t/p/w500${path}`;
+  const pathUrl =
+    path !== '' && path !== null
+      ? `https://image.tmdb.org/t/p/w500${path}`
+      : '';
+
   return (
     <>
       <MotionWrapperItems
@@ -43,7 +47,7 @@ export const MovieCard = ({ dataMovie, inforGenres }: IMountCardMovie) => {
             mb="1.5rem"
           />
 
-          <Genre genre={dataMovie.genre_ids} inforGenre={inforGenres} />
+          <Genre genre={dataMovie.genre_ids} inforGenres={inforGenres} />
           <StarAverage rating={dataMovie.vote_average} />
         </Link>
       </MotionWrapperItems>

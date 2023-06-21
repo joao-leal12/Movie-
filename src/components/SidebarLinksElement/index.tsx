@@ -27,7 +27,7 @@ export const SidebarLinksElement = () => {
             _active={{ background: 'orange.900', color: 'light.900' }}
           >
             <Link
-              onClick={() => handleClickOnLinks(path)}
+              onClick={(e) => handleClickOnLinks(e, path)}
               as={NavLink}
               to={path}
               _hover={{

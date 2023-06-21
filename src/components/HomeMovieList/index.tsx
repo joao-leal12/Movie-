@@ -4,27 +4,19 @@ import { ListMoviesWrapper } from '../ListMoviesWrapper';
 import { useContextCreate } from '../../hooks/useContextCreate';
 
 export const HomeMoviesList = () => {
-  const { listMovies, page, setPage, inforGenres, setGenresCode, genreName } =
-    useContextCreate();
+  const { genres, dispatchContext, eventContext } = useContextCreate();
 
   useEffect(() => {
-    setPage(1);
-  }, [genreName]);
-
-  useEffect(() => {
-    if (genreName !== '/') {
-      const newValue = inforGenres
-        .filter((genres) => genres.name.includes(genreName))
-        .reduce((firstValue, Value) => {
-          firstValue = Value.id;
-          return firstValue;
-        }, 0);
-      if (typeof newValue === 'number') setGenresCode(newValue);
-    }
-  }, [genreName, inforGenres]);
+    if (eventContext.genreName === '/' && genres?.genres === undefined) return;
+    const newValue =
+      genres?.genres.find((genres) =>
+        genres.name.includes(eventContext.genreName)
+      )?.id ?? 0;
+    dispatchContext({ genresCode: newValue });
+  }, [eventContext.genreName, genres]);
   return (
     <Flex as="section">
-      <ListMoviesWrapper data={listMovies} page={page} setPage={setPage} />
+      <ListMoviesWrapper />
     </Flex>
   );
 };
