@@ -21,15 +21,17 @@ export const ListMoviesWrapper = () => {
 
   const { data: listMovies, isLoading } = UseFetch<IMoviesData>(
     'movies',
-    eventContext.urlMovies
+    eventContext.urlMovies,
+    eventContext.urlMovies !== ''
   );
-
+  const genreApproved =
+    eventContext.genreName !== '/' && eventContext.genreName !== '';
   useEffect(() => {
     if (eventContext.genreName === '/') {
       dispatchContext({ urlMovies: moviesUrl });
       return;
     }
-    if (eventContext.genresCode !== 0) {
+    if (eventContext.genresCode !== 0 && genreApproved) {
       dispatchContext({ urlMovies: moviesByGenre });
     }
   }, [eventContext.genreName, eventContext.genresCode]);

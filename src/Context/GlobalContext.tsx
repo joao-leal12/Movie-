@@ -1,7 +1,7 @@
 import { createContext, MutableRefObject, useReducer } from 'react';
-
-import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 import { IinitialValueProps } from './typesOfContext';
+import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
+
 import { GET_GENRE, GET_MOVIES_FILTERED } from '../API/API_ROUTES';
 import { UseFetch } from '../hooks/useFetch';
 // import { UseFetch } from '../hooks/useFetch';
@@ -22,7 +22,7 @@ export const DEFAULT_VALUE = {
   load: false as boolean,
   movies: [] as IMovieData[],
   fethList: false as boolean,
-  urlMovies: '/' as string,
+  urlMovies: '' as string,
 };
 export const GlobalContext = ({ children }: Ichildren) => {
   const [eventContext, dispatchContext] = useReducer(
@@ -36,26 +36,38 @@ export const GlobalContext = ({ children }: Ichildren) => {
   );
 
   const { url: GenreUrl } = GET_GENRE();
-
+  const aprovved = eventContext.searchMovies;
   const { data: genres } = UseFetch<IGenres | undefined>(
     'genres',
     GenreUrl,
-    eventContext.genreName !== '/'
+    aprovved
   );
 
-  const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
+  const handleStates = <T,>(
+    e: T,
+    input: MutableRefObject<HTMLInputElement | null>
+  ) => {
+    if (input?.current == null) return;
+    console.log(e);
     if (input !== null && input.current.value !== '') {
       const { url: moviesFilteredName } = GET_MOVIES_FILTERED(
         input.current.value,
         1
       );
-      dispatchContext({ urlMovies: moviesFilteredName, searchMovies: true });
+      dispatchContext({
+        urlMovies: moviesFilteredName,
+
+        genreName: '',
+      });
       input.current.value = '';
     }
   };
 
   const handleClickOnLinks = (e: Event, path: string) => {
-    dispatchContext({ genreName: path, searchMovies: false, load: true });
+    if (path !== '/') {
+      dispatchContext({ searchMovies: true });
+    }
+    dispatchContext({ genreName: path, load: true });
   };
   return (
     <ContextCreate.Provider
