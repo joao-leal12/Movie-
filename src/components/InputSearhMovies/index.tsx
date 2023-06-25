@@ -30,6 +30,7 @@ export const InputSearchMovies = () => {
           color={PlaceHolder}
           _placeholder={{ color: PlaceHolder }}
           marginBottom={['1rem', '2.5rem', '0', '0']}
+          onKeyDown={(e) => handleStates(e, inputRef)}
           ref={inputRef}
         />
         <InputRightElement top="4px">

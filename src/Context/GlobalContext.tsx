@@ -1,4 +1,5 @@
-import { createContext, MutableRefObject, useReducer } from 'react';
+import React, { createContext, MutableRefObject, useReducer } from 'react';
+
 import { IinitialValueProps } from './typesOfContext';
 import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
 
@@ -43,12 +44,14 @@ export const GlobalContext = ({ children }: Ichildren) => {
     aprovved
   );
 
-  const handleStates = <T,>(
-    e: T,
+  const handleStates = (
+    e: any,
     input: MutableRefObject<HTMLInputElement | null>
   ) => {
+    if (e.type === 'keydown' && e.key !== 'Enter') return;
+
     if (input?.current == null) return;
-    console.log(e);
+
     if (input !== null && input.current.value !== '') {
       const { url: moviesFilteredName } = GET_MOVIES_FILTERED(
         input.current.value,
