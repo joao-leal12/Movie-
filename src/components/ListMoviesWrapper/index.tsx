@@ -4,7 +4,7 @@ import { useContextCreate } from '../../hooks/useContextCreate';
 import { MovieCard } from '../MovieCard';
 import { Loading } from '../helpers/loading';
 import { When } from '../When';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { IMovieData, IMoviesData } from '../../types/ApiType';
 import { UseFetch } from '../../hooks/useFetch';
 import { GET_MOVIES, GET_MOVIES_OF_GENRE } from '../../API/API_ROUTES';
@@ -18,16 +18,21 @@ export const ListMoviesWrapper = () => {
     eventContext.genresCode,
     1
   );
-  const [urls, setUrls] = useState(moviesUrl);
-  const { data: listMovies, isLoading } = UseFetch<IMoviesData>('movies', urls);
 
+  const { data: listMovies, isLoading } = UseFetch<IMoviesData>(
+    'movies',
+    eventContext.urlMovies,
+    eventContext.urlMovies !== ''
+  );
+  const genreApproved =
+    eventContext.genreName !== '/' && eventContext.genreName !== '';
   useEffect(() => {
     if (eventContext.genreName === '/') {
-      setUrls(moviesUrl);
+      dispatchContext({ urlMovies: moviesUrl });
       return;
     }
-    if (eventContext.genresCode !== 0) {
-      setUrls(moviesByGenre);
+    if (eventContext.genresCode !== 0 && genreApproved) {
+      dispatchContext({ urlMovies: moviesByGenre });
     }
   }, [eventContext.genreName, eventContext.genresCode]);
 

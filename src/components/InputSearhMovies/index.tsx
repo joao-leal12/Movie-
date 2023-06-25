@@ -30,11 +30,12 @@ export const InputSearchMovies = () => {
           color={PlaceHolder}
           _placeholder={{ color: PlaceHolder }}
           marginBottom={['1rem', '2.5rem', '0', '0']}
+          onKeyDown={(e) => handleStates(e, inputRef)}
           ref={inputRef}
         />
         <InputRightElement top="4px">
           <Button
-            onClick={() => handleStates(inputRef)}
+            onClick={(e) => handleStates(e, inputRef)}
             border="none"
             background="none"
             h="2.4rem"

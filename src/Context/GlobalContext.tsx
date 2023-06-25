@@ -1,16 +1,20 @@
-import { createContext, MutableRefObject, useReducer } from 'react';
-import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
+import React, { createContext, MutableRefObject, useReducer } from 'react';
+
 import { IinitialValueProps } from './typesOfContext';
-import { GET_GENRE } from '../API/API_ROUTES';
+import { Ichildren, IMovieData, IGenresCard } from '../types/ApiType';
+
+import { GET_GENRE, GET_MOVIES_FILTERED } from '../API/API_ROUTES';
 import { UseFetch } from '../hooks/useFetch';
 // import { UseFetch } from '../hooks/useFetch';
 export const ContextCreate = createContext({} as IinitialValueProps);
 export interface IGenres {
   genres: IGenresCard[];
 }
-
+export interface IMoviesFilteredProps {
+  results: IMovieData[];
+}
 export const DEFAULT_VALUE = {
-  newElement: '' as string,
+  movieBySearch: '' as string,
   genresCode: 0 as number,
   genresIds: 0 as number,
   page: 0 as number,
@@ -18,6 +22,8 @@ export const DEFAULT_VALUE = {
   searchMovies: false as boolean,
   load: false as boolean,
   movies: [] as IMovieData[],
+  fethList: false as boolean,
+  urlMovies: '' as string,
 };
 export const GlobalContext = ({ children }: Ichildren) => {
   const [eventContext, dispatchContext] = useReducer(
@@ -31,20 +37,40 @@ export const GlobalContext = ({ children }: Ichildren) => {
   );
 
   const { url: GenreUrl } = GET_GENRE();
+  const aprovved = eventContext.searchMovies;
+  const { data: genres } = UseFetch<IGenres | undefined>(
+    'genres',
+    GenreUrl,
+    aprovved
+  );
 
-  const { data: genres } = UseFetch<IGenres | undefined>('genres', GenreUrl);
+  const handleStates = (
+    e: any,
+    input: MutableRefObject<HTMLInputElement | null>
+  ) => {
+    if (e.type === 'keydown' && e.key !== 'Enter') return;
 
-  const handleStates = (input: MutableRefObject<HTMLInputElement>) => {
-    dispatchContext({ searchMovies: true, genreName: '' });
+    if (input?.current == null) return;
 
-    if (input !== null) {
-      dispatchContext({ newElement: input.current.value });
+    if (input !== null && input.current.value !== '') {
+      const { url: moviesFilteredName } = GET_MOVIES_FILTERED(
+        input.current.value,
+        1
+      );
+      dispatchContext({
+        urlMovies: moviesFilteredName,
+
+        genreName: '',
+      });
       input.current.value = '';
     }
   };
 
   const handleClickOnLinks = (e: Event, path: string) => {
-    dispatchContext({ genreName: path, searchMovies: false, load: true });
+    if (path !== '/') {
+      dispatchContext({ searchMovies: true });
+    }
+    dispatchContext({ genreName: path, load: true });
   };
   return (
     <ContextCreate.Provider
